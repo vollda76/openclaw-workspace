@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 SVG Editor – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #fa709a, #fee140, #fa709a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        select, input[type="text"], input[type="number"] { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        select:focus, input:focus { outline: none; border-color: #fa709a; }
+        select option { background: #1a1a2e; color: white; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #fa709a, #fee140); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #fa709a, #fee140); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(250,112,154,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; max-height: 200px; overflow-y: auto; }
+        .shape-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .shape-btn { padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; text-align: center; cursor: pointer; font-size: 2rem; }
+        .shape-btn:hover { background: rgba(255,255,255,0.2); }
+        .shape-btn.active { border-color: #fa709a; background: rgba(250,112,154,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🎨</div>
+            <h1>SVG Editor</h1>
+            <p class="subtitle">Einfache SVG Shapes erstellen & exportieren</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Shape Settings</h2>
+                
+                <div class="form-group">
+                    <label>🔲 Shape Typ</label>
+                    <div class="shape-grid">
+                        <div class="shape-btn active" onclick="setShape('circle')" data-shape="circle">⭕</div>
+                        <div class="shape-btn" onclick="setShape('rect')" data-shape="rect">⬜</div>
+                        <div class="shape-btn" onclick="setShape('triangle')" data-shape="triangle">🔺</div>
+                        <div class="shape-btn" onclick="setShape('star')" data-shape="star">⭐</div>
+                        <div class="shape-btn" onclick="setShape('heart')" data-shape="heart">❤️</div>
+                        <div class="shape-btn" onclick="setShape('diamond')" data-shape="diamond">💎</div>
+                        <div class="shape-btn" onclick="setShape('hexagon')" data-shape="hexagon">⬡</div>
+                        <div class="shape-btn" onclick="setShape('arrow')" data-shape="arrow">➡️</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Fill Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="fillColor" value="#fa709a" onchange="updateSVG()">
+                        <div class="color-value" id="fillColorValue">#fa709a</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔲 Stroke Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="strokeColor" value="#ffffff" onchange="updateSVG()">
+                        <div class="color-value" id="strokeColorValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📏 Stroke Width</label><span id="strokeValue">0px</span></div>
+                    <input type="range" id="strokeWidth" min="0" max="10" value="0" oninput="updateSVG()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Grösse</label><span id="sizeValue">150</span></div>
+                    <input type="range" id="shapeSize" min="50" max="250" value="150" oninput="updateSVG()">
+                </div>
+
+                <div class="form-group">
+                    <label>🔍 Opacity</label>
+                    <select id="opacity" onchange="updateSVG()">
+                        <option value="1">100%</option>
+                        <option value="0.9">90%</option>
+                        <option value="0.8">80%</option>
+                        <option value="0.7">70%</option>
+                        <option value="0.6">60%</option>
+                        <option value="0.5">50%</option>
+                        <option value="0.3">30%</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container" id="previewContainer"></div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copySVG()">📋 SVG kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="downloadSVG()">💾 Download</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyCSS()">🎨 CSS kopieren</button>
+                </div>
+                <div class="code-output" id="codeOutput"><svg>...</svg></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentShape = 'circle';
+
+        function setShape(shape) {
+            currentShape = shape;
+            document.querySelectorAll('.shape-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.shape === shape);
+            });
+            updateSVG();
+        }
+
+        function updateSVG() {
+            const fill = document.getElementById('fillColor').value;
+            const stroke = document.getElementById('strokeColor').value;
+            const strokeWidth = parseInt(document.getElementById('strokeWidth').value);
+            const size = parseInt(document.getElementById('shapeSize').value);
+            const opacity = parseFloat(document.getElementById('opacity').value);
+
+            document.getElementById('fillColorValue').textContent = fill;
+            document.getElementById('strokeColorValue').textContent = stroke;
+            document.getElementById('strokeValue').textContent = strokeWidth + 'px';
+            document.getElementById('sizeValue').textContent = size;
+
+            const center = size / 2;
+            let svgContent = '';
+
+            switch(currentShape) {
+                case 'circle':
+                    svgContent = `<circle cx="${center}" cy="${center}" r="${center - 10}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'rect':
+                    svgContent = `<rect x="20" y="20" width="${size-40}" height="${size-40}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'triangle':
+                    svgContent = `<polygon points="${center},${10} ${size-10},${size-20} ${10},${size-20}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'star':
+                    const outer = center - 10, inner = outer * 0.4;
+                    let points = '';
+                    for(let i = 0; i < 10; i++) {
+                        const r = i % 2 === 0 ? outer : inner;
+                        const angle = (i * 36 - 90) * Math.PI / 180;
+                        points += `${center + r * Math.cos(angle)},${center + r * Math.sin(angle)} `;
+                    }
+                    svgContent = `<polygon points="${points.trim()}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'heart':
+                    svgContent = `<path d="M${center},${size-30} C${center-40},${size-60} ${10},${size/2-20} ${10},${size/3} C${10},${size/4} ${center/2},${size/4} ${center},${size/2} C${center},${size/2} ${center},${size/2} ${center},${size/2} C${center},${size/2} ${center},${size/2} ${center},${size/2} C${size-10},${size/3} ${size-10},${size/4} ${size-10},${size/2-20} C${size-10},${size/2} ${center+40},${size-60} ${center},${size-30} Z" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'diamond':
+                    svgContent = `<polygon points="${center},${10} ${size-10},${center} ${center},${size-10} ${10},${center}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'hexagon':
+                    let hexPoints = '';
+                    for(let i = 0; i < 6; i++) {
+                        const angle = (i * 60 - 30) * Math.PI / 180;
+                        const r = center - 10;
+                        hexPoints += `${center + r * Math.cos(angle)},${center + r * Math.sin(angle)} `;
+                    }
+                    svgContent = `<polygon points="${hexPoints.trim()}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+                case 'arrow':
+                    svgContent = `<polygon points="${10},${center} ${size-30},${center-30} ${size-30},${10} ${size-10},${center} ${size-30},${size-10} ${size-30},${size-30}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" opacity="${opacity}"/>`;
+                    break;
+            }
+
+            const svg = `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+  ${svgContent}
+</svg>`;
+            
+            document.getElementById('previewContainer').innerHTML = svg;
+            document.getElementById('codeOutput').textContent = svg;
+        }
+
+        function copySVG() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ SVG kopiert!'));
+        }
+
+        function downloadSVG() {
+            const blob = new Blob([document.getElementById('codeOutput').textContent], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentShape}.svg`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyCSS() {
+            const css = `.shape {
+  width: ${document.getElementById('shapeSize').value}px;
+  height: ${document.getElementById('shapeSize').value}px;
+  background: ${document.getElementById('fillColor').value};
+  opacity: ${document.getElementById('opacity').value};
+}`;
+            navigator.clipboard.writeText(css).then(() => alert('✅ CSS kopiert!'));
+        }
+
+        window.onload = updateSVG;
+    </script>
+</body>
+</html>

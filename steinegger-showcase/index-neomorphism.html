@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IT-Dienstleister Biel – IT-Support, Microsoft 365, Security | Steinegger IT</title>
+  <meta name="description" content="Steinegger IT: IT-Dienstleister & IT-Support für KMU in Biel, Seeland, Solothurn & Bern. Server/Clients, Microsoft 365, Netzwerk, IT-Sicherheit & Backup.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://www.steinegger-it.ch/">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg: #e0e5ec;
+      --bg-dark: #d1d9e6;
+      --text: #2d3748;
+      --text-light: #4a5568;
+      --text-muted: #718096;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #ec4899;
+      --accent: #10b981;
+      --shadow-dark: rgba(163, 177, 198, 0.6);
+      --shadow-light: rgba(255, 255, 255, 0.8);
+      --radius: 20px;
+      --radius-lg: 30px;
+      --radius-xl: 40px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    ::selection { background: var(--primary); color: white; }
+
+    /* Neomorphic Elements */
+    .neo-flat {
+      background: var(--bg);
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+                  -8px -8px 16px var(--shadow-light);
+      border-radius: var(--radius);
+    }
+
+    .neo-pressed {
+      background: var(--bg);
+      box-shadow: inset 6px 6px 12px var(--shadow-dark),
+                  inset -6px -6px 12px var(--shadow-light);
+      border-radius: var(--radius);
+    }
+
+    .neo-convex {
+      background: linear-gradient(145deg, #e8ecf4, #c4c9d2);
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+                  -8px -8px 16px var(--shadow-light);
+      border-radius: var(--radius);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+    h2 { font-size: clamp(2rem, 4vw, 2.5rem); }
+    h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header {
+      background: var(--bg);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark),
+                  -6px -6px 12px var(--shadow-light);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover .logo-icon {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark),
+                  inset -4px -4px 8px var(--shadow-light);
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .logo-text span { color: var(--primary); }
+
+    nav { display: flex; gap: 8px; }
+
+    nav a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 10px 20px;
+      background: var(--bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark),
+                  -4px -4px 8px var(--shadow-light);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      box-shadow: inset 3px 3px 6px var(--shadow-dark),
+                  inset -3px -3px 6px var(--shadow-light);
+      color: var(--primary);
+    }
+
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 6px 6px 12px var(--shadow-dark);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      box-shadow: 4px 4px 8px var(--shadow-dark);
+    }
+
+    .btn-primary:active {
+      box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      box-shadow: 4px 4px 8px var(--shadow-dark),
+                  -4px -4px 8px var(--shadow-light);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: inset 3px 3px 6px var(--shadow-dark),
+                  inset -3px -3px 6px var(--shadow-light);
+    }
+
+    .btn-accent {
+      background: linear-gradient(145deg, var(--accent), #0d9668);
+      color: white;
+      box-shadow: 6px 6px 12px var(--shadow-dark);
+    }
+
+    /* Hero */
+    .hero { padding: 80px 0; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .hero-content { position: relative; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: var(--bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark),
+                  -4px -4px 8px var(--shadow-light);
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .hero-title .highlight { color: var(--primary); }
+
+    .hero-subtitle {
+      font-size: 1.125rem;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+    }
+
+    .hero-stat {
+      padding: 20px 28px;
+      background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark),
+                  -6px -6px 12px var(--shadow-light);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 28px;
+      color: var(--primary);
+    }
+
+    .hero-stat span {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Side Panel */
+    .hero-side { display: flex; flex-direction: column; gap: 16px; }
+
+    .side-card {
+      background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark),
+                  -6px -6px 12px var(--shadow-light);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .side-card:hover {
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+                  -8px -8px 16px var(--shadow-light);
+    }
+
+    .side-card h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .side-card h3 .emoji { font-size: 22px; }
+
+    .side-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .side-card ul {
+      margin-top: 12px;
+      padding-left: 20px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .side-card li { margin-bottom: 6px; }
+
+    /* Section */
+    .section { padding: 80px 0; }
+
+    .section-header { margin-bottom: 50px; text-align: center; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: var(--bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark),
+                  -4px -4px 8px var(--shadow-light);
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .section-title { margin-bottom: 12px; }
+
+    .section-desc {
+      font-size: 1.125rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg);
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+                  -8px -8px 16px var(--shadow-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      box-shadow: 12px 12px 24px var(--shadow-dark),
+                  -12px -12px 24px var(--shadow-light);
+    }
+
+    .service-card:active {
+      box-shadow: inset 6px 6px 12px var(--shadow-dark),
+                  inset -6px -6px 12px var(--shadow-light);
+    }
+
+    .service-emoji {
+      width: 60px;
+      height: 60px;
+      background: var(--bg);
+      box-shadow: 5px 5px 10px var(--shadow-dark),
+                  -5px -5px 10px var(--shadow-light);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .service-card ul {
+      list-style: none;
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .service-card li {
+      padding: 8px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .service-card li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    .service-card .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      transition: gap 0.3s ease;
+    }
+
+    .service-card .link:hover { gap: 10px; }
+
+    /* Process */
+    .process-section {
+      background: linear-gradient(145deg, #d8dde4, #e8ecf4);
+      padding: 80px 0;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+    }
+
+    .process-step::after {
+      content: '→';
+      position: absolute;
+      top: 50%;
+      right: -12px;
+      color: var(--text-muted);
+      font-size: 20px;
+      transform: translateY(-50%);
+    }
+
+    .process-step:last-child::after { display: none; }
+
+    .process-num {
+      width: 70px;
+      height: 70px;
+      background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark),
+                  -6px -6px 12px var(--shadow-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 auto 20px;
+      transition: all 0.3s ease;
+    }
+
+    .process-step:hover .process-num {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark),
+                  inset -4px -4px 8px var(--shadow-light);
+    }
+
+    .process-step h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .process-step p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* Locations */
+    .locations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .location-card {
+      background: var(--bg);
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+                  -8px -8px 16px var(--shadow-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .location-card h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .location-card h3 .emoji { font-size: 24px; }
+
+    .location-card p {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .location-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .location-tag {
+      padding: 10px 18px;
+      background: var(--bg);
+      box-shadow: 3px 3px 6px var(--shadow-dark),
+                  -3px -3px 6px var(--shadow-light);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .location-tag:hover {
+      box-shadow: inset 2px 2px 4px var(--shadow-dark),
+                  inset -2px -2px 4px var(--shadow-light);
+      color: var(--primary);
+    }
+
+    /* FAQ */
+    .faq-list { max-width: 800px; margin: 0 auto; }
+
+    details {
+      background: var(--bg);
+      box-shadow: 6px 6px 12px var(--shadow-dark),
+                  -6px -6px 12px var(--shadow-light);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    details[open] {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark),
+                  inset -4px -4px 8px var(--shadow-light);
+    }
+
+    summary {
+      padding: 20px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: '+';
+      width: 28px;
+      height: 28px;
+      background: var(--bg);
+      box-shadow: 3px 3px 6px var(--shadow-dark),
+                  -3px -3px 6px var(--shadow-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    details[open] summary::after {
+      box-shadow: inset 2px 2px 4px var(--shadow-dark),
+                  inset -2px -2px 4px var(--shadow-light);
+      content: '−';
+    }
+
+    details p {
+      padding: 0 24px 20px;
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .contact-card {
+      background: var(--bg);
+      box-shadow: 8px 8px 16px var(--shadow-dark),
+                  -8px -8px 16px var(--shadow-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .contact-card h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-card h3 .emoji { font-size: 24px; }
+
+    .contact-info p {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    .contact-info a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .contact-info a:hover { text-decoration: underline; }
+
+    .contact-info strong { color: var(--text); }
+
+    .contact-details {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--shadow-dark);
+    }
+
+    .contact-detail {
+      margin-bottom: 12px;
+    }
+
+    .contact-detail strong {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .contact-detail span {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      background: var(--bg);
+      box-shadow: inset 4px 4px 8px var(--shadow-dark),
+                  inset -4px -4px 8px var(--shadow-light);
+      border: none;
+      border-radius: var(--radius);
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      box-shadow: inset 6px 6px 12px var(--shadow-dark),
+                  inset -6px -6px 12px var(--shadow-light);
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(145deg, #d1d6de, #e0e5ec);
+      padding: 60px 0 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand .logo-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+
+    .footer-brand .name {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .footer-about {
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .footer-social { display: flex; gap: 10px; }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: var(--bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark),
+                  -4px -4px 8px var(--shadow-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      box-shadow: inset 3px 3px 6px var(--shadow-dark),
+                  inset -3px -3px 6px var(--shadow-light);
+    }
+
+    .footer-col h4 {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover { color: var(--primary); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--shadow-dark);
+    }
+
+    .footer-bottom p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer-bottom a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 13px;
+      transition: color 0.3s ease;
+    }
+
+    .footer-bottom a:hover { color: var(--primary); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .services-grid,
+      .locations-grid,
+      .contact-grid,
+      .footer-grid { grid-template-columns: 1fr; }
+
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-step::after { display: none; }
+
+      .hero-stats { flex-direction: column; gap: 12px; }
+
+      nav { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .header-actions .btn-secondary { display: none; }
+
+      .process-grid { grid-template-columns: 1fr; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .footer-bottom a { margin: 0 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <div class="logo-icon">S</div>
+          <div class="logo-text">Steinegger<span>IT</span></div>
+        </a>
+        
+        <nav>
+          <a href="#leistungen">Services</a>
+          <a href="#arbeitsweise">Ablauf</a>
+          <a href="#region">Region</a>
+          <a href="#faq">FAQ</a>
+          <a href="#kontakt">Kontakt</a>
+        </nav>
+        
+        <div class="header-actions">
+          <a href="tel:+41323446767" class="btn btn-secondary">📞 +41 32 344 67 67</a>
+          <a href="#kontakt" class="btn btn-primary">Erstgespräch</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="hero-badge">🚀 IT-Partner für KMU</div>
+            
+            <h1 class="hero-title">IT-Support aus <span class="highlight">Orpund</span> für Ihr Unternehmen</h1>
+            
+            <p class="hero-subtitle">
+              Sie suchen einen zuverlässigen IT-Dienstleister? Steinegger IT kümmert sich um Server &amp; Clients, Microsoft 365, Netzwerk, IT-Sicherheit und Backup – remote und vor Ort in Biel, Seeland, Solothurn und Bern.
+            </p>
+            
+            <div class="hero-actions">
+              <a href="#kontakt" class="btn btn-accent">✨ Kostenlos beraten lassen</a>
+              <a href="#leistungen" class="btn btn-secondary">Unsere Services</a>
+            </div>
+            
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <strong>⚡</strong>
+                <span>Remote verfügbar</span>
+              </div>
+              <div class="hero-stat">
+                <strong>🏠</strong>
+                <span>Vor Ort in der Region</span>
+              </div>
+              <div class="hero-stat">
+                <strong>👤</strong>
+                <span>Ein Ansprechpartner</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hero-side">
+            <div class="side-card">
+              <h3>🎯 Für wen?</h3>
+              <p>KMU, Praxen, Kanzleien und Betriebe, die eine zuverlässige externe IT-Betreuung suchen.</p>
+            </div>
+            
+            <div class="side-card">
+              <h3>⚙️ Arbeitsweise</h3>
+              <p>Remote &amp; vor Ort, mit klaren Abläufen, Dokumentation und planbaren Supportmodellen.</p>
+            </div>
+            
+            <div class="side-card">
+              <h3>📋 Typische Aufgaben</h3>
+              <ul>
+                <li>IT-Support &amp; Wartung</li>
+                <li>Microsoft 365 (Teams, SharePoint)</li>
+                <li>Netzwerk &amp; Security</li>
+                <li>Backup &amp; Recovery</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section" id="leistungen">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">✨ Leistungen</div>
+          <h2 class="section-title">IT-Dienstleistungen aus einer Hand</h2>
+          <p class="section-desc">Laufende Betreuung oder projektbasiert – mit Fokus auf Stabilität, Sicherheit und Effizienz.</p>
+        </div>
+        
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-emoji">🔧</div>
+            <h3>IT-Support &amp; Wartung</h3>
+            <p>Proaktive Betreuung für störungsfreie Abläufe – remote und vor Ort.</p>
+            <ul>
+              <li>Remote- &amp; Vor-Ort-Support</li>
+              <li>Monitoring &amp; Systemwartung</li>
+              <li>Patchmanagement &amp; Updates</li>
+              <li>Fehleranalyse und Störungsbehebung</li>
+            </ul>
+            <a href="/it-support-biel" class="link">→ IT Support Biel</a>
+          </article>
+          
+          <article class="service-card">
+            <div class="service-emoji">🖥️</div>
+            <h3>Server &amp; Clients</h3>
+            <p>Stabile Server- und Arbeitsplatzumgebungen – performant und dokumentiert.</p>
+            <ul>
+              <li>Installation &amp; Administration</li>
+              <li>Virtualisierung &amp; Ressourcen</li>
+              <li>Arbeitsplatz-Setup &amp; Rollouts</li>
+              <li>Benutzer- &amp; Rechteverwaltung</li>
+            </ul>
+            <a href="/server-client-betreuung" class="link">→ Server &amp; Clients</a>
+          </article>
+          
+          <article class="service-card">
+            <div class="service-emoji">☁️</div>
+            <h3>Microsoft 365 &amp; Cloud</h3>
+            <p>Einrichtung, Migration und Support für modernes Arbeiten.</p>
+            <ul>
+              <li>Microsoft 365 Setup &amp; Verwaltung</li>
+              <li>Teams/Exchange/Entra ID</li>
+              <li>SharePoint &amp; OneDrive</li>
+              <li>Cloud-Migration &amp; Support</li>
+            </ul>
+            <a href="/microsoft-365-support" class="link">→ M365 Support</a>
+          </article>
+          
+          <article class="service-card">
+            <div class="service-emoji">🔒</div>
+            <h3>Netzwerk &amp; Sicherheit</h3>
+            <p>Planung, Aufbau und Absicherung Ihrer IT-Kommunikation.</p>
+            <ul>
+              <li>Netzwerkdesign &amp; Optimierung</li>
+              <li>WLAN- &amp; VPN-Lösungen</li>
+              <li>Firewall Management</li>
+              <li>Netzwerküberwachung</li>
+            </ul>
+            <a href="/netzwerk-sicherheit" class="link">→ Netzwerk &amp; Security</a>
+          </article>
+          
+          <article class="service-card">
+            <div class="service-emoji">🛡️</div>
+            <h3>IT-Sicherheit &amp; Backup</h3>
+            <p>Schutz vor Ausfällen und Datenverlust – mit getesteten Wiederherstellungen.</p>
+            <ul>
+              <li>Automatisierte Datensicherungen</li>
+              <li>Cloud- &amp; Offsite-Backups</li>
+              <li>Disaster Recovery &amp; Restore-Tests</li>
+              <li>Archivierung &amp; Compliance</li>
+            </ul>
+            <a href="/it-sicherheit-backup" class="link">→ Security &amp; Backup</a>
+          </article>
+          
+          <article class="service-card">
+            <div class="service-emoji">📊</div>
+            <h3>Beratung &amp; Projekte</h3>
+            <p>Von der Strategie bis zur Umsetzung – strukturiert und effizient.</p>
+            <ul>
+              <li>IT-Strategie &amp; Modernisierung</li>
+              <li>Projektplanung &amp; -umsetzung</li>
+              <li>System- &amp; Datenmigration</li>
+              <li>Prozessanalyse &amp; Optimierung</li>
+            </ul>
+            <a href="/it-beratung-projekte" class="link">→ Beratung &amp; Projekte</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="process-section" id="arbeitsweise">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">🚀 Ablauf</div>
+          <h2 class="section-title">So arbeiten wir</h2>
+          <p class="section-desc">Ein klarer Prozess für schnelle Hilfe und stabile Systeme.</p>
+        </div>
+        
+        <div class="process-grid">
+          <div class="process-step">
+            <div class="process-num">1</div>
+            <h3>Analyse</h3>
+            <p>IT-Landschaft erfassen, Risiken und Potenziale identifizieren.</p>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-num">2</div>
+            <h3>Stabilisieren</h3>
+            <p>Monitoring, Updates, Sicherheitskonzept implementieren.</p>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-num">3</div>
+            <h3>Betrieb</h3>
+            <p>Remote &amp; Vor-Ort Support mit klaren Zuständigkeiten.</p>
+          </div>
+          
+          <div class="process-step">
+            <div class="process-num">4</div>
+            <h3>Entwickeln</h3>
+            <p>M365, Cloud, Security-Hardening – wenn die Basis steht.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Locations -->
+    <section class="section" id="region">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">📍 Region</div>
+          <h2 class="section-title">IT-Support in Ihrer Region</h2>
+          <p class="section-desc">Wir betreuen Unternehmen in Biel, Seeland, Solothurn und Bern – remote und vor Ort.</p>
+        </div>
+        
+        <div class="locations-grid">
+          <div class="location-card">
+            <h3><span class="emoji">🗺️</span> Lokale Suchbegriffe</h3>
+            <p>Diese Begriffe sollten auf passenden Unterseiten vorkommen:</p>
+            <div class="location-tags">
+              <span class="location-tag">IT-Dienstleister Biel</span>
+              <span class="location-tag">IT-Support Seeland</span>
+              <span class="location-tag">IT-Service Solothurn</span>
+              <span class="location-tag">IT-Support Bern</span>
+            </div>
+            <p style="margin-top: 16px; font-size: 13px; color: var(--text-muted);">
+              💡 Tipp: Auf den Unterseiten kurze Fallbeispiele pro Region ergänzen.
+            </p>
+          </div>
+          
+          <div class="location-card">
+            <h3><span class="emoji">🎯</span> Service Area</h3>
+            <p>Je klarer die Region genannt wird, desto besser für Local SEO.</p>
+            <div class="location-tags">
+              <span class="location-tag">Biel/Bienne</span>
+              <span class="location-tag">Seeland</span>
+              <span class="location-tag">Solothurn</span>
+              <span class="location-tag">Bern</span>
+              <span class="location-tag">Orpund</span>
+              <span class="location-tag">Lyss</span>
+              <span class="location-tag">Grenchen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">❓ FAQ</div>
+          <h2 class="section-title">Häufige Fragen</h2>
+          <p class="section-desc">Antworten auf die wichtigsten Fragen rund um IT-Support im Seeland.</p>
+        </div>
+        
+        <div class="faq-list">
+          <details open>
+            <summary>Wie schnell reagieren Sie bei IT-Störungen?</summary>
+            <p>In der Regel reagieren wir kurzfristig – je nach vereinbartem Supportmodell. Remote-Hilfe ist oft innerhalb kurzer Zeit möglich; Vor-Ort-Einsätze koordinieren wir in Biel, Seeland, Solothurn und Bern so schnell wie möglich.</p>
+          </details>
+          
+          <details>
+            <summary>Bieten Sie IT-Betreuung als Fixpreis an?</summary>
+            <p>Ja. Wir bieten planbare Supportmodelle – von Stundenpaketen bis zu monatlichen Pauschalen inklusive Monitoring, Wartung und definierten Reaktionszeiten.</p>
+          </details>
+          
+          <details>
+            <summary>Unterstützen Sie Microsoft 365?</summary>
+            <p>Ja. Wir übernehmen Planung, Migration, Einrichtung (Entra ID, Exchange, Teams, SharePoint/OneDrive), Sicherheitseinstellungen, Backup sowie den laufenden Support.</p>
+          </details>
+          
+          <details>
+            <summary>Machen Sie auch IT-Sicherheit und Backup?</summary>
+            <p>Ja. Wir erstellen Security- und Backup-Konzepte, richten automatisierte Backups (auch Offsite/Cloud) ein, implementieren Zugriffsschutz/Firewall/VPN und planen Disaster-Recovery-Prozesse inkl. regelmässiger Tests.</p>
+          </details>
+          
+          <details>
+            <summary>Betreuen Sie Firmen auch vor Ort in Biel und Bern?</summary>
+            <p>Ja. Wir bieten Remote-Support sowie Vor-Ort-Betreuung in Biel/Bienne, im Seeland, in Solothurn und in Bern – je nach Bedarf projektbasiert oder im Rahmen einer laufenden Betreuung.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="kontakt">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">📬 Kontakt</div>
+          <h2 class="section-title">Erstgespräch anfragen</h2>
+          <p class="section-desc">Schildern Sie kurz Ihr Anliegen – wir melden uns zeitnah.</p>
+        </div>
+        
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3><span class="emoji">📍</span> Steinegger IT GmbH</h3>
+            <p>Schildern Sie kurz Ihr Anliegen – wir melden uns schnellstmöglich. Für dringende Fragen erreichen Sie uns auch telefonisch.</p>
+            
+            <div class="contact-details">
+              <div class="contact-detail">
+                <strong>Adresse</strong>
+                <span>Byfangstrasse 15, CH-2552 Orpund</span>
+              </div>
+              <div class="contact-detail">
+                <strong>Telefon</strong>
+                <span><a href="tel:+41323446767">+41 32 344 67 67</a></span>
+              </div>
+              <div class="contact-detail">
+                <strong>E-Mail</strong>
+                <span><a href="mailto:info@steinegger-it.ch">info@steinegger-it.ch</a></span>
+              </div>
+              <div class="contact-detail">
+                <strong>Öffnungszeiten</strong>
+                <span>Mo–Fr, 08:00–12:00 / 13:00–17:00</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-card">
+            <h3><span class="emoji">✉️</span> Kurze Anfrage</h3>
+            
+            <form action="mailto:info@steinegger-it.ch" method="post" enctype="text/plain">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Name</label>
+                  <input type="text" class="form-input" placeholder="Ihr Name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Unternehmen</label>
+                  <input type="text" class="form-input" placeholder="Firma">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">E-Mail</label>
+                  <input type="email" class="form-input" placeholder="ihre@email.ch">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Telefon</label>
+                  <input type="tel" class="form-input" placeholder="+41 32 XXX XX XX">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nachricht</label>
+                <textarea class="form-input" placeholder="Wie können wir Ihnen helfen?"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%;">
+                🚀 Nachricht senden
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <div class="logo-icon">S</div>
+            <div class="name">Steinegger<span style="color: var(--primary);">IT</span></div>
+          </div>
+          <p class="footer-about">IT-Dienstleister &amp; IT-Support für KMU in Biel, Seeland, Solothurn und Bern. Seit 2018. Persönliche Betreuung, faire Preise, IT die läuft. 🦞</p>
+          <div class="footer-social">
+            <a href="#">in</a>
+            <a href="#">X</a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Leistungen</h4>
+          <ul class="footer-links">
+            <li><a href="#leistungen">IT-Support</a></li>
+            <li><a href="#leistungen">Microsoft 365</a></li>
+            <li><a href="#leistungen">Netzwerk &amp; Sicherheit</a></li>
+            <li><a href="#leistungen">Backup &amp; Recovery</a></li>
+            <li><a href="#leistungen">IT-Beratung</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Unternehmen</h4>
+          <ul class="footer-links">
+            <li><a href="#arbeitsweise">Arbeitsweise</a></li>
+            <li><a href="#region">Region</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Regionale Seiten</h4>
+          <ul class="footer-links">
+            <li><a href="#">IT-Support Biel</a></li>
+            <li><a href="#">IT-Dienstleister Seeland</a></li>
+            <li><a href="#">IT-Service Solothurn</a></li>
+            <li><a href="#">IT-Support Bern</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>© 2026 Steinegger IT GmbH. IT die läuft. 🦞</p>
+        <div>
+          <a href="#">Impressum</a>
+          <a href="#">Datenschutz</a>
+          <a href="#">AGB</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

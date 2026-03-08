@@ -1,0 +1,113 @@
+═══════════════════════════════════════════════════════════════
+  📋 SCRIPT: New-M365User-Bulk.ps1
+  💼 M365 User Bulk Creation
+  ⏱️  Zeitersparnis: ~15 Min/User → ~2 Min total (90%!)
+═══════════════════════════════════════════════════════════════
+
+📖 WAS MACHT DAS SCRIPT?
+───────────────────────────────────────────────────────────────
+Erstellt mehrere Microsoft 365 Benutzer auf einmal (Bulk).
+
+Perfekt für:
+✓ Neue Mitarbeiter-Onboarding
+✓ Firmenübernahmen (viele User auf einmal)
+✓ Regelmässige Batch-Erstellungen
+
+Das Script:
+• Erstellt User Accounts in M365
+• Weist automatisch Lizenzen zu (E3, E5, Business, etc.)
+• Fügt User zu Gruppen hinzu
+• Generiert sichere Passwörter
+• Speichert Passwörter für erste Anmeldung
+• Erstellt detailliertes Log
+
+
+📁 BENÖTIGTE DATEIEN
+───────────────────────────────────────────────────────────────
+CSV-Datei mit User-Daten (Beispiel: newusers.csv):
+
+DisplayName,UPN,Department,License,Groups
+"Max Muster",,Vertrieb,ENTERPRISEPACK,Vertrieb;All
+"Anna Beispiel",,IT,ENTERPRISEPACK,IT-Admin;All
+"Hans Meier",hans.meier@firma.ch,HR,STANDARDPACK,HR-Team
+
+Spalten-Erklärung:
+• DisplayName: Vollständiger Name (z.B. "Max Muster")
+• UPN: Email-Adresse (optional, wird auto-generiert wenn leer)
+• Department: Abteilung (optional)
+• License: Lizenz-Typ (ENTERPRISEPACK=E3, STANDARDPACK=Business)
+• Groups: Semikolon-getrennte Gruppen-Namen
+
+
+🔧 VORAUSSETZUNGEN
+───────────────────────────────────────────────────────────────
+1. PowerShell 7+ installiert
+2. Microsoft Graph Module:
+   Install-Module -Name Microsoft.Graph -Scope CurrentUser
+
+3. Verbindung zu M365:
+   Connect-MgGraph -Scopes "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All"
+
+
+🚀 ANWENDUNG
+───────────────────────────────────────────────────────────────
+
+1️⃣ EINFACHE ERSTELLUNG:
+   .\New-M365User-Bulk.ps1 -CSVFile "C:\newusers.csv" -Domain "firma.ch"
+
+2️⃣ MIT SPEZIFISCHER LIZENZ:
+   .\New-M365User-Bulk.ps1 -CSVFile "C:\newusers.csv" -LicenseSKU "ENTERPRISEPACK"
+
+3️⃣ TROCKENLAUF (TESTEN OHNE ZU ÄNDERN):
+   .\New-M365User-Bulk.ps1 -CSVFile "C:\newusers.csv" -WhatIf
+   → Zeigt was passieren würde, führt aber NICHTS aus!
+
+
+📊 OUTPUT
+───────────────────────────────────────────────────────────────
+Das Script erstellt:
+✓ User in Microsoft 365
+✓ Log-Datei: C:\Logs\M365-User-Creation-YYYYMMDD-HHMMSS.log
+✓ Password-Files: C:\Logs\NewUser-{UserID}.txt (für erste Anmeldung)
+
+
+⚠️ WICHTIGE HINWEISE
+───────────────────────────────────────────────────────────────
+• IMMER zuerst mit -WhatIf testen!
+• CSV-Datei muss existieren bevor Script läuft
+• Ausreichend Lizenzen im Tenant vorhanden?
+• Script braucht Admin-Rechte in M365
+• Passwörter werden im Klartext gespeichert (sicheren Ordner wählen!)
+
+
+🐛 FEHLERBEHEBUNG
+───────────────────────────────────────────────────────────────
+Fehler: "Keine Verbindung zu Microsoft Graph"
+→ Connect-MgGraph ausführen (siehe Voraussetzungen)
+
+Fehler: "CSV-Datei nicht gefunden"
+→ Pfad zur CSV-Datei überprüfen
+
+Fehler: "Lizenz nicht gefunden"
+→ LicenseSKU überprüfen (ENTERPRISEPACK, STANDARDPACK, etc.)
+→ Get-MgSubscribedSku | Select SkuPartNumber (verfügbare Lizenzen)
+
+
+💡 TIPPS
+───────────────────────────────────────────────────────────────
+• CSV-Vorlage verwenden (siehe templates/user-import-template.csv)
+• Nach Erstellung Passwörter an User persönlich übergeben
+• Log-Files für Audit-Zwecke archivieren
+• Regelmässig Script updaten (Microsoft ändert APIs)
+
+
+📞 SUPPORT
+───────────────────────────────────────────────────────────────
+Fragen oder Probleme? 
+→ Script-Kommentare lesen
+→ Log-Datei prüfen
+→ Daniel kontaktieren oder VICA fragen
+
+═══════════════════════════════════════════════════════════════
+  Erstellt: 2026-03-08 | Version: 1.0 | Author: VICA für Daniel
+═══════════════════════════════════════════════════════════════

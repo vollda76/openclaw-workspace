@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEINEGGER IT - Playful Colorful</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --orange: #f97316;
+            --yellow: #eab308;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --indigo: #6366f1;
+            --bg: #fef9ff;
+            --text: #1f2937;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Colorful Background Blobs */
+        .bg-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--purple);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--pink);
+            top: 50%;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--blue);
+            bottom: -100px;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        .blob-4 {
+            width: 250px;
+            height: 250px;
+            background: var(--yellow);
+            top: 30%;
+            left: 60%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.9); }
+            75% { transform: translate(20px, 30px) scale(1.05); }
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple), var(--pink), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--purple);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--purple), var(--pink));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--blue), var(--indigo));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .hero h1 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 .word-1 { color: var(--purple); }
+        .hero h1 .word-2 { color: var(--pink); }
+        .hero h1 .word-3 { color: var(--orange); }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            color: white;
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--purple);
+            border: 3px solid var(--purple);
+        }
+
+        .btn-secondary:hover {
+            background: var(--purple);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        /* Services - Colorful Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .service-card:nth-child(1)::before { background: var(--purple); }
+        .service-card:nth-child(2)::before { background: var(--pink); }
+        .service-card:nth-child(3)::before { background: var(--orange); }
+        .service-card:nth-child(4)::before { background: var(--green); }
+        .service-card:nth-child(5)::before { background: var(--blue); }
+        .service-card:nth-child(6)::before { background: var(--indigo); }
+
+        .service-card:hover {
+            transform: translateY(-8px) rotate(-1deg);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-card:nth-child(even):hover {
+            transform: translateY(-8px) rotate(1deg);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card:nth-child(1) .service-icon { background: linear-gradient(135deg, var(--purple), var(--pink)); }
+        .service-card:nth-child(2) .service-icon { background: linear-gradient(135deg, var(--pink), var(--orange)); }
+        .service-card:nth-child(3) .service-icon { background: linear-gradient(135deg, var(--orange), var(--yellow)); }
+        .service-card:nth-child(4) .service-icon { background: linear-gradient(135deg, var(--green), var(--blue)); }
+        .service-card:nth-child(5) .service-icon { background: linear-gradient(135deg, var(--blue), var(--indigo)); }
+        .service-card:nth-child(6) .service-icon { background: linear-gradient(135deg, var(--indigo), var(--purple)); }
+
+        .service-card h3 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            line-height: 1.7;
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--purple), var(--pink), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            line-height: 1.8;
+        }
+
+        .about-fun {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .fun-stat {
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .fun-stat:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .fun-stat:nth-child(2) {
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .fun-stat:nth-child(2):hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .fun-number {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .fun-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            opacity: 0.95;
+        }
+
+        /* Fun Divider */
+        .fun-divider {
+            height: 100px;
+            background: linear-gradient(90deg, var(--purple), var(--pink), var(--orange), var(--yellow), var(--green), var(--blue), var(--indigo));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fun-divider::before {
+            content: '✨ 🚀 💡 🎨 ⚡ ';
+            position: absolute;
+            white-space: nowrap;
+            font-size: 2rem;
+            animation: scroll 20s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+        }
+
+        .contact-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--purple);
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid;
+        }
+
+        .contact-item:nth-child(1) { border-color: var(--purple); }
+        .contact-item:nth-child(2) { border-color: var(--pink); }
+        .contact-item:nth-child(3) { border-color: var(--orange); }
+        .contact-item:nth-child(4) { border-color: var(--green); }
+
+        .contact-item-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-value {
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            color: var(--text);
+            outline: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            font-size: 1.05rem;
+            font-weight: 800;
+            padding: 1.25rem 2rem;
+            background: linear-gradient(135deg, var(--purple), var(--pink), var(--orange));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--purple), var(--indigo));
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 0.95rem;
+            color: white;
+            text-decoration: none;
+            line-height: 2;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.85;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-content,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-fun {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">Steinegger IT</a>
+            <ul class="nav-links">
+                <li><a href="#services">Leistungen</a></li>
+                <li><a href="#about">Über Uns</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">Los geht's!</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✨ IT mit Freude</div>
+            <h1>
+                <span class="word-1">IT</span> kann auch<br>
+                <span class="word-2">Spass</span>
+                <span class="word-3">machen!</span>
+            </h1>
+            <p>
+                Steinegger IT – Ihr bunter Partner für KMU im Seeland. 
+                Professionell, persönlich und immer mit einem Lächeln.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">🚀 Starten</a>
+                <a href="#services" class="btn btn-secondary">Entdecken</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-label" style="background: linear-gradient(135deg, var(--purple), var(--pink)); color: white;">
+            Was wir machen
+        </div>
+        <div class="section-header">
+            <h2 style="background: linear-gradient(135deg, var(--purple), var(--pink), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                Unsere Leistungen
+            </h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>IT-Support</h3>
+                <p>Wenn's klemmt, helfen wir! Schnell, freundlich und kompetent – remote und vor Ort.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">☁️</div>
+                <h3>Microsoft 365</h3>
+                <p>Cloud leicht gemacht! Wir bringen Ihre IT sicher und stressfrei in die Zukunft.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🖥️</div>
+                <h3>Server & Clients</h3>
+                <p>Damit alles läuft! Installation, Wartung und Updates aus einer Hand.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>IT-Security</h3>
+                <p>Sicher ist sicher! Firewalls, Backup und Schutz vor bösen Überraschungen.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📡</div>
+                <h3>Netzwerk</h3>
+                <p>Alles verbunden! LAN, WLAN und VPN für reibungslose Kommunikation.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💡</div>
+                <h3>Beratung</h3>
+                <p>Wir helfen Ihnen weiter! Strategisch, ehrlich und mit viel Erfahrung.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <div class="about" id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <div class="section-label" style="background: linear-gradient(135deg, var(--blue), var(--green)); color: white;">
+                    Über uns
+                </div>
+                <h2>IT mit Herz & Verstand</h2>
+                <p>
+                    Steinegger IT ist Ihr IT-Partner für KMU im Seeland, Biel, Solothurn und Bern. 
+                    Keine Warteschleifen, keine Roboter – bei uns sprechen Sie mit echten Menschen!
+                </p>
+                <p>
+                    Seit über 15 Jahren machen wir IT persönlich, proaktiv und mit Freude. 
+                    Weil wir glauben: Technik soll dienen, nicht nerven.
+                </p>
+                <p>
+                    Lassen Sie uns gemeinsam Grosses schaffen! 🎉
+                </p>
+            </div>
+            <div class="about-fun">
+                <div class="fun-stat">
+                    <div class="fun-number">100+</div>
+                    <div class="fun-label">Glückliche Kunden</div>
+                </div>
+                <div class="fun-stat">
+                    <div class="fun-number">15+</div>
+                    <div class="fun-label">Jahre Freude</div>
+                </div>
+                <div class="fun-stat">
+                    <div class="fun-number">98%</div>
+                    <div class="fun-label">Smiles</div>
+                </div>
+                <div class="fun-stat">
+                    <div class="fun-number">24/7</div>
+                    <div class="fun-label">Für Sie da</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fun Divider -->
+    <div class="fun-divider"></div>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-wrapper">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="section-label" style="background: linear-gradient(135deg, var(--orange), var(--yellow)); color: white;">
+                        Kontakt
+                    </div>
+                    <h2>Lassen Sie uns quatschen!</h2>
+                    <div class="contact-item">
+                        <div class="contact-item-label">📍 Adresse</div>
+                        <div class="contact-item-value">Byfangstrasse 15, 2552 Orpund</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-label">📞 Telefon</div>
+                        <div class="contact-item-value">+41 32 344 67 67</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-label">📧 Email</div>
+                        <div class="contact-item-value">info@steinegger-it.ch</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-label">🕐 Öffnungszeiten</div>
+                        <div class="contact-item-value">Mo-Fr, 08:00-17:00</div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label>Ihr Name</label>
+                        <input type="text" placeholder="Wie dürfen wir Sie nennen?" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ihre Email</label>
+                        <input type="email" placeholder="damit wir antworten können" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ihre Nachricht</label>
+                        <textarea placeholder="Erzählen Sie uns davon..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">🎉 Absenden</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Steinegger IT</h4>
+                <p>Byfangstrasse 15<br>2552 Orpund<br>Schweiz</p>
+            </div>
+            <div class="footer-section">
+                <h4>Kontakt</h4>
+                <p>+41 32 344 67 67<br>info@steinegger-it.ch</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links</h4>
+                <a href="#">Leistungen</a><br>
+                <a href="#">Über Uns</a><br>
+                <a href="#">Karriere</a>
+            </div>
+            <div class="footer-section">
+                <h4>Rechtliches</h4>
+                <a href="#">Impressum</a><br>
+                <a href="#">Datenschutz</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Steinegger IT GmbH – Gemacht mit 💜 und viel ☕
+        </div>
+    </footer>
+</body>
+</html>

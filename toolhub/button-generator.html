@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔳 Button Generator – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        input[type="text"] { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        input:focus { outline: none; border-color: #667eea; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); cursor: pointer; }
+        .toggle-group { display: flex; gap: 10px; margin-bottom: 1rem; }
+        .toggle-btn { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; }
+        .toggle-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); border-color: #667eea; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-btn { padding: 15px 40px; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 20px; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .style-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .style-option { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; text-align: center; cursor: pointer; }
+        .style-option:hover { background: rgba(255,255,255,0.2); }
+        .style-option.active { border-color: #667eea; background: rgba(102,126,234,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🔳</div>
+            <h1>Button Generator</h1>
+            <p class="subtitle">Designe schöne Buttons mit Hover-Effekten</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Button Settings</h2>
+                
+                <div class="form-group">
+                    <label>📝 Button Text</label>
+                    <input type="text" id="btnText" value="Click Me" oninput="updateButton()">
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Hintergrund Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="bgColor" value="#667eea" onchange="updateButton()">
+                        <div class="color-value" id="bgColorValue">#667eea</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Text Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="textColor" value="#ffffff" onchange="updateButton()">
+                        <div class="color-value" id="textColorValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔲 Stil</label>
+                    <div class="style-options">
+                        <div class="style-option active" onclick="setStyle('solid', this)">Solid</div>
+                        <div class="style-option" onclick="setStyle('gradient', this)">Gradient</div>
+                        <div class="style-option" onclick="setStyle('outline', this)">Outline</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🔴 Border Radius</label><span id="radiusValue">10px</span></div>
+                    <input type="range" id="radius" min="0" max="50" value="10" oninput="updateButton()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📏 Padding</label><span id="paddingValue">15px</span></div>
+                    <input type="range" id="padding" min="5" max="30" value="15" oninput="updateButton()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Font Size</label><span id="fontSizeValue">16px</span></div>
+                    <input type="range" id="fontSize" min="12" max="24" value="16" oninput="updateButton()">
+                </div>
+
+                <div class="form-group">
+                    <label>✨ Hover Effekt</label>
+                    <select id="hoverEffect" onchange="updateButton()" style="width:100%;padding:1rem;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.2);border-radius:12px;color:white;">
+                        <option value="lift">Lift + Shadow</option>
+                        <option value="darken">Darker</option>
+                        <option value="lighten">Lighter</option>
+                        <option value="scale">Scale Up</option>
+                        <option value="none">Kein</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <button class="preview-btn" id="previewBtn">Click Me</button>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="resetButton()">🔄 Reset</button>
+                </div>
+                <div class="code-output" id="codeOutput">.button { ... }</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let style = 'solid';
+
+        function setStyle(s, el) {
+            style = s;
+            document.querySelectorAll('.style-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            updateButton();
+        }
+
+        function updateButton() {
+            const text = document.getElementById('btnText').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const radius = parseInt(document.getElementById('radius').value);
+            const padding = parseInt(document.getElementById('padding').value);
+            const fontSize = parseInt(document.getElementById('fontSize').value);
+            const hover = document.getElementById('hoverEffect').value;
+
+            document.getElementById('bgColorValue').textContent = bgColor;
+            document.getElementById('textColorValue').textContent = textColor;
+            document.getElementById('radiusValue').textContent = radius + 'px';
+            document.getElementById('paddingValue').textContent = padding + 'px';
+            document.getElementById('fontSizeValue').textContent = fontSize + 'px';
+
+            const btn = document.getElementById('previewBtn');
+            btn.textContent = text;
+            btn.style.color = textColor;
+            btn.style.fontSize = fontSize + 'px';
+            btn.style.padding = `${padding}px ${padding * 2}px`;
+            btn.style.borderRadius = radius + 'px';
+
+            if (style === 'solid') {
+                btn.style.background = bgColor;
+                btn.style.border = 'none';
+            } else if (style === 'gradient') {
+                btn.style.background = `linear-gradient(135deg, ${bgColor}, ${lighten(bgColor, 20)})`;
+                btn.style.border = 'none';
+            } else if (style === 'outline') {
+                btn.style.background = 'transparent';
+                btn.style.border = `2px solid ${bgColor}`;
+            }
+
+            // Hover effects
+            btn.onmouseenter = () => {
+                if (hover === 'lift') { btn.style.transform = 'translateY(-3px)'; btn.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)'; }
+                if (hover === 'darken') { btn.style.filter = 'brightness(0.8)'; }
+                if (hover === 'lighten') { btn.style.filter = 'brightness(1.2)'; }
+                if (hover === 'scale') { btn.style.transform = 'scale(1.05)'; }
+            };
+            btn.onmouseleave = () => {
+                btn.style.transform = '';
+                btn.style.boxShadow = '';
+                btn.style.filter = '';
+            };
+
+            const css = `.button {
+  background: ${style === 'gradient' ? `linear-gradient(135deg, ${bgColor}, ${lighten(bgColor, 20)})` : style === 'outline' ? 'transparent' : bgColor};
+  color: ${textColor};
+  border: ${style === 'outline' ? `2px solid ${bgColor}` : 'none'};
+  padding: ${padding}px ${padding * 2}px;
+  font-size: ${fontSize}px;
+  font-weight: 600;
+  border-radius: ${radius}px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  ${hover === 'lift' ? 'transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3);' : ''}
+  ${hover === 'darken' ? 'filter: brightness(0.8);' : ''}
+  ${hover === 'lighten' ? 'filter: brightness(1.2);' : ''}
+  ${hover === 'scale' ? 'transform: scale(1.05);' : ''}
+}`;
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function lighten(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function resetButton() {
+            document.getElementById('btnText').value = 'Click Me';
+            document.getElementById('bgColor').value = '#667eea';
+            document.getElementById('textColor').value = '#ffffff';
+            document.getElementById('radius').value = 10;
+            document.getElementById('padding').value = 15;
+            document.getElementById('fontSize').value = 16;
+            document.getElementById('hoverEffect').value = 'lift';
+            updateButton();
+        }
+
+        window.onload = updateButton;
+    </script>
+</body>
+</html>

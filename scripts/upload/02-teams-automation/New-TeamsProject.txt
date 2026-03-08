@@ -1,0 +1,133 @@
+═══════════════════════════════════════════════════════════════
+  📋 SCRIPT: New-TeamsProject.ps1
+  💼 MS Teams Project Creator
+  ⏱️  Zeitersparnis: 20 Min → 1 Min (95%!)
+═══════════════════════════════════════════════════════════════
+
+📖 WAS MACHT DAS SCRIPT?
+───────────────────────────────────────────────────────────────
+Erstellt automatisch Microsoft Teams für Projekte mit komplettem
+Standard-Setup.
+
+Perfekt für:
+✓ Neue Kundenprojekte
+✓ Interne Projekt-Teams
+✓ Temporäre Arbeitsgruppen
+✓ Abteilungs-Teams
+
+Das Script:
+• Erstellt neues MS Team (Private Visibility)
+• Richtet 5 Standard-Channels ein
+• Fügt Owner und Mitglieder hinzu
+• Sendet Welcome-Post im Team
+• Erstellt Link für einfachen Zugriff
+
+
+📁 STANDARD CHANNELS
+───────────────────────────────────────────────────────────────
+Jedes Team bekommt automatisch diese Channels:
+
+1. 📢 Allgemein
+   → Allgemeine Diskussionen, Ankündigungen
+   
+2. 📰 Projekt-Updates
+   → Wichtige Updates, Meilensteine, Entscheidungen
+   
+3. 📁 Dokumente
+   → Ablage für Projektdokumente, Versionierung
+   
+4. 📝 Meeting-Notizen
+   → Protokolle, Action Items, Entscheidungen
+   
+5. ☕ Off-Topic
+   → Alles andere, Smalltalk, Humor
+
+
+🔧 VORAUSSETZUNGEN
+───────────────────────────────────────────────────────────────
+1. PowerShell 7+ installiert
+2. Microsoft Graph Module:
+   Install-Module -Name Microsoft.Graph -Scope CurrentUser
+   Install-Module -Name MicrosoftTeams -Scope CurrentUser
+
+3. Verbindung zu M365:
+   Connect-MgGraph -Scopes "Group.ReadWrite.All","Team.Create"
+
+
+🚀 ANWENDUNG
+───────────────────────────────────────────────────────────────
+
+1️⃣ EINFACHES TEAM ERSTELLEN:
+   .\New-TeamsProject.ps1 -Name "Projekt Alpha" -Owner "daniel@firma.ch"
+
+2️⃣ MIT BESCHREIBUNG:
+   .\New-TeamsProject.ps1 -Name "Kunde XYZ Migration" -Owner "daniel@firma.ch" -Description "Migration zu M365 für Kunde XYZ AG"
+
+3️⃣ MIT MEHREREN OWNERN:
+   .\New-TeamsProject.ps1 -Name "Marketing 2026" -Owner "daniel@firma.ch","maria@firma.ch"
+
+4️⃣ MIT MITGLIEDER-LISTE:
+   .\New-TeamsProject.ps1 -Name "Projekt Alpha" -Owner "daniel@firma.ch" -Members "C:\members.csv"
+
+5️⃣ TROCKENLAUF (TESTEN):
+   .\New-TeamsProject.ps1 -Name "Test Projekt" -Owner "daniel@firma.ch" -WhatIf
+
+
+📁 MITGLIEDER-CSV (Beispiel: members.csv)
+───────────────────────────────────────────────────────────────
+Email
+max.mustermann@firma.ch
+anna.beispiel@firma.ch
+hans.meier@firma.ch
+
+
+📊 OUTPUT
+───────────────────────────────────────────────────────────────
+Das Script erstellt:
+✓ Microsoft Team mit specified Name
+✓ 5 Standard-Channels
+✓ Owner & Members hinzugefügt
+✓ Welcome-Post im "Allgemein" Channel
+✓ Log-Datei: C:\Logs\Teams-Creation-YYYYMMDD-HHMMSS.log
+✓ Direkter Team-Link für einfachen Zugriff
+
+
+⚠️ WICHTIGE HINWEISE
+───────────────────────────────────────────────────────────────
+• Team wird als "Private" erstellt (nur Mitglieder sichtbar)
+• Owner brauchen ca. 15 Sekunden bis Team bereit ist
+• Members-CSV ist optional (kann später hinzugefügt werden)
+• Script braucht Team-Erstellungs-Rechte in M365
+• Channels können später angepasst werden
+
+
+🐛 FEHLERBEHEBUNG
+───────────────────────────────────────────────────────────────
+Fehler: "Keine M365 Verbindung"
+→ Connect-MgGraph ausführen
+
+Fehler: "Owner nicht gefunden"
+→ Email-Adresse überprüfen (muss in M365 existieren)
+
+Fehler: "Team already exists"
+→ Team-Name muss eindeutig sein (ggf. Nummer hinzufügen)
+
+
+💡 TIPPS
+───────────────────────────────────────────────────────────────
+• Konsistente Namenskonvention verwenden (z.B. "Kunde - Projekt")
+• Description immer ausfüllen für bessere Übersicht
+• Owner sollten aktiv im Projekt sein
+• Members können später im Teams-Client hinzugefügt werden
+• Nach Erstellung Team gleich im Client öffnen und anpassen
+
+
+📞 SUPPORT
+───────────────────────────────────────────────────────────────
+Fragen oder Probleme?
+→ Log-Datei prüfen
+→ Daniel kontaktieren oder VICA fragen
+
+═══════════════════════════════════════════════════════════════
+  Erstellt: 2026-03-08 | Version: 1.0 | Author: VICA für Daniel
+═══════════════════════════════════════════════════════════════

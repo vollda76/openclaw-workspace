@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEINEGGER IT - Asymmetric Layout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #fafafa;
+            --text: #1a1a1a;
+            --accent: #e63946;
+            --secondary: #457b9d;
+            --tertiary: #2a9d8f;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation - Asymmetric */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            z-index: 100;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section - Asymmetric Grid */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .hero-content {
+            padding-right: 4rem;
+        }
+
+        .hero-label {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 .highlight {
+            display: block;
+            color: var(--accent);
+            margin-left: 3rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateX(10px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        /* Asymmetric Image/Visual Side */
+        .hero-visual {
+            position: relative;
+            height: 600px;
+        }
+
+        .visual-block {
+            position: absolute;
+            background: var(--secondary);
+        }
+
+        .visual-block-1 {
+            width: 300px;
+            height: 400px;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--secondary), var(--tertiary));
+        }
+
+        .visual-block-2 {
+            width: 200px;
+            height: 200px;
+            bottom: 100px;
+            left: -50px;
+            background: var(--accent);
+            transform: rotate(15deg);
+        }
+
+        .visual-block-3 {
+            width: 150px;
+            height: 150px;
+            bottom: 0;
+            right: 50px;
+            background: var(--tertiary);
+            border-radius: 50%;
+        }
+
+        .visual-text {
+            position: absolute;
+            font-family: 'Syne', sans-serif;
+            font-size: 8rem;
+            font-weight: 800;
+            color: var(--light-gray);
+            z-index: -1;
+        }
+
+        .visual-text-1 {
+            top: 10%;
+            left: 10%;
+            transform: rotate(-10deg);
+        }
+
+        .visual-text-2 {
+            bottom: 20%;
+            right: 0;
+            font-size: 6rem;
+            transform: rotate(5deg);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+
+        /* Services - Asymmetric Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            grid-auto-flow: dense;
+        }
+
+        .service-card {
+            padding: 3rem;
+            background: var(--white);
+            border: 1px solid var(--light-gray);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card.large {
+            grid-column: span 2;
+        }
+
+        .service-card.tall {
+            grid-row: span 2;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            height: 100%;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* About - Split Asymmetric */
+        .about {
+            background: var(--white);
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            min-height: 600px;
+        }
+
+        .about-content {
+            padding: 6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-content h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 2rem;
+        }
+
+        .about-content p {
+            font-size: 1.15rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-visual {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .about-visual::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+        }
+
+        .about-emoji {
+            font-size: 8rem;
+            z-index: 1;
+        }
+
+        /* Stats - Asymmetric Layout */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            padding: 4rem 6rem;
+            background: var(--bg);
+            border: 1px solid var(--light-gray);
+        }
+
+        .stat {
+            text-align: left;
+            padding: 2rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+            border-left-color: var(--accent);
+            background: var(--white);
+        }
+
+        .stat:nth-child(1) { transform: translateY(-20px); }
+        .stat:nth-child(3) { transform: translateY(-20px); }
+
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Contact - Asymmetric Form */
+        .contact {
+            background: var(--text);
+            color: var(--bg);
+            padding: 6rem;
+            max-width: 100%;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-info h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            margin-bottom: 2.5rem;
+            padding-left: 2rem;
+            border-left: 2px solid var(--accent);
+        }
+
+        .contact-item-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-value {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Manrope', sans-serif;
+            font-size: 1rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--bg);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 1.25rem 3rem;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            min-width: 200px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 0.95rem;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .copyright {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                padding-right: 0;
+            }
+
+            .hero-visual {
+                height: 400px;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .service-card.large {
+                grid-column: span 1;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                padding: 3rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 2rem;
+            }
+
+            .stat:nth-child(1),
+            .stat:nth-child(3) {
+                transform: none;
+            }
+
+            .contact {
+                padding: 3rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">Steinegger IT</a>
+            <ul class="nav-links">
+                <li><a href="#services">Leistungen</a></li>
+                <li><a href="#about">Über Uns</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">IT-Support Seeland</div>
+            <h1>
+                Anders als
+                <span class="highlight">alle anderen</span>
+            </h1>
+            <p>
+                Steinegger IT – Ihr IT-Partner für KMU. 
+                Unkonventionell, dynamisch, effektiv.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Starten</a>
+                <a href="#services" class="btn btn-secondary">Erfahren</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="visual-text visual-text-1">IT</div>
+            <div class="visual-text visual-text-2">KMU</div>
+            <div class="visual-block visual-block-1"></div>
+            <div class="visual-block visual-block-2"></div>
+            <div class="visual-block visual-block-3"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-label">Leistungen</div>
+        <div class="section-header">
+            <h2>Was wir bieten</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card large">
+                <div class="service-icon">🔧</div>
+                <h3>IT-Support</h3>
+                <p>Schnelle Hilfe bei Störungen. Remote und vor Ort für KMU in Biel, Seeland, Solothurn und Bern. Wir reagieren schnell und lösen Probleme nachhaltig.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">☁️</div>
+                <h3>Microsoft 365</h3>
+                <p>Planung, Migration, Einrichtung und Support für Ihre Cloud-Infrastruktur.</p>
+            </div>
+            <div class="service-card tall">
+                <div class="service-icon">🖥️</div>
+                <h3>Server & Clients</h3>
+                <p>Installation, Wartung, Updates. Wir halten Ihre Infrastruktur stabil und zuverlässig. Von kleinen Serverräumen bis zu komplexen Multi-Standort-Lösungen.</p>
+                <p>Unsere Experten sorgen dafür, dass Ihre Systeme rund um die Uhr funktionieren.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>IT-Security</h3>
+                <p>Firewalls, Antivirus, Backup. Proaktiver Schutz vor Ransomware.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📡</div>
+                <h3>Netzwerk</h3>
+                <p>LAN, WLAN, VPN. Wir bauen Netzwerke die funktionieren.</p>
+            </div>
+            <div class="service-card large">
+                <div class="service-icon">💡</div>
+                <h3>Beratung</h3>
+                <p>IT-Strategie, Beschaffung, Migration. Wir helfen Ihnen, die richtigen Entscheidungen zu treffen. Mit über 15 Jahren Erfahrung kennen wir die Fallstricke und Chancen der IT-Landschaft.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <div class="about" id="about">
+        <div class="about-grid">
+            <div class="about-content">
+                <div class="section-label">Über Uns</div>
+                <h2>Ihr Partner im Seeland</h2>
+                <p>
+                    Steinegger IT ist Ihr IT-Partner für KMU im Seeland, Biel, Solothurn und Bern. 
+                    Keine Callcenter, keine Warteschleifen – bei uns sprechen Sie mit Menschen die Ahnung haben.
+                </p>
+                <p>
+                    Seit über 15 Jahren kümmern wir uns um die IT unserer Kunden. Proaktiv, zuverlässig 
+                    und mit persönlicher Note. Wir glauben, dass IT einfach funktionieren muss.
+                </p>
+                <p>
+                    Unser Ansatz ist anders: Wir denken quer, finden unkonventionelle Lösungen 
+                    und bleiben immer am Puls der Zeit.
+                </p>
+            </div>
+            <div class="about-visual">
+                <div class="about-emoji">🚀</div>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">KMU Betreut</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Jahre Erfahrung</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Zufriedenheit</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">Schnell</div>
+                <div class="stat-label">Reaktionszeit</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact" id="contact">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="section-label">Kontakt</div>
+                <h2>Legen wir los</h2>
+                <div class="contact-item">
+                    <div class="contact-item-label">Standort</div>
+                    <div class="contact-item-value">Byfangstrasse 15, 2552 Orpund</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">Telefon</div>
+                    <div class="contact-item-value">+41 32 344 67 67</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">Email</div>
+                    <div class="contact-item-value">info@steinegger-it.ch</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">Öffnungszeiten</div>
+                    <div class="contact-item-value">Mo-Fr, 08:00-17:00</div>
+                </div>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Ihr Name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="ihre@email.ch" required>
+                </div>
+                <div class="form-group">
+                    <label>Nachricht</label>
+                    <textarea placeholder="Wie können wir Ihnen helfen?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Senden</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Steinegger IT</h4>
+                <p>Byfangstrasse 15<br>2552 Orpund<br>Schweiz</p>
+            </div>
+            <div class="footer-section">
+                <h4>Kontakt</h4>
+                <p>+41 32 344 67 67<br>info@steinegger-it.ch</p>
+            </div>
+            <div class="footer-section">
+                <h4>Rechtliches</h4>
+                <a href="#">Impressum</a><br>
+                <a href="#">Datenschutz</a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 Steinegger IT GmbH – Alle Rechte vorbehalten.
+        </div>
+    </footer>
+</body>
+</html>

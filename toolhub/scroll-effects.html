@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 Scroll Effects – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+        select:focus, input:focus { outline: none; border-color: #667eea; }
+        select option { background: #1a1a2e; color: white; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .effect-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .effect-option {
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .effect-option:hover { background: rgba(255,255,255,0.2); }
+        .effect-option.active { border-color: #667eea; background: rgba(102,126,234,0.2); }
+        .effect-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .effect-name { font-size: 0.85rem; font-weight: 600; }
+        .preview-area { display: flex; flex-direction: column; }
+        .preview-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .preview-header {
+            background: #1a1a2e;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .preview-dots { display: flex; gap: 8px; }
+        .preview-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .preview-dot.red { background: #ff5f57; }
+        .preview-dot.yellow { background: #ffbd2e; }
+        .preview-dot.green { background: #28ca41; }
+        .preview-title { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+        .preview-scroll {
+            height: 500px;
+            overflow-y: auto;
+            position: relative;
+        }
+        .preview-section {
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+        .preview-section:nth-child(1) { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .preview-section:nth-child(2) { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .preview-section:nth-child(3) { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .preview-section:nth-child(4) { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .preview-element {
+            width: 150px;
+            height: 150px;
+            background: #667eea;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: all 0.8s ease-out;
+        }
+        .preview-element.animated {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+        }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .action-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .action-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .action-btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] {
+            width: 100%; height: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.2);
+            outline: none; -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: pointer;
+        }
+        .code-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .code-modal.active { display: flex; }
+        .code-content {
+            background: #1a1a2e;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+        .code-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .code-body { padding: 20px; overflow-y: auto; max-height: 60vh; }
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            margin: 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: #00ff88;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .code-label {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .reset-btn {
+            margin-top: 10px;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            color: #ef4444;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        .reset-btn:hover { background: rgba(239, 68, 68, 0.3); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">📜</div>
+            <h1>Scroll Effects</h1>
+            <p class="subtitle">Erstelle Scroll-Animationen und Parallax-Effekte</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Einstellungen</h2>
+
+                <div class="form-group">
+                    <label>🎭 Effekt-Typ</label>
+                    <div class="effect-options">
+                        <div class="effect-option active" onclick="setEffect('fade', this)">
+                            <div class="effect-icon">👻</div>
+                            <div class="effect-name">Fade In</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('slide-up', this)">
+                            <div class="effect-icon">↑</div>
+                            <div class="effect-name">Slide Up</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('slide-down', this)">
+                            <div class="effect-icon">↓</div>
+                            <div class="effect-name">Slide Down</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('slide-left', this)">
+                            <div class="effect-icon">←</div>
+                            <div class="effect-name">Slide Left</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('slide-right', this)">
+                            <div class="effect-icon">→</div>
+                            <div class="effect-name">Slide Right</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('zoom', this)">
+                            <div class="effect-icon">🔍</div>
+                            <div class="effect-name">Zoom</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('flip', this)">
+                            <div class="effect-icon">🔄</div>
+                            <div class="effect-name">Flip</div>
+                        </div>
+                        <div class="effect-option" onclick="setEffect('rotate', this)">
+                            <div class="effect-icon">🎡</div>
+                            <div class="effect-name">Rotate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🐌 Geschwindigkeit</label><span id="speedValue">0.8s</span></div>
+                    <input type="range" id="speed" min="0.2" max="2" value="0.8" step="0.1" oninput="updateSpeed()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📏 Trigger Offset</label><span id="offsetValue">100px</span></div>
+                    <input type="range" id="offset" min="0" max="300" value="100" step="10" oninput="updateOffset()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🎯 Start Scale</label><span id="scaleValue">0.5</span></div>
+                    <input type="range" id="scale" min="0.1" max="1.5" value="0.5" step="0.1" oninput="updateScale()">
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Element Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="elementColor" value="#667eea" onchange="updateColor()">
+                        <div class="color-value" id="elementColorValue">#667eea</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Element Emoji</label>
+                    <input type="text" id="elementEmoji" value="🚀" maxlength="2" oninput="updateEmoji()">
+                </div>
+
+                <button class="action-btn action-btn-primary" onclick="generateCode()" style="width: 100%;">💻 Code generieren</button>
+                <button class="reset-btn" onclick="resetPreview()">🔄 Preview zurücksetzen</button>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Live Preview</h2>
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <div class="preview-dots">
+                            <div class="preview-dot red"></div>
+                            <div class="preview-dot yellow"></div>
+                            <div class="preview-dot green"></div>
+                        </div>
+                        <div class="preview-title">↓ Scroll down to see effect</div>
+                    </div>
+                    <div class="preview-scroll" id="previewScroll">
+                        <div class="preview-section">
+                            <div style="color: white; font-size: 1.2rem; text-align: center;">
+                                👇 Scroll down to see the animation
+                            </div>
+                        </div>
+                        <div class="preview-section">
+                            <div class="preview-element" id="previewElement">🚀</div>
+                        </div>
+                        <div class="preview-section">
+                            <div style="color: white; font-size: 1.2rem; text-align: center;">
+                                Keep scrolling...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="generateCode()">💻 Code anzeigen</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyJS()">📋 JS kopieren</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="code-modal" id="codeModal">
+        <div class="code-content">
+            <div class="code-header">
+                <h3 style="color: white;">📦 Exportierter Code</h3>
+                <button class="code-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="code-body">
+                <div class="code-label">HTML</div>
+                <div class="code-block"><pre id="htmlCode"></pre></div>
+                <div class="code-label">CSS</div>
+                <div class="code-block"><pre id="cssCode"></pre></div>
+                <div class="code-label">JavaScript</div>
+                <div class="code-block"><pre id="jsCode"></pre></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentEffect = 'fade';
+        let speed = 0.8;
+        let offset = 100;
+        let scale = 0.5;
+
+        const effects = {
+            'fade': { opacity: 0, transform: 'none', filter: 'none' },
+            'slide-up': { opacity: 0, transform: 'translateY(100px)', filter: 'none' },
+            'slide-down': { opacity: 0, transform: 'translateY(-100px)', filter: 'none' },
+            'slide-left': { opacity: 0, transform: 'translateX(-100px)', filter: 'none' },
+            'slide-right': { opacity: 0, transform: 'translateX(100px)', filter: 'none' },
+            'zoom': { opacity: 0, transform: 'scale(0.5)', filter: 'none' },
+            'flip': { opacity: 0, transform: 'rotateX(90deg)', filter: 'none' },
+            'rotate': { opacity: 0, transform: 'rotate(-180deg) scale(0.5)', filter: 'none' }
+        };
+
+        function setEffect(effect, el) {
+            currentEffect = effect;
+            document.querySelectorAll('.effect-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            resetPreview();
+        }
+
+        function updateSpeed() {
+            speed = parseFloat(document.getElementById('speed').value);
+            document.getElementById('speedValue').textContent = speed + 's';
+            const el = document.getElementById('previewElement');
+            el.style.transitionDuration = speed + 's';
+        }
+
+        function updateOffset() {
+            offset = parseInt(document.getElementById('offset').value);
+            document.getElementById('offsetValue').textContent = offset + 'px';
+        }
+
+        function updateScale() {
+            scale = parseFloat(document.getElementById('scale').value);
+            document.getElementById('scaleValue').textContent = scale;
+            if (currentEffect === 'zoom') {
+                resetPreview();
+            }
+        }
+
+        function updateColor() {
+            const color = document.getElementById('elementColor').value;
+            document.getElementById('elementColorValue').textContent = color;
+            document.getElementById('previewElement').style.background = color;
+        }
+
+        function updateEmoji() {
+            const emoji = document.getElementById('elementEmoji').value || '🚀';
+            document.getElementById('previewElement').textContent = emoji;
+        }
+
+        function resetPreview() {
+            const el = document.getElementById('previewElement');
+            const effect = effects[currentEffect];
+            
+            // Apply custom scale for zoom effect
+            let transform = effect.transform;
+            if (currentEffect === 'zoom') {
+                transform = `scale(${scale})`;
+            }
+            
+            el.style.opacity = effect.opacity;
+            el.style.transform = transform;
+            el.style.filter = effect.filter;
+            el.style.transitionDuration = speed + 's';
+            el.classList.remove('animated');
+            
+            // Force reflow
+            void el.offsetWidth;
+        }
+
+        function checkScroll() {
+            const scrollContainer = document.getElementById('previewScroll');
+            const element = document.getElementById('previewElement');
+            const effect = effects[currentEffect];
+            
+            const containerRect = scrollContainer.getBoundingClientRect();
+            const elementRect = element.getBoundingClientRect();
+            
+            // Calculate relative position within scroll container
+            const relativeTop = elementRect.top - containerRect.top;
+            const triggerPoint = containerRect.height / 2 + offset;
+            
+            if (relativeTop < triggerPoint && relativeTop > -100) {
+                // Element is in view - animate in
+                element.classList.add('animated');
+            } else {
+                // Element is out of view - reset
+                element.classList.remove('animated');
+                
+                let transform = effect.transform;
+                if (currentEffect === 'zoom') {
+                    transform = `scale(${scale})`;
+                }
+                
+                element.style.opacity = effect.opacity;
+                element.style.transform = transform;
+                element.style.filter = effect.filter;
+            }
+        }
+
+        function generateCode() {
+            const color = document.getElementById('elementColor').value;
+            const emoji = document.getElementById('elementEmoji').value || '🚀';
+            const effect = effects[currentEffect];
+
+            const html = `<div class="scroll-element" data-effect="${currentEffect}">
+    ${emoji}
+</div>`;
+
+            let initialTransform = effect.transform;
+            if (currentEffect === 'zoom') {
+                initialTransform = `scale(${scale})`;
+            }
+
+            const css = `.scroll-element {
+    opacity: 0;
+    transform: ${initialTransform};
+    transition: opacity ${speed}s ease-out, transform ${speed}s ease-out;
+    background: ${color};
+    padding: 40px;
+    border-radius: 20px;
+    font-size: 3rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.scroll-element.visible {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0);
+    filter: none;
+}`;
+
+            const js = `// Scroll Effects JavaScript
+const scrollElements = document.querySelectorAll('.scroll-element');
+
+const checkScroll = () => {
+    scrollElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const triggerPoint = window.innerHeight - ${offset};
+        
+        if (elementTop < triggerPoint) {
+            el.classList.add('visible');
+        }
+    });
+};
+
+window.addEventListener('scroll', checkScroll);
+window.addEventListener('load', checkScroll);
+window.addEventListener('resize', checkScroll);`;
+
+            document.getElementById('htmlCode').textContent = html;
+            document.getElementById('cssCode').textContent = css;
+            document.getElementById('jsCode').textContent = js;
+            document.getElementById('codeModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('codeModal').classList.remove('active');
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('cssCode').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copyJS() {
+            navigator.clipboard.writeText(document.getElementById('jsCode').textContent)
+                .then(() => alert('✅ JS kopiert!'));
+        }
+
+        // Initialize
+        document.getElementById('previewScroll').addEventListener('scroll', checkScroll);
+        window.addEventListener('load', () => {
+            resetPreview();
+            setTimeout(checkScroll, 100);
+        });
+
+        document.getElementById('codeModal').addEventListener('click', (e) => {
+            if (e.target.id === 'codeModal') closeModal();
+        });
+    </script>
+</body>
+</html>

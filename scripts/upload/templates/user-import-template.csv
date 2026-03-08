@@ -1,0 +1,6 @@
+DisplayName,UPN,Department,License,Groups
+"Max Muster",,Vertrieb,ENTERPRISEPACK,Vertrieb;All
+"Anna Beispiel",,IT,ENTERPRISEPACK,IT-Admin;All
+"Hans Meier",hans.meier@firma.ch,HR,STANDARDPACK,HR-Team
+"Maria Müller",,Marketing,STANDARDPACK,Marketing;All
+"Peter Schmid",,Geschäftsleitung,ENTERPRISEPACK,Management;All

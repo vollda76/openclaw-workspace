@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♿ Contrast Checker – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #00f2fe, #4facfe, #00c853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .checker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 60px; height: 60px; border: none; border-radius: 12px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; font-size: 1.1rem; }
+        .preview-box { height: 150px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 20px 0; transition: all 0.3s ease; }
+        .result-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 1.5rem; margin-top: 20px; }
+        .ratio-display { font-size: 3rem; font-weight: 800; text-align: center; margin: 1rem 0; }
+        .ratio-label { text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+        .wcag-level { display: flex; gap: 10px; justify-content: center; margin-top: 1rem; }
+        .wcag-badge { padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.875rem; }
+        .wcag-pass { background: rgba(0,200,83,0.2); color: #00c853; }
+        .wcag-fail { background: rgba(244,67,54,0.2); color: #f44336; }
+        .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .action-btn { flex: 1; padding: 1rem; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .action-btn-primary { background: linear-gradient(135deg, #00f2fe, #4facfe); color: white; }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .tips-list { margin-top: 20px; }
+        .tip-item { padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 10px; display: flex; gap: 10px; align-items: start; }
+        .tip-icon { font-size: 1.25rem; }
+        @media (max-width: 900px) { .checker-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">♿</div>
+            <h1>Contrast Checker</h1>
+            <p class="subtitle">WCAG Kontrastverhältnis prüfen</p>
+        </header>
+
+        <div class="checker-grid">
+            <div class="panel">
+                <h2 class="panel-title">🎨 Farben auswählen</h2>
+                
+                <div class="form-group">
+                    <label>📝 Text Farbe (Foreground)</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="fgColor" value="#ffffff" onchange="checkContrast()">
+                        <div class="color-value" id="fgValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔲 Hintergrund Farbe (Background)</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="bgColor" value="#1a1a2e" onchange="checkContrast()">
+                        <div class="color-value" id="bgValue">#1a1a2e</div>
+                    </div>
+                </div>
+
+                <div class="preview-box" id="previewBox">
+                    Sample Text Preview
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-secondary" onclick="swapColors()">🔄 Farben tauschen</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">📊 Ergebnis</h2>
+                
+                <div class="result-card">
+                    <div class="ratio-label">Kontrastverhältnis</div>
+                    <div class="ratio-display" id="ratioDisplay">21.00:1</div>
+                    <div class="wcag-level" id="wcagLevel"></div>
+                </div>
+
+                <div class="tips-list">
+                    <h3 style="margin-bottom: 1rem;">💡 WCAG Tipps</h3>
+                    <div class="tip-item">
+                        <span class="tip-icon">✅</span>
+                        <div><strong>Level AA (Normal):</strong> Mindestens 4.5:1 für normalen Text</div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✅</span>
+                        <div><strong>Level AA (Gross):</strong> Mindestens 3:1 für Text ≥18px oder ≥14px bold</div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">🏆</span>
+                        <div><strong>Level AAA:</strong> Mindestens 7:1 für normalen Text, 4.5:1 für grossen Text</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const a = [r, g, b].map(function (v) {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+        }
+
+        function getContrastRatio(hex1, hex2) {
+            const rgb1 = hexToRgb(hex1);
+            const rgb2 = hexToRgb(hex2);
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+            const brightest = Math.max(lum1, lum2);
+            const darkest = Math.min(lum1, lum2);
+            return (brightest + 0.05) / (darkest + 0.05);
+        }
+
+        function checkContrast() {
+            const fg = document.getElementById('fgColor').value;
+            const bg = document.getElementById('bgColor').value;
+
+            document.getElementById('fgValue').textContent = fg;
+            document.getElementById('bgValue').textContent = bg;
+
+            const preview = document.getElementById('previewBox');
+            preview.style.color = fg;
+            preview.style.background = bg;
+
+            const ratio = getContrastRatio(fg, bg);
+            document.getElementById('ratioDisplay').textContent = ratio.toFixed(2) + ':1';
+
+            const wcagLevel = document.getElementById('wcagLevel');
+            const aaNormal = ratio >= 4.5;
+            const aaLarge = ratio >= 3;
+            const aaaNormal = ratio >= 7;
+            const aaaLarge = ratio >= 4.5;
+
+            wcagLevel.innerHTML = `
+                <span class="wcag-badge ${aaNormal ? 'wcag-pass' : 'wcag-fail'}">AA Normal: ${aaNormal ? '✓' : '✗'}</span>
+                <span class="wcag-badge ${aaLarge ? 'wcag-pass' : 'wcag-fail'}">AA Large: ${aaLarge ? '✓' : '✗'}</span>
+                <span class="wcag-badge ${aaaNormal ? 'wcag-pass' : 'wcag-fail'}">AAA Normal: ${aaaNormal ? '✓' : '✗'}</span>
+                <span class="wcag-badge ${aaaLarge ? 'wcag-pass' : 'wcag-fail'}">AAA Large: ${aaaLarge ? '✓' : '✗'}</span>
+            `;
+        }
+
+        function swapColors() {
+            const fg = document.getElementById('fgColor').value;
+            const bg = document.getElementById('bgColor').value;
+            document.getElementById('fgColor').value = bg;
+            document.getElementById('bgColor').value = fg;
+            checkContrast();
+        }
+
+        window.onload = checkContrast;
+    </script>
+</body>
+</html>

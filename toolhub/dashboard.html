@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolHub Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-top: 20px;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+        
+        .user-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: #ef4444;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .app-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .app-card:hover::before {
+            opacity: 1;
+        }
+        
+        .app-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .app-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .app-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .app-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .app-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .app-btn.coming-soon {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .app-btn.coming-soon:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-bar {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🧰</div>
+            <h1>ToolHub Dashboard</h1>
+            <p class="subtitle">Your Toolkit for Digital Creation</p>
+        </header>
+        
+        <div class="user-bar">
+            <div class="user-info">
+                <div class="user-avatar">👤</div>
+                <div class="user-name">Welcome, Creator!</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+        
+        <div class="apps-grid">
+            <!-- ChromaLab -->
+            <div class="app-card" onclick="openApp('iconforge.html')">
+                <span class="app-icon">🎨</span>
+                <h2 class="app-name">ChromaLab</h2>
+                <p class="app-desc">Generate beautiful color palettes and gradients. Perfect for designers, developers, and creators who need stunning color schemes.</p>
+                <div class="app-tags">
+                    <span class="tag">Colors</span>
+                    <span class="tag">Palettes</span>
+                    <span class="tag">Gradients</span>
+                    <span class="tag">CSS</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- IconForge -->
+            <div class="app-card" onclick="openApp('iconforge.html')">
+                <span class="app-icon">🔥</span>
+                <h2 class="app-name">IconForge</h2>
+                <p class="app-desc">Create & customize icons with SVG export. Choose from 30+ icons, add backgrounds, export as SVG.</p>
+                <div class="app-tags">
+                    <span class="tag">Icons</span>
+                    <span class="tag">SVG</span>
+                    <span class="tag">Design</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- FontFinder -->
+            <div class="app-card" onclick="openApp('fontfinder.html')">
+                <span class="app-icon">🔤</span>
+                <h2 class="app-name">FontFinder</h2>
+                <p class="app-desc">Test Google Fonts with custom text. Adjust size, weight, spacing, and export CSS.</p>
+                <div class="app-tags">
+                    <span class="tag">Fonts</span>
+                    <span class="tag">Typography</span>
+                    <span class="tag">Google Fonts</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- MockupMaker -->
+            <div class="app-card" onclick="openApp('mockupmaker.html')">
+                <span class="app-icon">📱</span>
+                <h2 class="app-name">MockupMaker</h2>
+                <p class="app-desc">Create stunning mockups for your designs. Device frames, backgrounds, and more.</p>
+                <div class="app-tags">
+                    <span class="tag">Mockups</span>
+                    <span class="tag">Design</span>
+                    <span class="tag">Templates</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- CodeSnippet -->
+            <div class="app-card" onclick="openApp('codesnippet.html')">
+                <span class="app-icon">📝</span>
+                <h2 class="app-name">CodeSnippet</h2>
+                <p class="app-desc">16+ ready-to-use code snippets for CSS, JS, HTML. Search, copy, and paste into your projects.</p>
+                <div class="app-tags">
+                    <span class="tag">Code</span>
+                    <span class="tag">Snippets</span>
+                    <span class="tag">Developer</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- AssetPack -->
+            <div class="app-card" onclick="openApp('assetpack.html')">
+                <span class="app-icon">📦</span>
+                <h2 class="app-name">AssetPack</h2>
+                <p class="app-desc">Curated collection of free design assets. Icons, illustrations, patterns, and more.</p>
+                <div class="app-tags">
+                    <span class="tag">Assets</span>
+                    <span class="tag">Resources</span>
+                    <span class="tag">Free</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: BG Generator -->
+            <div class="app-card">
+                <span class="app-icon">🌊</span>
+                <h2 class="app-name">BG Generator</h2>
+                <p class="app-desc">Create stunning animated backgrounds with gradients, patterns, and particles. Export as CSS or video.</p>
+                <div class="app-tags">
+                    <span class="tag">Backgrounds</span>
+                    <span class="tag">Animation</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: UI Inspector -->
+            <div class="app-card">
+                <span class="app-icon">🔍</span>
+                <h2 class="app-name">UI Inspector</h2>
+                <p class="app-desc">Analyze any website's colors, fonts, and spacing. Extract design tokens instantly.</p>
+                <div class="app-tags">
+                    <span class="tag">Analysis</span>
+                    <span class="tag">Colors</span>
+                    <span class="tag">Fonts</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Shadow Studio -->
+            <div class="app-card" onclick="openApp('shadow-studio.html')">
+                <span class="app-icon">✨</span>
+                <h2 class="app-name">Shadow Studio</h2>
+                <p class="app-desc">Craft perfect box-shadows and text-shadows with real-time preview. Export CSS instantly.</p>
+                <div class="app-tags">
+                    <span class="tag">Shadows</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">Effects</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Grid Builder -->
+            <div class="app-card" onclick="openApp('grid-builder.html')">
+                <span class="app-icon">📐</span>
+                <h2 class="app-name">Grid Builder</h2>
+                <p class="app-desc">Build CSS Grid layouts visually. Customize columns, rows, gap, and export ready-to-use CSS.</p>
+                <div class="app-tags">
+                    <span class="tag">Grid</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">Layout</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- SVG Editor -->
+            <div class="app-card" onclick="openApp('svg-editor.html')">
+                <span class="app-icon">🎨</span>
+                <h2 class="app-name">SVG Editor</h2>
+                <p class="app-desc">Create SVG shapes easily. 8 shape types, customizable colors, stroke, and export options.</p>
+                <div class="app-tags">
+                    <span class="tag">SVG</span>
+                    <span class="tag">Vector</span>
+                    <span class="tag">Shapes</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Contrast Checker -->
+            <div class="app-card" onclick="openApp('contrast-checker.html')">
+                <span class="app-icon">♿</span>
+                <h2 class="app-name">Contrast Checker</h2>
+                <p class="app-desc">Test color combinations for WCAG accessibility compliance. Ensure readable designs.</p>
+                <div class="app-tags">
+                    <span class="tag">Accessibility</span>
+                    <span class="tag">Colors</span>
+                    <span class="tag">WCAG</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Loader Maker -->
+            <div class="app-card" onclick="openApp('loader-maker.html')">
+                <span class="app-icon">⏳</span>
+                <h2 class="app-name">Loader Maker</h2>
+                <p class="app-desc">Create custom loading animations. 8 loader types, pure CSS, customizable speed and colors.</p>
+                <div class="app-tags">
+                    <span class="tag">Animations</span>
+                    <span class="tag">Loaders</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Glassmorphism Gen -->
+            <div class="app-card">
+                <span class="app-icon">🪟</span>
+                <h2 class="app-name">Glassmorphism Gen</h2>
+                <p class="app-desc">Generate beautiful glassmorphic cards and effects with backdrop blur and borders.</p>
+                <div class="app-tags">
+                    <span class="tag">Effects</span>
+                    <span class="tag">Glassmorphism</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Neumorphism UI -->
+            <div class="app-card">
+                <span class="app-icon">🔘</span>
+                <h2 class="app-name">Neumorphism UI</h2>
+                <p class="app-desc">Create soft UI components with neumorphic shadows and depth. Buttons, cards, inputs.</p>
+                <div class="app-tags">
+                    <span class="tag">Neumorphism</span>
+                    <span class="tag">UI</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Blob Maker -->
+            <div class="app-card" onclick="openApp('blob-maker.html')">
+                <span class="app-icon">🫧</span>
+                <h2 class="app-name">Blob Maker</h2>
+                <p class="app-desc">Generate organic blob shapes with CSS clip-path. Perfect for modern web designs.</p>
+                <div class="app-tags">
+                    <span class="tag">Shapes</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">Clip-path</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Border Radius Pro -->
+            <div class="app-card" onclick="openApp('border-radius-pro.html')">
+                <span class="app-icon">🔲</span>
+                <h2 class="app-name">Border Radius Pro</h2>
+                <p class="app-desc">Advanced border radius generator with asymmetric curves and smooth corners.</p>
+                <div class="app-tags">
+                    <span class="tag">Border Radius</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">Shapes</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Animation Keyframes -->
+            <div class="app-card" onclick="openApp('animation-keyframes.html')">
+                <span class="app-icon">🎬</span>
+                <h2 class="app-name">Animation Keyframes</h2>
+                <p class="app-desc">Visual CSS animation builder. Create complex keyframe animations without code.</p>
+                <div class="app-tags">
+                    <span class="tag">Animation</span>
+                    <span class="tag">Keyframes</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Scroll Effects -->
+            <div class="app-card" onclick="openApp('scroll-effects.html')">
+                <span class="app-icon">📜</span>
+                <h2 class="app-name">Scroll Effects</h2>
+                <p class="app-desc">Create scroll-triggered animations and parallax effects. CSS & JS export.</p>
+                <div class="app-tags">
+                    <span class="tag">Scroll</span>
+                    <span class="tag">Parallax</span>
+                    <span class="tag">Animation</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Clip Path Studio -->
+            <div class="app-card">
+                <span class="app-icon">✂️</span>
+                <h2 class="app-name">Clip Path Studio</h2>
+                <p class="app-desc">Visual CSS clip-path generator. Create complex shapes and masks with ease.</p>
+                <div class="app-tags">
+                    <span class="tag">Clip-path</span>
+                    <span class="tag">Shapes</span>
+                    <span class="tag">Masks</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Noise Texture Gen -->
+            <div class="app-card">
+                <span class="app-icon">📺</span>
+                <h2 class="app-name">Noise Texture Gen</h2>
+                <p class="app-desc">Generate grain and noise textures for retro and organic design effects.</p>
+                <div class="app-tags">
+                    <span class="tag">Textures</span>
+                    <span class="tag">Noise</span>
+                    <span class="tag">SVG</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Morphing Shapes -->
+            <div class="app-card">
+                <span class="app-icon">🔄</span>
+                <h2 class="app-name">Morphing Shapes</h2>
+                <p class="app-desc">Create smooth shape-shifting animations with SVG and CSS. Mesmerizing effects.</p>
+                <div class="app-tags">
+                    <span class="tag">Morphing</span>
+                    <span class="tag">SVG</span>
+                    <span class="tag">Animation</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Duotone Image Filter -->
+            <div class="app-card">
+                <span class="app-icon">🎨</span>
+                <h2 class="app-name">Duotone Image Filter</h2>
+                <p class="app-desc">Apply beautiful duotone effects to images. Multiple presets and custom colors.</p>
+                <div class="app-tags">
+                    <span class="tag">Duotone</span>
+                    <span class="tag">Filters</span>
+                    <span class="tag">Images</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Text Gradient Maker -->
+            <div class="app-card">
+                <span class="app-icon">🌈</span>
+                <h2 class="app-name">Text Gradient Maker</h2>
+                <p class="app-desc">Create stunning gradient text effects with multiple colors and directions.</p>
+                <div class="app-tags">
+                    <span class="tag">Gradients</span>
+                    <span class="tag">Text</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Button Generator -->
+            <div class="app-card" onclick="openApp('button-generator.html')">
+                <span class="app-icon">🔳</span>
+                <h2 class="app-name">Button Generator</h2>
+                <p class="app-desc">Design beautiful buttons with hover effects, gradients, and animations. Export CSS.</p>
+                <div class="app-tags">
+                    <span class="tag">Buttons</span>
+                    <span class="tag">UI</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Card Designer -->
+            <div class="app-card">
+                <span class="app-icon">🃏</span>
+                <h2 class="app-name">Card Designer</h2>
+                <p class="app-desc">Build stunning card components with shadows, borders, and hover effects.</p>
+                <div class="app-tags">
+                    <span class="tag">Cards</span>
+                    <span class="tag">UI</span>
+                    <span class="tag">Components</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Input Styler -->
+            <div class="app-card">
+                <span class="app-icon">📝</span>
+                <h2 class="app-name">Input Styler</h2>
+                <p class="app-desc">Design beautiful form inputs with focus states, floating labels, and validation styles.</p>
+                <div class="app-tags">
+                    <span class="tag">Forms</span>
+                    <span class="tag">Inputs</span>
+                    <span class="tag">UI</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- Coming Soon: Avatar Maker -->
+            <div class="app-card">
+                <span class="app-icon">👤</span>
+                <h2 class="app-name">Avatar Maker</h2>
+                <p class="app-desc">Generate unique avatar placeholders with initials, colors, and fun illustrations.</p>
+                <div class="app-tags">
+                    <span class="tag">Avatars</span>
+                    <span class="tag">Placeholders</span>
+                    <span class="tag">SVG</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+            
+            <!-- QR Code Art -->
+            <div class="app-card" onclick="openApp('qrcode-art.html')">
+                <span class="app-icon">📱</span>
+                <h2 class="app-name">QR Code Art</h2>
+                <p class="app-desc">Create beautiful custom QR codes with colors, gradients, and embedded logos.</p>
+                <div class="app-tags">
+                    <span class="tag">QR Codes</span>
+                    <span class="tag">Design</span>
+                    <span class="tag">Generator</span>
+                    <span class="tag" style="background: rgba(0, 255, 136, 0.2); color: #00ff88;">New!</span>
+                </div>
+                <button class="app-btn">
+                    Launch App <span>→</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value">23</div>
+                <div class="stat-label">Apps Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Coming Soon</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Possibilities</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>ToolHub – Built for Creators, by Creators</p>
+            <p style="margin-top: 0.5rem;">Made with 💜 in Switzerland</p>
+        </div>
+    </div>
+    
+    <script>
+        // Check authentication
+        if (sessionStorage.getItem('toolhub_auth') !== 'true') {
+            window.location.href = 'toolhub.html';
+        }
+        
+        // Open app
+        function openApp(url) {
+            window.location.href = url;
+        }
+        
+        // Logout
+        function logout() {
+            sessionStorage.removeItem('toolhub_auth');
+            window.location.href = 'toolhub.html';
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Number keys to launch apps
+            if (e.key >= '1' && e.key <= '6') {
+                const index = parseInt(e.key) - 1;
+                const cards = document.querySelectorAll('.app-card');
+                if (cards[index] && !cards[index].querySelector('.coming-soon')) {
+                    cards[index].click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

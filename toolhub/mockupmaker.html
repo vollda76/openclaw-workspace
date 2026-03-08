@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MockupMaker – ToolHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+        
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Device Selection */
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .device-btn {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .device-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .device-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+        }
+        
+        .device-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .device-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-hint {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+        
+        #imageInput {
+            display: none;
+        }
+        
+        /* Background Selection */
+        .bg-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .bg-btn {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .bg-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .bg-btn.active {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .bg-btn.gradient-1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .bg-btn.gradient-2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .bg-btn.gradient-3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .bg-btn.gradient-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .bg-btn.gradient-5 { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .bg-btn.gradient-6 { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+        .bg-btn.solid-1 { background: #0f0f1a; }
+        .bg-btn.solid-2 { background: #1a1a2e; }
+        
+        /* Color Picker */
+        .color-picker-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .color-picker-group input[type="color"] {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .color-picker-group input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.95rem;
+        }
+        
+        /* Preview Area */
+        .preview-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .mockup-wrapper {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .mockup-device {
+            position: relative;
+            background: #1a1a2e;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .mockup-screen {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .mockup-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* iPhone Frame */
+        .device-iphone .mockup-device {
+            width: 340px;
+            height: 700px;
+            border: 10px solid #1a1a1a;
+            border-radius: 45px;
+            background: #1a1a1a;
+            position: relative;
+        }
+        
+        .device-iphone .mockup-device::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: #1a1a1a;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            z-index: 10;
+        }
+        
+        .device-iphone .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 36px;
+            overflow: hidden;
+        }
+        
+        /* Android Frame */
+        .device-android .mockup-device {
+            width: 350px;
+            height: 720px;
+            border: 8px solid #1a1a1a;
+            border-radius: 28px;
+            background: #1a1a1a;
+        }
+        
+        .device-android .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        /* iPad Frame */
+        .device-ipad .mockup-device {
+            width: 600px;
+            height: 800px;
+            border: 10px solid #1a1a1a;
+            border-radius: 28px;
+            background: #1a1a1a;
+            position: relative;
+        }
+        
+        .device-ipad .mockup-device::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 6px;
+            background: #2d2d2d;
+            border-radius: 3px;
+        }
+        
+        .device-ipad .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        
+        /* MacBook Frame */
+        .device-macbook .mockup-device {
+            width: 900px;
+            height: 580px;
+            border: 10px solid #2d2d2d;
+            border-radius: 16px;
+            background: #2d2d2d;
+            position: relative;
+            border-bottom-width: 50px;
+        }
+        
+        .device-macbook .mockup-device::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 3px;
+        }
+        
+        .device-macbook .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* iMac Frame */
+        .device-imac .mockup-device {
+            width: 1000px;
+            height: 650px;
+            border: 8px solid #1a1a1a;
+            border-radius: 20px;
+            background: #1a1a1a;
+            position: relative;
+        }
+        
+        .device-imac .mockup-device::before {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 60px;
+            background: linear-gradient(to bottom, #2d2d2d 0%, #1a1a1a 100%);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+        }
+        
+        .device-imac .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        /* Apple Watch Frame */
+        .device-watch .mockup-device {
+            width: 220px;
+            height: 280px;
+            border: 8px solid #1a1a1a;
+            border-radius: 50px;
+            background: #1a1a1a;
+            position: relative;
+        }
+        
+        .device-watch .mockup-device::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: -4px;
+            width: 6px;
+            height: 50px;
+            background: #2d2d2d;
+            border-radius: 3px 0 0 3px;
+        }
+        
+        .device-watch .mockup-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 42px;
+            overflow: hidden;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Shadow Controls */
+        .shadow-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-group label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            appearance: none;
+        }
+        
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 1024px) {
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+            <div class="logo">📱</div>
+            <h1>MockupMaker</h1>
+            <p class="subtitle">Create stunning device mockups in seconds</p>
+        </header>
+        
+        <div class="app-grid">
+            <!-- Controls Panel -->
+            <div class="panel">
+                <h2 class="panel-title">🎛️ Configure</h2>
+                
+                <!-- Device Selection -->
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Select Device</label>
+                    <div class="device-grid">
+                        <div class="device-btn active" data-device="iphone" onclick="selectDevice('iphone')">
+                            <span class="device-icon">📱</span>
+                            <span class="device-name">iPhone 15</span>
+                        </div>
+                        <div class="device-btn" data-device="android" onclick="selectDevice('android')">
+                            <span class="device-icon">📲</span>
+                            <span class="device-name">Android</span>
+                        </div>
+                        <div class="device-btn" data-device="ipad" onclick="selectDevice('ipad')">
+                            <span class="device-icon">📟</span>
+                            <span class="device-name">iPad Pro</span>
+                        </div>
+                        <div class="device-btn" data-device="macbook" onclick="selectDevice('macbook')">
+                            <span class="device-icon">💻</span>
+                            <span class="device-name">MacBook</span>
+                        </div>
+                        <div class="device-btn" data-device="imac" onclick="selectDevice('imac')">
+                            <span class="device-icon">🖥️</span>
+                            <span class="device-name">iMac</span>
+                        </div>
+                        <div class="device-btn" data-device="watch" onclick="selectDevice('watch')">
+                            <span class="device-icon">⌚</span>
+                            <span class="device-name">Apple Watch</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upload -->
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">Drop your screenshot here</div>
+                    <div class="upload-hint">or click to browse (PNG, JPG)</div>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+                
+                <!-- Background -->
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Background</label>
+                    <div class="bg-grid">
+                        <div class="bg-btn gradient-1 active" onclick="selectBackground('gradient', ['#667eea', '#764ba2'])"></div>
+                        <div class="bg-btn gradient-2" onclick="selectBackground('gradient', ['#f093fb', '#f5576c'])"></div>
+                        <div class="bg-btn gradient-3" onclick="selectBackground('gradient', ['#4facfe', '#00f2fe'])"></div>
+                        <div class="bg-btn gradient-4" onclick="selectBackground('gradient', ['#43e97b', '#38f9d7'])"></div>
+                        <div class="bg-btn gradient-5" onclick="selectBackground('gradient', ['#fa709a', '#fee140'])"></div>
+                        <div class="bg-btn gradient-6" onclick="selectBackground('gradient', ['#a8edea', '#fed6e3'])"></div>
+                        <div class="bg-btn solid-1" onclick="selectBackground('solid', '#0f0f1a')"></div>
+                        <div class="bg-btn solid-2" onclick="selectBackground('solid', '#1a1a2e')"></div>
+                    </div>
+                </div>
+                
+                <!-- Custom Color -->
+                <div class="color-picker-group">
+                    <input type="color" id="customColor" value="#667eea" onchange="updateCustomColor(this.value)">
+                    <input type="text" id="customColorText" value="#667eea" placeholder="#667eea" onchange="updateCustomColor(this.value)">
+                </div>
+                
+                <!-- Shadow -->
+                <div class="shadow-controls">
+                    <div class="control-group">
+                        <label>Shadow Intensity</label>
+                        <input type="range" id="shadowIntensity" min="0" max="100" value="50" oninput="updateShadow()">
+                    </div>
+                    <div class="control-group">
+                        <label>Scale</label>
+                        <input type="range" id="mockupScale" min="50" max="100" value="100" oninput="updateScale()">
+                    </div>
+                </div>
+                
+                <!-- Actions -->
+                <button class="action-btn" onclick="downloadMockup()">📥 Download Mockup</button>
+                <button class="action-btn secondary" onclick="resetAll()">🔄 Reset</button>
+            </div>
+            
+            <!-- Preview Panel -->
+            <div class="panel">
+                <h2 class="panel-title">👁️ Preview</h2>
+                
+                <div class="preview-container" id="previewContainer">
+                    <div class="mockup-wrapper" id="mockupWrapper">
+                        <div class="mockup-device device-iphone" id="mockupDevice">
+                            <div class="mockup-screen">
+                                <img src="" alt="Mockup" class="mockup-image" id="mockupImage">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.875rem;">
+                    Preview updates automatically
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentDevice = 'iphone';
+        let currentBgType = 'gradient';
+        let currentBgColors = ['#667eea', '#764ba2'];
+        let uploadedImage = null;
+        
+        // Device selection
+        function selectDevice(device) {
+            currentDevice = device;
+            
+            document.querySelectorAll('.device-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.device === device);
+            });
+            
+            const mockupDevice = document.getElementById('mockupDevice');
+            mockupDevice.className = 'mockup-device device-' + device;
+            
+            // Update image placeholder based on device
+            updatePlaceholder(device);
+            updatePreview();
+        }
+        
+        // Update placeholder for different devices
+        function updatePlaceholder(device) {
+            const sizes = {
+                iphone: { w: 340, h: 700, text: 'iPhone Screenshot' },
+                android: { w: 350, h: 720, text: 'Android Screenshot' },
+                ipad: { w: 600, h: 800, text: 'iPad Screenshot' },
+                macbook: { w: 900, h: 580, text: 'MacBook Screenshot' },
+                imac: { w: 1000, h: 650, text: 'iMac Screenshot' },
+                watch: { w: 220, h: 280, text: 'Watch Face' }
+            };
+            
+            const size = sizes[device] || sizes.iphone;
+            const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size.w}' height='${size.h}'><rect fill='%23f0f0f0' width='${size.w}' height='${size.h}'/><text x='50%' y='50%' text-anchor='middle' dominant-baseline='central' fill='%23999' font-size='18'>${size.text}</text></svg>`;
+            document.getElementById('mockupImage').src = "data:image/svg+xml," + encodeURIComponent(svg);
+        }
+        
+        // Background selection
+        function selectBackground(type, colors) {
+            currentBgType = type;
+            currentBgColors = colors;
+            
+            document.querySelectorAll('.bg-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updatePreview();
+        }
+        
+        // Custom color
+        function updateCustomColor(color) {
+            document.getElementById('customColor').value = color;
+            document.getElementById('customColorText').value = color;
+            currentBgType = 'custom';
+            currentBgColors = [color, color];
+            
+            document.querySelectorAll('.bg-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            updatePreview();
+        }
+        
+        // Update shadow
+        function updateShadow() {
+            updatePreview();
+        }
+        
+        // Update scale
+        function updateScale() {
+            updatePreview();
+        }
+        
+        // File upload
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage = event.target.result;
+                    document.getElementById('mockupImage').src = uploadedImage;
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', function() {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImage = event.target.result;
+                    document.getElementById('mockupImage').src = uploadedImage;
+                    document.getElementById('imageInput').files = e.dataTransfer.files;
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Update preview
+        function updatePreview() {
+            const container = document.getElementById('previewContainer');
+            const intensity = document.getElementById('shadowIntensity').value / 100;
+            const scale = document.getElementById('mockupScale').value / 100;
+            
+            // Background
+            let bgStyle;
+            if (currentBgType === 'gradient') {
+                bgStyle = `linear-gradient(135deg, ${currentBgColors[0]}, ${currentBgColors[1]})`;
+            } else {
+                bgStyle = currentBgColors[0];
+            }
+            container.style.background = bgStyle;
+            
+            // Shadow
+            const shadowValue = intensity * 50;
+            const mockupWrapper = document.getElementById('mockupWrapper');
+            mockupWrapper.style.filter = `drop-shadow(0 ${shadowValue}px ${shadowValue/2}px rgba(0,0,0,${0.3 + intensity * 0.3}))`;
+            
+            // Scale
+            mockupWrapper.style.transform = `scale(${scale})`;
+        }
+        
+        // Download mockup
+        function downloadMockup() {
+            const preview = document.getElementById('mockupPreview');
+            
+            // Create canvas and draw the mockup
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size (high resolution)
+            const scale = 2; // 2x for retina
+            canvas.width = 800 * scale;
+            canvas.height = 600 * scale;
+            ctx.scale(scale, scale);
+            
+            // Draw background
+            if (currentBackground.type === 'gradient') {
+                const gradient = ctx.createLinearGradient(0, 0, 800, 600);
+                gradient.addColorStop(0, currentBackground.colors[0]);
+                gradient.addColorStop(1, currentBackground.colors[1]);
+                ctx.fillStyle = gradient;
+            } else {
+                ctx.fillStyle = currentBackground.colors[0];
+            }
+            ctx.fillRect(0, 0, 800, 600);
+            
+            // Draw device frame
+            const device = devices[currentDevice];
+            const frameWidth = device.width + (device.border * 2);
+            const frameHeight = device.height + (device.border * 2);
+            const x = (800 - frameWidth) / 2;
+            const y = (600 - frameHeight) / 2;
+            
+            // Shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 30;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 10;
+            
+            // Device frame
+            ctx.fillStyle = '#1a1a1a';
+            roundRect(ctx, x, y, frameWidth, frameHeight, device.radius);
+            ctx.fill();
+            
+            // Reset shadow for screen
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            
+            // Screen area
+            const screenX = x + device.border;
+            const screenY = y + device.border;
+            const screenW = device.width;
+            const screenH = device.height;
+            
+            // Clip to screen area
+            ctx.save();
+            roundRect(ctx, screenX, screenY, screenW, screenH, device.radius - device.border);
+            ctx.clip();
+            
+            // Draw uploaded image or placeholder
+            if (uploadedImage) {
+                // Calculate aspect ratio fit
+                const imgRatio = uploadedImage.width / uploadedImage.height;
+                const screenRatio = screenW / screenH;
+                let drawX, drawY, drawW, drawH;
+                
+                if (imgRatio > screenRatio) {
+                    drawH = screenH;
+                    drawW = screenH * imgRatio;
+                    drawX = screenX + (screenW - drawW) / 2;
+                    drawY = screenY;
+                } else {
+                    drawW = screenW;
+                    drawH = screenW / imgRatio;
+                    drawX = screenX;
+                    drawY = screenY + (screenH - drawH) / 2;
+                }
+                
+                ctx.drawImage(uploadedImage, drawX, drawY, drawW, drawH);
+            } else {
+                ctx.fillStyle = '#2a2a3a';
+                ctx.fillRect(screenX, screenY, screenW, screenH);
+                ctx.fillStyle = '#667eea';
+                ctx.font = 'bold 24px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('📱 MockupMaker', screenX + screenW/2, screenY + screenH/2 - 20);
+                ctx.font = '16px Inter, sans-serif';
+                ctx.fillText('Upload an image to preview', screenX + screenW/2, screenY + screenH/2 + 20);
+            }
+            
+            ctx.restore();
+            
+            // Download as PNG
+            const link = document.createElement('a');
+            link.download = `mockup-${currentDevice}-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Helper: Draw rounded rectangle
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+        
+        // Reset
+        function resetAll() {
+            uploadedImage = null;
+            document.getElementById('imageInput').value = '';
+            
+            selectDevice('iphone');
+            selectBackground('gradient', ['#667eea', '#764ba2']);
+            document.getElementById('shadowIntensity').value = 50;
+            document.getElementById('mockupScale').value = 100;
+            
+            updatePreview();
+        }
+        
+        // Initialize
+        updatePlaceholder('iphone');
+        updatePreview();
+    </script>
+</body>
+</html>

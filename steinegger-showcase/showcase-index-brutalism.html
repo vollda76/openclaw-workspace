@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEINEGGER IT - Brutalism</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --fg: #f0f0f0;
+            --accent: #ff3300;
+            --border: 3px solid var(--fg);
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        /* Raw grid lines */
+        .grid-line {
+            position: fixed;
+            background: rgba(240, 240, 240, 0.1);
+            z-index: 9999;
+        }
+
+        .grid-line.horizontal {
+            width: 100%;
+            height: 1px;
+            left: 0;
+        }
+
+        .grid-line.vertical {
+            height: 100%;
+            width: 1px;
+            top: 0;
+        }
+
+        /* Header - raw and aggressive */
+        header {
+            border-bottom: var(--border);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.1em;
+            text-transform: uppercase;
+            border: var(--border);
+            padding: 0.5rem 1rem;
+            background: var(--fg);
+            color: var(--bg);
+            display: inline-block;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            border: var(--border);
+            margin-left: -3px;
+        }
+
+        nav li:first-child {
+            margin-left: 0;
+        }
+
+        nav a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--fg);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0s;
+        }
+
+        nav a:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* Hero - aggressive statement */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            border-bottom: var(--border);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 15vw, 12rem);
+            font-weight: 900;
+            line-height: 0.8;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            word-break: break-word;
+        }
+
+        .hero h1 .highlight {
+            display: block;
+            color: var(--accent);
+            background: var(--fg);
+            padding: 0.5rem 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            max-width: 600px;
+            border-left: var(--border);
+            padding-left: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 3rem;
+            padding: 1.5rem 3rem;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: inherit;
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: var(--border);
+            transition: all 0s;
+            width: fit-content;
+        }
+
+        .cta-button:hover {
+            background: var(--fg);
+            color: var(--bg);
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0 var(--accent);
+        }
+
+        /* Services - raw cards */
+        .services {
+            border-bottom: var(--border);
+        }
+
+        .section-title {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 2rem;
+            border-bottom: var(--border);
+            letter-spacing: -0.05em;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .service-card {
+            border-right: var(--border);
+            border-bottom: var(--border);
+            padding: 2rem;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card:nth-child(3n) {
+            border-right: none;
+        }
+
+        .service-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            opacity: 0.8;
+            flex-grow: 1;
+        }
+
+        .service-card .arrow {
+            font-size: 3rem;
+            color: var(--accent);
+            align-self: flex-end;
+        }
+
+        /* About - raw text block */
+        .about {
+            border-bottom: var(--border);
+            padding: 4rem 2rem;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .about p {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .about .highlight-box {
+            border: var(--border);
+            padding: 2rem;
+            margin-top: 2rem;
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        .about .highlight-box h4 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact - aggressive form */
+        .contact {
+            border-bottom: var(--border);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .contact-info {
+            padding: 4rem 2rem;
+            border-right: var(--border);
+        }
+
+        .contact-info h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item label {
+            display: block;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item span {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .contact-form {
+            padding: 4rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--fg);
+            border: var(--border);
+            border-radius: 0;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            padding: 1.5rem 3rem;
+            background: var(--fg);
+            color: var(--bg);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: var(--border);
+            cursor: pointer;
+            transition: all 0s;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Footer - raw */
+        footer {
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            min-width: 200px;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--fg);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            width: 100%;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: var(--border);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        /* Glitch effect on hover for logo */
+        .logo:hover {
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                border-right: none;
+                border-bottom: var(--border);
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            nav li {
+                margin-left: 0 !important;
+                margin-top: -3px;
+            }
+
+            nav li:first-child {
+                margin-top: 0;
+            }
+        }
+
+        /* Raw selection color */
+        ::selection {
+            background: var(--accent);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid lines for brutalist aesthetic -->
+    <div class="grid-line horizontal" style="top: 25%;"></div>
+    <div class="grid-line horizontal" style="top: 50%;"></div>
+    <div class="grid-line horizontal" style="top: 75%;"></div>
+    <div class="grid-line vertical" style="left: 25%;"></div>
+    <div class="grid-line vertical" style="left: 50%;"></div>
+    <div class="grid-line vertical" style="left: 75%;"></div>
+
+    <header>
+        <div class="logo">STEINEGGER<span>IT</span></div>
+        <nav>
+            <ul>
+                <li><a href="#services">Leistungen</a></li>
+                <li><a href="#about">Über Uns</a></li>
+                <li><a href="#projects">Projekte</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>
+            IT-SUPPORT
+            <span class="highlight">OHNE</span>
+            SCHEISS
+        </h1>
+        <p class="hero-subtitle">
+            Steinegger IT: Ihr IT-Dienstleister für KMU. Server, Clients, Microsoft 365, Security. 
+            Schnell, zuverlässig, direkt.
+        </p>
+        <a href="#contact" class="cta-button">→ Projekt Starten</a>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">LEISTUNGEN</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div>
+                    <h3>IT-SUPPORT</h3>
+                    <p>Schnelle Hilfe bei Störungen. Remote & vor Ort. Für KMU in Biel, Seeland, Solothurn & Bern.</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3>MICROSOFT 365</h3>
+                    <p>Planung, Migration, Einrichtung & Support. Wir bringen Ihre IT in die Cloud – sicher & produktiv.</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3>SERVER & CLIENTS</h3>
+                    <p>Installation, Wartung, Updates. Wir halten Ihre Infrastruktur am Laufen – zuverlässig & stabil.</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3>IT-SICHERHEIT</h3>
+                    <p>Firewalls, Antivirus, Backup. Schutz vor Ransomware & Datenverlust. Weil Vorsorge besser ist.</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3>NETZWERK</h3>
+                    <p>LAN, WLAN, VPN. Wir bauen Netzwerke die funktionieren – klein, mittel oder standortübergreifend.</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3>BERATUNG</h3>
+                    <p>IT-Strategie, Beschaffung, Migration. Wir sagen dir was du wirklich brauchst – ohne Bullshit.</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-content">
+            <h2>ÜBER STEINEGGGER IT</h2>
+            <p>
+                Steinegger IT ist Ihr IT-Partner für KMU im Seeland, Biel, Solothurn und Bern. 
+                Keine Callcenter, keine Warteschleifen – bei uns reden Sie mit Menschen die Ahnung haben.
+            </p>
+            <p>
+                Wir kümmern uns um Ihre gesamte IT: Server, Clients, Microsoft 365, Security, Backup, Netzwerk. 
+                Proaktiv, zuverlässig, mit schneller Reaktionszeit.
+            </p>
+            <div class="highlight-box">
+                <h4>WARUM WIR?</h4>
+                <p>
+                    Weil IT einfach funktionieren muss. Wir lösen Probleme bevor Sie entstehen. 
+                    Und wenn was brennt, sind wir da – schnell und kompetent.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="section-title">KONTAKT</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>LASS UNS REDEN</h2>
+                <div class="contact-item">
+                    <label>EMAIL</label>
+                    <span>info@steinegger-it.ch</span>
+                </div>
+                <div class="contact-item">
+                    <label>TELEFON</label>
+                    <span>+41 XX XXX XX XX</span>
+                </div>
+                <div class="contact-item">
+                    <label>STANDORT</label>
+                    <span>Seeland, Schweiz</span>
+                </div>
+                <div class="contact-item">
+                    <label>VERFÜGBARKEIT</label>
+                    <span>Aktuell: Neue Projekte möglich</span>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Projekt</label>
+                        <textarea placeholder="Was hast du vor?"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">→ Abschicken</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-section">
+            <h4>Rechtliches</h4>
+            <ul>
+                <li><a href="#">Impressum</a></li>
+                <li><a href="#">Datenschutz</a></li>
+                <li><a href="#">AGB</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Social</h4>
+            <ul>
+                <li><a href="#">LinkedIn</a></li>
+                <li><a href="#">GitHub</a></li>
+                <li><a href="#">Twitter</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Standort</h4>
+            <p>Seeland<br>Schweiz<br>GMT+1</p>
+        </div>
+        <div class="copyright">
+            © 2026 Steinegger IT – Made with raw code, no framework bullshit.
+        </div>
+    </footer>
+</body>
+</html>

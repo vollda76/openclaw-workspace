@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔲 Border Radius Pro – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-box { width: 200px; height: 200px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 20px; transition: all 0.3s ease; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .corner-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .corner-input { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; }
+        .corner-input label { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 10px; display: block; }
+        .corner-input input { width: 100%; }
+        .toggle-group { display: flex; gap: 10px; margin-bottom: 1rem; }
+        .toggle-btn { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; }
+        .toggle-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); border-color: #667eea; }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🔲</div>
+            <h1>Border Radius Pro</h1>
+            <p class="subtitle">Erstelle asymmetrische Ecken und Smooth Corners</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Einstellungen</h2>
+                
+                <div class="form-group">
+                    <label>🎨 Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="boxColor" value="#667eea" onchange="updatePreview()">
+                        <div class="color-value" id="boxColorValue">#667eea</div>
+                    </div>
+                </div>
+
+                <div class="toggle-group">
+                    <button class="toggle-btn active" onclick="setMode('simple')">Einfach</button>
+                    <button class="toggle-btn" onclick="setMode('advanced')">Erweitert</button>
+                </div>
+
+                <div id="simpleMode">
+                    <div class="slider-group">
+                        <div class="slider-header"><label>🔴 Border Radius</label><span id="radiusValue">20px</span></div>
+                        <input type="range" id="radius" min="0" max="100" value="20" oninput="updatePreview()">
+                    </div>
+                </div>
+
+                <div id="advancedMode" style="display: none;">
+                    <div class="corner-grid">
+                        <div class="corner-input">
+                            <label>↖️ Top Left</label>
+                            <input type="range" id="tl" min="0" max="100" value="20" oninput="updatePreview()">
+                            <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.5);" id="tlValue">20px</div>
+                        </div>
+                        <div class="corner-input">
+                            <label>↗️ Top Right</label>
+                            <input type="range" id="tr" min="0" max="100" value="20" oninput="updatePreview()">
+                            <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.5);" id="trValue">20px</div>
+                        </div>
+                        <div class="corner-input">
+                            <label>↙️ Bottom Left</label>
+                            <input type="range" id="bl" min="0" max="100" value="20" oninput="updatePreview()">
+                            <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.5);" id="blValue">20px</div>
+                        </div>
+                        <div class="corner-input">
+                            <label>↘️ Bottom Right</label>
+                            <input type="range" id="br" min="0" max="100" value="20" oninput="updatePreview()">
+                            <div style="text-align:right;font-size:0.75rem;color:rgba(255,255,255,0.5);" id="brValue">20px</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Breite</label><span id="widthValue">200px</span></div>
+                    <input type="range" id="boxWidth" min="100" max="300" value="200" oninput="updatePreview()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📏 Höhe</label><span id="heightValue">200px</span></div>
+                    <input type="range" id="boxHeight" min="100" max="300" value="200" oninput="updatePreview()">
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-box" id="previewBox"></div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="resetAll()">🔄 Reset</button>
+                </div>
+                <div class="code-output" id="codeOutput">border-radius: 20px;</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let mode = 'simple';
+
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('simpleMode').style.display = m === 'simple' ? 'block' : 'none';
+            document.getElementById('advancedMode').style.display = m === 'advanced' ? 'block' : 'none';
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const color = document.getElementById('boxColor').value;
+            const width = parseInt(document.getElementById('boxWidth').value);
+            const height = parseInt(document.getElementById('boxHeight').value);
+            const box = document.getElementById('previewBox');
+
+            document.getElementById('boxColorValue').textContent = color;
+            document.getElementById('widthValue').textContent = width + 'px';
+            document.getElementById('heightValue').textContent = height + 'px';
+
+            box.style.background = color;
+            box.style.width = width + 'px';
+            box.style.height = height + 'px';
+
+            let css;
+            if (mode === 'simple') {
+                const r = parseInt(document.getElementById('radius').value);
+                document.getElementById('radiusValue').textContent = r + 'px';
+                box.style.borderRadius = r + 'px';
+                css = `border-radius: ${r}px;`;
+            } else {
+                const tl = parseInt(document.getElementById('tl').value);
+                const tr = parseInt(document.getElementById('tr').value);
+                const bl = parseInt(document.getElementById('bl').value);
+                const br = parseInt(document.getElementById('br').value);
+
+                document.getElementById('tlValue').textContent = tl + 'px';
+                document.getElementById('trValue').textContent = tr + 'px';
+                document.getElementById('blValue').textContent = bl + 'px';
+                document.getElementById('brValue').textContent = br + 'px';
+
+                box.style.borderRadius = `${tl}px ${tr}px ${br}px ${bl}px`;
+                css = `border-radius: ${tl}px ${tr}px ${br}px ${bl}px;`;
+            }
+
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function resetAll() {
+            document.getElementById('radius').value = 20;
+            document.getElementById('tl').value = 20;
+            document.getElementById('tr').value = 20;
+            document.getElementById('bl').value = 20;
+            document.getElementById('br').value = 20;
+            document.getElementById('boxWidth').value = 200;
+            document.getElementById('boxHeight').value = 200;
+            updatePreview();
+        }
+
+        window.onload = updatePreview;
+    </script>
+</body>
+</html>

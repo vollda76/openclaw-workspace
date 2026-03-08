@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEINEGGER IT - Retro 80s/90s</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Monoton&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --neon-yellow: #ffff00;
+            --neon-green: #00ff00;
+            --neon-orange: #ff6600;
+            --neon-purple: #bf00ff;
+            --dark-bg: #0a0a1a;
+            --grid-color: rgba(255, 0, 255, 0.3);
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--dark-bg);
+            color: var(--neon-blue);
+            line-height: 1.6;
+            font-size: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Animated Grid Background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        /* Sun Gradient */
+        .retro-sun {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(to top, var(--neon-orange), var(--neon-pink), var(--neon-purple));
+            border-radius: 50% 50% 0 0;
+            z-index: -1;
+            clip-path: polygon(0% 100%, 0% 20%, 10% 25%, 20% 22%, 30% 26%, 40% 23%, 50% 27%, 60% 23%, 70% 26%, 80% 22%, 90% 25%, 100% 20%, 100% 100%);
+            opacity: 0.6;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1) 0px,
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 26, 0.95);
+            border-bottom: 3px solid var(--neon-pink);
+            padding: 1.5rem 2rem;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-family: 'Monoton', cursive;
+            font-size: 2rem;
+            color: var(--neon-pink);
+            text-decoration: none;
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink),
+                0 0 40px var(--neon-pink);
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            52% { opacity: 1; }
+            54% { opacity: 0.9; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            text-decoration: none;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--neon-blue);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .nav-links a:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--neon-yellow);
+            text-shadow: 
+                3px 3px 0 var(--neon-pink),
+                6px 6px 0 var(--neon-purple);
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { 
+                text-shadow: 
+                    3px 3px 0 var(--neon-pink),
+                    6px 6px 0 var(--neon-purple),
+                    0 0 10px var(--neon-yellow);
+            }
+            to { 
+                text-shadow: 
+                    3px 3px 0 var(--neon-pink),
+                    6px 6px 0 var(--neon-purple),
+                    0 0 20px var(--neon-yellow),
+                    0 0 40px var(--neon-yellow);
+            }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            padding: 1.25rem 2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: 3px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .btn-primary:hover {
+            background: var(--neon-purple);
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 40px var(--neon-purple);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            box-shadow: 0 0 40px var(--neon-blue);
+            transform: scale(1.05);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--neon-orange);
+            text-shadow: 
+                3px 3px 0 var(--neon-pink),
+                0 0 20px var(--neon-orange);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--neon-blue);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+        }
+
+        .service-card:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px var(--neon-pink);
+            transform: translateY(-10px);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--neon-green));
+            animation: scanLine 3s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--neon-yellow);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .service-card p {
+            color: var(--neon-green);
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+            border: 3px solid var(--neon-purple);
+            padding: 4rem;
+            margin: 4rem 2rem;
+            position: relative;
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px dashed var(--neon-blue);
+            pointer-events: none;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: var(--neon-pink);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .about-text p {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--neon-green);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: var(--neon-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--neon-blue);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid var(--neon-orange);
+            padding: 4rem;
+            margin: 4rem 2rem;
+        }
+
+        .contact h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: var(--neon-pink);
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .contact > p {
+            text-align: center;
+            color: var(--neon-blue);
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            padding-right: 2rem;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-left: 3px solid var(--neon-green);
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .contact-item-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--neon-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-value {
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--neon-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-green);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            padding: 1rem 2rem;
+            background: var(--neon-green);
+            color: var(--dark-bg);
+            border: 3px solid var(--neon-green);
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .submit-btn:hover {
+            background: var(--neon-yellow);
+            border-color: var(--neon-yellow);
+            box-shadow: 0 0 40px var(--neon-yellow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 3px solid var(--neon-pink);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--neon-blue);
+            font-size: 1rem;
+        }
+
+        /* Memphis Shapes */
+        .memphis-shape {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .memphis-triangle {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 50px solid var(--neon-pink);
+        }
+
+        .memphis-circle {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--neon-blue);
+            border-radius: 50%;
+        }
+
+        .memphis-square {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--neon-yellow);
+            transform: rotate(45deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                justify-content: center;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about, .contact {
+                padding: 2rem;
+            }
+        }
+
+        /* CRT Flicker Effect */
+        @keyframes crtFlicker {
+            0% { opacity: 0.97; }
+            5% { opacity: 0.95; }
+            10% { opacity: 0.98; }
+            15% { opacity: 0.94; }
+            20% { opacity: 0.98; }
+            100% { opacity: 0.98; }
+        }
+
+        body {
+            animation: crtFlicker 0.15s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="grid-bg"></div>
+    <div class="retro-sun"></div>
+    <div class="scanlines"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">STEINEGGER IT</a>
+            <ul class="nav-links">
+                <li><a href="#services">Leistungen</a></li>
+                <li><a href="#about">Über Uns</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Memphis Shapes -->
+        <div class="memphis-shape memphis-triangle" style="top: 15%; left: 10%;"></div>
+        <div class="memphis-shape memphis-circle" style="top: 25%; right: 15%;"></div>
+        <div class="memphis-shape memphis-square" style="bottom: 30%; left: 20%;"></div>
+
+        <h1>IT-SUPPORT<br>LEVEL UP</h1>
+        <p>> Steinegger IT – Ihr Partner für KMU im Seeland</p>
+        <p>> Server • Clients • Microsoft 365 • Security</p>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary">▶ START GAME</a>
+            <a href="#services" class="btn btn-secondary">▣ OPTIONS</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-header">
+            <h2>PLAYER SELECT</h2>
+            <p>Wählen Sie Ihre Services</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🎮</div>
+                <h3>IT-SUPPORT</h3>
+                <p>> Remote & Vor-Ort Support</p>
+                <p>> Schnelle Reaktionszeit</p>
+                <p>> Für KMU im Seeland</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">☁️</div>
+                <h3>MICROSOFT 365</h3>
+                <p>> Cloud Migration</p>
+                <p>> Einrichtung & Support</p>
+                <p>> Teams, SharePoint & mehr</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🖥️</div>
+                <h3>SERVER & CLIENTS</h3>
+                <p>> Installation & Wartung</p>
+                <p>> Updates & Patches</p>
+                <p>> Zuverlässiger Betrieb</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <h3>IT-SECURITY</h3>
+                <p>> Firewall & Antivirus</p>
+                <p>> Backup Lösungen</p>
+                <p>> Ransomware Schutz</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📡</div>
+                <h3>NETZWERK</h3>
+                <p>> LAN & WLAN</p>
+                <p>> VPN Lösungen</p>
+                <p>> Multi-Standort</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💡</div>
+                <h3>BERATUNG</h3>
+                <p>> IT-Strategie</p>
+                <p>> Beschaffung</p>
+                <p>> Migration Planning</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <div class="about" id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>> ABOUT US</h2>
+                <p>> Steinegger IT – Ihr IT-Partner seit über 15 Jahren</p>
+                <p>> Keine Hotline, keine Warteschleife</p>
+                <p>> Persönlich, kompetent, schnell</p>
+                <p>> Für KMU im Seeland, Biel, Solothurn & Bern</p>
+            </div>
+            <div class="about-stats">
+                <div class="stat">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">KMU</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">JAHRE</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">SUCCESS</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">FAST</div>
+                    <div class="stat-label">RESPONSE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact" id="contact">
+        <h2>> INSERT COIN TO CONTINUE</h2>
+        <p>Kontaktieren Sie uns – wir melden uns innert 24h</p>
+        
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-item-label">> LOCATION</div>
+                    <div class="contact-item-value">Byfangstrasse 15, 2552 Orpund</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">> PHONE</div>
+                    <div class="contact-item-value">+41 32 344 67 67</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">> EMAIL</div>
+                    <div class="contact-item-value">info@steinegger-it.ch</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">> HOURS</div>
+                    <div class="contact-item-value">Mo-Fr, 08:00-17:00</div>
+                </div>
+            </div>
+            
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>> PLAYER NAME</label>
+                    <input type="text" placeholder="Ihr Name" required>
+                </div>
+                <div class="form-group">
+                    <label>> EMAIL ADDRESS</label>
+                    <input type="email" placeholder="ihre@email.ch" required>
+                </div>
+                <div class="form-group">
+                    <label>> MESSAGE</label>
+                    <textarea placeholder="Ihre Nachricht..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">▶ SEND MESSAGE</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 STEINEGGER IT GmbH – PRESS START TO CONTINUE</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1477 @@
+<!-- wp:html -->
+<style>
+/* Steinegger IT - WordPress Custom Styles */
+:root {
+    --primary-600: #2083B8;
+    --primary-700: #1A6B96;
+    --primary-800: #145374;
+    --primary-900: #0C2D48;
+    --primary-500: #2E9CCA;
+    --primary-400: #5FB4D9;
+    --primary-100: #E8F4FA;
+    --primary-50: #F5FAFD;
+    --accent-green: #10B981;
+    --gray-900: #111827;
+    --gray-800: #1F2937;
+    --gray-700: #374151;
+    --gray-600: #4B5563;
+    --gray-500: #6B7280;
+    --gray-400: #9CA3AF;
+    --gray-300: #D1D5DB;
+    --gray-200: #E5E7EB;
+    --gray-100: #F3F4F6;
+    --gray-50: #F9FAFB;
+}
+
+/* Hero Section */
+.steinegger-hero {
+    background: linear-gradient(180deg, var(--primary-50) 0%, var(--white) 100%);
+    padding: 8rem 0 5rem;
+    position: relative;
+}
+
+.steinegger-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary-700);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    border: 1px solid var(--gray-200);
+}
+
+.steinegger-hero__badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.steinegger-hero__title {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+}
+
+.steinegger-hero__title-highlight {
+    background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.steinegger-hero__description {
+    font-size: 1.2rem;
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+.steinegger-hero__stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.steinegger-hero__stat-number {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--primary-600);
+}
+
+.steinegger-hero__stat-label {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+/* Trust Bar */
+.steinegger-trust-bar {
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+    padding: 1.5rem 0;
+}
+
+.steinegger-trust-bar__container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.steinegger-trust-bar__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    font-size: 0.875rem;
+}
+
+/* Service Cards */
+.steinegger-service-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.steinegger-service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    border-color: var(--primary-200);
+}
+
+.steinegger-service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+}
+
+.steinegger-service-card__icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.steinegger-service-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.steinegger-service-card__description {
+    color: var(--gray-600);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.steinegger-service-card__list {
+    list-style: none;
+    padding: 0;
+}
+
+.steinegger-service-card__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.steinegger-service-card__list li::before {
+    content: '✓';
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+/* Section Headers */
+.steinegger-section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary-100);
+    color: var(--primary-700);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.steinegger-section-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.steinegger-section-subtitle {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+/* Why Cards */
+.steinegger-why-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.steinegger-why-card:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-5px);
+}
+
+.steinegger-why-card__icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.steinegger-why-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.steinegger-why-card__text {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Process Steps */
+.steinegger-process-step {
+    text-align: center;
+    position: relative;
+}
+
+.steinegger-process-step__number {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-600);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.steinegger-process-step__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.steinegger-process-step__text {
+    font-size: 0.9rem;
+    color: var(--gray-500);
+    line-height: 1.6;
+}
+
+/* Testimonials */
+.steinegger-testimonial {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.2s ease;
+}
+
+.steinegger-testimonial:hover {
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+
+.steinegger-testimonial__stars {
+    color: #FBBF24;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.steinegger-testimonial__text {
+    font-style: italic;
+    color: var(--gray-700);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.steinegger-testimonial__name {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.steinegger-testimonial__role {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+/* FAQ */
+.steinegger-faq-item {
+    border-bottom: 1px solid var(--gray-200);
+    padding: 1.5rem 0;
+}
+
+.steinegger-faq-item__question {
+    font-weight: 600;
+    color: var(--gray-900);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.steinegger-faq-item__answer {
+    color: var(--gray-600);
+    line-height: 1.8;
+}
+
+/* CTA Section */
+.steinegger-cta {
+    background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-600) 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.steinegger-cta__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.steinegger-cta__text {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+}
+
+/* Contact */
+.steinegger-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.steinegger-contact-item:hover {
+    background: var(--primary-50);
+}
+
+.steinegger-contact-item__icon {
+    font-size: 1.5rem;
+}
+
+.steinegger-contact-item__label {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.steinegger-contact-item__value {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+/* Buttons */
+.steinegger-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.steinegger-btn--primary {
+    background: var(--primary-600);
+    color: white;
+}
+
+.steinegger-btn--primary:hover {
+    background: var(--primary-700);
+    transform: translateY(-2px);
+}
+
+.steinegger-btn--white {
+    background: white;
+    color: var(--primary-700);
+}
+
+.steinegger-btn--white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+/* Location Tags */
+.steinegger-location-tag {
+    display: inline-block;
+    background: white;
+    border: 1px solid var(--gray-300);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    color: var(--gray-700);
+    font-weight: 500;
+    margin: 0.25rem;
+}
+
+/* About Features */
+.steinegger-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.steinegger-feature__icon {
+    width: 44px;
+    height: 44px;
+    background: var(--primary-100);
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.steinegger-feature__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.steinegger-feature__text {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .steinegger-hero__stats {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .steinegger-trust-bar__container {
+        justify-content: center;
+    }
+}
+</style>
+<!-- /wp:html -->
+
+<!-- wp:spacer {"height":"60px"} -->
+<div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- ========== HERO SECTION ========== -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"100px","bottom":"80px"}}},"backgroundColor":"base-2","layout":{"type":"constrained"}} -->
+<div class="wp-block-group has-base-2-background-color has-background" style="padding-top:100px;padding-bottom:80px">
+    <!-- wp:group {"layout":{"type":"constrained","wideSize":"1200px"}} -->
+    <div class="wp-block-group">
+        <!-- wp:paragraph {"className":"steinegger-hero__badge"} -->
+        <p class="steinegger-hero__badge"><span class="steinegger-hero__badge-dot"></span> IT-Partner für das Seeland</p>
+        <!-- /wp:paragraph -->
+        
+        <!-- wp:heading {"level":1,"className":"steinegger-hero__title"} -->
+        <h1 class="steinegger-hero__title">IT-Support aus <span class="steinegger-hero__title-highlight">Orpund</span> für Ihr Unternehmen</h1>
+        <!-- /wp:heading -->
+        
+        <!-- wp:paragraph {"className":"steinegger-hero__description","fontSize":"large"} -->
+        <p class="steinegger-hero__description">Sie suchen einen zuverlässigen IT-Dienstleister in Biel oder im Seeland? Wir kümmern uns um Ihre IT-Infrastruktur, Cloud-Lösungen und IT-Sicherheit – damit Sie sich auf Ihr Kerngeschäft konzentrieren können.</p>
+        <!-- /wp:paragraph -->
+        
+        <!-- wp:buttons -->
+        <div class="wp-block-buttons">
+            <!-- wp:button {"className":"steinegger-btn steinegger-btn--primary"} -->
+            <div class="wp-block-button"><a class="wp-block-button__link wp-element-button steinegger-btn steinegger-btn--primary" href="#kontakt">Kostenlose Erstberatung →</a></div>
+            <!-- /wp:button -->
+            <!-- wp:button {"className":"is-style-outline"} -->
+            <div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="#leistungen">Unsere Leistungen</a></div>
+            <!-- /wp:button -->
+        </div>
+        <!-- /wp:buttons -->
+        
+        <!-- wp:group {"className":"steinegger-hero__stats","layout":{"type":"flex","flexWrap":"wrap"}} -->
+        <div class="wp-block-group steinegger-hero__stats">
+            <!-- wp:group -->
+            <div class="wp-block-group">
+                <!-- wp:paragraph {"className":"steinegger-hero__stat-number"} -->
+                <p class="steinegger-hero__stat-number">7+</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"className":"steinegger-hero__stat-label"} -->
+                <p class="steinegger-hero__stat-label">Jahre Erfahrung</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+            <!-- wp:group -->
+            <div class="wp-block-group">
+                <!-- wp:paragraph {"className":"steinegger-hero__stat-number"} -->
+                <p class="steinegger-hero__stat-number">150+</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"className":"steinegger-hero__stat-label"} -->
+                <p class="steinegger-hero__stat-label">Zufriedene Kunden</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+            <!-- wp:group -->
+            <div class="wp-block-group">
+                <!-- wp:paragraph {"className":"steinegger-hero__stat-number"} -->
+                <p class="steinegger-hero__stat-number">&lt;4h</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"className":"steinegger-hero__stat-label"} -->
+                <p class="steinegger-hero__stat-label">Reaktionszeit</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:group -->
+    </div>
+    <!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== TRUST BAR ========== -->
+<!-- wp:group {"className":"steinegger-trust-bar","layout":{"type":"constrained"}} -->
+<div class="wp-block-group steinegger-trust-bar">
+    <!-- wp:group {"className":"steinegger-trust-bar__container","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+    <div class="wp-block-group steinegger-trust-bar__container">
+        <!-- wp:paragraph {"className":"steinegger-trust-bar__item"} -->
+        <p class="steinegger-trust-bar__item">✓ <strong>Gratis</strong> Erstberatung</p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-trust-bar__item"} -->
+        <p class="steinegger-trust-bar__item">✓ <strong>Transparente</strong> Preise</p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-trust-bar__item"} -->
+        <p class="steinegger-trust-bar__item">✓ <strong>Schnelle</strong> Reaktion</p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-trust-bar__item"} -->
+        <p class="steinegger-trust-bar__item">✓ <strong>Regionale</strong> Präsenz</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== LEISTUNGEN SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group">
+    <!-- wp:paragraph {"className":"steinegger-section-tag","align":"center"} -->
+    <p class="steinegger-section-tag has-text-align-center">🎯 Unsere Leistungen</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:heading {"level":2,"className":"steinegger-section-title","align":"center"} -->
+    <h2 class="steinegger-section-title has-text-align-center">IT-Lösungen für KMU im Seeland</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:paragraph {"className":"steinegger-section-subtitle","align":"center"} -->
+    <p class="steinegger-section-subtitle has-text-align-center">Von IT-Support über Cloud-Migration bis zur IT-Sicherheit – wir bieten Ihnen alles aus einer Hand. Regionale Präsenz, faire Preise.</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:spacer {"height":"40px"} -->
+    <div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:columns {"columns":3} -->
+    <div class="wp-block-columns has-3-columns">
+        <!-- Service Card 1: IT-Support -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-service-card"} -->
+            <div class="wp-block-group steinegger-service-card">
+                <!-- wp:paragraph {"className":"steinegger-service-card__icon"} -->
+                <p class="steinegger-service-card__icon">🔧</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"className":"steinegger-service-card__title"} -->
+                <h3 class="steinegger-service-card__title">IT-Support & Helpdesk</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"className":"steinegger-service-card__description"} -->
+                <p class="steinegger-service-card__description">Schnelle Hilfe bei IT-Problemen – per Telefon, E-Mail oder vor Ort in Biel, Orpund & Umgebung.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:list {"className":"steinegger-service-card__list"} -->
+                <ul class="steinegger-service-card__list">
+                    <li>Remote-Support in unter 4 Stunden</li>
+                    <li>Vor-Ort-Service im Seeland</li>
+                    <li>Proaktive Systemüberwachung</li>
+                    <li>Helpdesk für Ihre Mitarbeiter</li>
+                </ul>
+                <!-- /wp:list -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- Service Card 2: Cloud -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-service-card"} -->
+            <div class="wp-block-group steinegger-service-card">
+                <!-- wp:paragraph {"className":"steinegger-service-card__icon"} -->
+                <p class="steinegger-service-card__icon">☁️</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"className":"steinegger-service-card__title"} -->
+                <h3 class="steinegger-service-card__title">Cloud-Lösungen</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"className":"steinegger-service-card__description"} -->
+                <p class="steinegger-service-card__description">Sichere Migration zu Microsoft 365, Azure oder privaten Clouds. Mobiles Arbeiten ohne Kompromisse.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:list {"className":"steinegger-service-card__list"} -->
+                <ul class="steinegger-service-card__list">
+                    <li>Microsoft 365 Migration & Support</li>
+                    <li>Azure Cloud-Infrastruktur</li>
+                    <li>Private Cloud-Lösungen</li>
+                    <li>Backup & Disaster Recovery</li>
+                </ul>
+                <!-- /wp:list -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- Service Card 3: IT-Sicherheit -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-service-card"} -->
+            <div class="wp-block-group steinegger-service-card">
+                <!-- wp:paragraph {"className":"steinegger-service-card__icon"} -->
+                <p class="steinegger-service-card__icon">🛡️</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"className":"steinegger-service-card__title"} -->
+                <h3 class="steinegger-service-card__title">IT-Sicherheit</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"className":"steinegger-service-card__description"} -->
+                <p class="steinegger-service-card__description">Schutz vor Ransomware, Phishing und Cyber-Angriffen. Moderne Security-Lösungen für Ihr Unternehmen.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:list {"className":"steinegger-service-card__list"} -->
+                <ul class="steinegger-service-card__list">
+                    <li>Antivirus & Next-Gen Firewall</li>
+                    <li>Email-Security & Spam-Schutz</li>
+                    <li>Security-Awareness-Training</li>
+                    <li>DSGVO-Konformität</li>
+                </ul>
+                <!-- /wp:list -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+    
+    <!-- wp:spacer {"height":"30px"} -->
+    <div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:columns {"columns":3} -->
+    <div class="wp-block-columns has-3-columns">
+        <!-- Service Card 4: Netzwerk -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-service-card"} -->
+            <div class="wp-block-group steinegger-service-card">
+                <!-- wp:paragraph {"className":"steinegger-service-card__icon"} -->
+                <p class="steinegger-service-card__icon">🖥️</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"className":"steinegger-service-card__title"} -->
+                <h3 class="steinegger-service-card__title">Netzwerk & Infrastruktur</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"className":"steinegger-service-card__description"} -->
+                <p class="steinegger-service-card__description">Vom Server über das Netzwerk bis zum Arbeitsplatz – wir planen und betreiben Ihre komplette IT-Infrastruktur.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:list {"className":"steinegger-service-card__list"} -->
+                <ul class="steinegger-service-card__list">
+                    <li>Server-Installation & Wartung</li>
+                    <li>Netzwerk-Planung & Optimierung</li>
+                    <li>Workstations & Laptops</li>
+                    <li>Drucker & Peripherie</li>
+                </ul>
+                <!-- /wp:list -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- Service Card 5: Beratung -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-service-card"} -->
+            <div class="wp-block-group steinegger-service-card">
+                <!-- wp:paragraph {"className":"steinegger-service-card__icon"} -->
+                <p class="steinegger-service-card__icon">📊</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"className":"steinegger-service-card__title"} -->
+                <h3 class="steinegger-service-card__title">IT-Beratung</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"className":"steinegger-service-card__description"} -->
+                <p class="steinegger-service-card__description">Strategische IT-Planung für Ihr Unternehmen. Wir analysieren, optimieren und sparen Kosten.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:list {"className":"steinegger-service-card__list"} -->
+                <ul class="steinegger-service-card__list">
+                    <li>IT-Strategie & Roadmap</li>
+                    <li>Prozessoptimierung</li>
+                    <li>Kostenanalyse & Einsparungen</li>
+                    <li>Technologie-Beratung</li>
+                </ul>
+                <!-- /wp:list -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- Service Card 6: Mobile Working -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-service-card"} -->
+            <div class="wp-block-group steinegger-service-card">
+                <!-- wp:paragraph {"className":"steinegger-service-card__icon"} -->
+                <p class="steinegger-service-card__icon">📱</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"className":"steinegger-service-card__title"} -->
+                <h3 class="steinegger-service-card__title">Mobile Working</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"className":"steinegger-service-card__description"} -->
+                <p class="steinegger-service-card__description">Sicheres Arbeiten von überall. VPN, Remote-Desktop und Mobile Device Management für Ihr Team.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:list {"className":"steinegger-service-card__list"} -->
+                <ul class="steinegger-service-card__list">
+                    <li>VPN & Remote Access</li>
+                    <li>Mobile Device Management</li>
+                    <li>Homeoffice-Einrichtung</li>
+                    <li>Sichere Videokonferenzen</li>
+                </ul>
+                <!-- /wp:list -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== ÜBER UNS SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group" id="ueber-uns">
+    <!-- wp:columns -->
+    <div class="wp-block-columns">
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:heading {"level":2,"className":"steinegger-section-title"} -->
+            <h2 class="steinegger-section-title">Ihr IT-Dienstleister aus <span style="color:#2083B8">Orpund</span></h2>
+            <!-- /wp:heading -->
+            <!-- wp:paragraph {"fontSize":"large"} -->
+            <p class="has-large-font-size">Steinegger IT ist Ihr regionaler IT-Partner im Seeland. Seit 2018 unterstützen wir KMU in Biel, Solothurn, Bern und Umgebung bei allen IT-Fragen – von der ersten Beratung bis zum laufenden Support.</p>
+            <!-- /wp:paragraph -->
+            <!-- wp:paragraph -->
+            <p>Als lokales Unternehmen kennen wir die Bedürfnisse der Region. Kurze Wege, schnelle Reaktion und persönliche Betreuung sind für uns selbstverständlich. Wir sind nicht irgendein IT-Dienstleister – wir sind Ihr Partner für IT in der Region.</p>
+            <!-- /wp:paragraph -->
+            
+            <!-- wp:spacer {"height":"30px"} -->
+            <div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+            <!-- /wp:spacer -->
+            
+            <!-- wp:columns {"columns":2} -->
+            <div class="wp-block-columns has-2-columns">
+                <!-- wp:column -->
+                <div class="wp-block-column">
+                    <!-- wp:group {"className":"steinegger-feature"} -->
+                    <div class="wp-block-group steinegger-feature">
+                        <!-- wp:paragraph {"className":"steinegger-feature__icon"} -->
+                        <p class="steinegger-feature__icon">🎓</p>
+                        <!-- /wp:paragraph -->
+                        <!-- wp:group -->
+                        <div class="wp-block-group">
+                            <!-- wp:paragraph {"className":"steinegger-feature__title"} -->
+                            <p class="steinegger-feature__title"><strong>Zertifizierte Experten</strong></p>
+                            <!-- /wp:paragraph -->
+                            <!-- wp:paragraph {"className":"steinegger-feature__text"} -->
+                            <p class="steinegger-feature__text">Fachwissen aus erster Hand</p>
+                            <!-- /wp:paragraph -->
+                        </div>
+                        <!-- /wp:group -->
+                    </div>
+                    <!-- /wp:group -->
+                </div>
+                <!-- /wp:column -->
+                <!-- wp:column -->
+                <div class="wp-block-column">
+                    <!-- wp:group {"className":"steinegger-feature"} -->
+                    <div class="wp-block-group steinegger-feature">
+                        <!-- wp:paragraph {"className":"steinegger-feature__icon"} -->
+                        <p class="steinegger-feature__icon">⚡</p>
+                        <!-- /wp:paragraph -->
+                        <!-- wp:group -->
+                        <div class="wp-block-group">
+                            <!-- wp:paragraph {"className":"steinegger-feature__title"} -->
+                            <p class="steinegger-feature__title"><strong>Schnelle Reaktion</strong></p>
+                            <!-- /wp:paragraph -->
+                            <!-- wp:paragraph {"className":"steinegger-feature__text"} -->
+                            <p class="steinegger-feature__text">Unter 4 Stunden bei Störungen</p>
+                            <!-- /wp:paragraph -->
+                        </div>
+                        <!-- /wp:group -->
+                    </div>
+                    <!-- /wp:group -->
+                </div>
+                <!-- /wp:column -->
+            </div>
+            <!-- /wp:columns -->
+            
+            <!-- wp:columns {"columns":2} -->
+            <div class="wp-block-columns has-2-columns">
+                <!-- wp:column -->
+                <div class="wp-block-column">
+                    <!-- wp:group {"className":"steinegger-feature"} -->
+                    <div class="wp-block-group steinegger-feature">
+                        <!-- wp:paragraph {"className":"steinegger-feature__icon"} -->
+                        <p class="steinegger-feature__icon">💰</p>
+                        <!-- /wp:paragraph -->
+                        <!-- wp:group -->
+                        <div class="wp-block-group">
+                            <!-- wp:paragraph {"className":"steinegger-feature__title"} -->
+                            <p class="steinegger-feature__title"><strong>Transparente Preise</strong></p>
+                            <!-- /wp:paragraph -->
+                            <!-- wp:paragraph {"className":"steinegger-feature__text"} -->
+                            <p class="steinegger-feature__text">Keine versteckten Kosten</p>
+                            <!-- /wp:paragraph -->
+                        </div>
+                        <!-- /wp:group -->
+                    </div>
+                    <!-- /wp:group -->
+                </div>
+                <!-- /wp:column -->
+                <!-- wp:column -->
+                <div class="wp-block-column">
+                    <!-- wp:group {"className":"steinegger-feature"} -->
+                    <div class="wp-block-group steinegger-feature">
+                        <!-- wp:paragraph {"className":"steinegger-feature__icon"} -->
+                        <p class="steinegger-feature__icon">🤝</p>
+                        <!-- /wp:paragraph -->
+                        <!-- wp:group -->
+                        <div class="wp-block-group">
+                            <!-- wp:paragraph {"className":"steinegger-feature__title"} -->
+                            <p class="steinegger-feature__title"><strong>Partnerschaftlich</strong></p>
+                            <!-- /wp:paragraph -->
+                            <!-- wp:paragraph {"className":"steinegger-feature__text"} -->
+                            <p class="steinegger-feature__text">Langfristige Zusammenarbeit</p>
+                            <!-- /wp:paragraph -->
+                        </div>
+                        <!-- /wp:group -->
+                    </div>
+                    <!-- /wp:group -->
+                </div>
+                <!-- /wp:column -->
+            </div>
+            <!-- /wp:columns -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"style":{"spacing":{"padding":"2rem"}},"backgroundColor":"base-2"} -->
+            <div class="wp-block-group has-base-2-background-color has-background" style="padding:2rem">
+                <!-- wp:paragraph {"align":"center","fontSize":"huge"} -->
+                <p class="has-text-align-center has-huge-font-size">🏢</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"align":"center"} -->
+                <p class="has-text-align-center">📍 <strong>Standort:</strong> Orpund, Seeland</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"align":"center"} -->
+                <p class="has-text-align-center">🏆 <strong>Seit:</strong> 2018 am Markt</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== WARUM WIR SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"60px","bottom":"60px"}}},"backgroundColor":"primary","layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group has-primary-background-color has-background" style="padding-top:60px;padding-bottom:60px" id="vorteile">
+    <!-- wp:paragraph {"className":"steinegger-section-tag","align":"center","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"textColor":"white"} -->
+    <p class="steinegger-section-tag has-text-align-center has-white-color has-text-color" style="background:rgba(255,255,255,0.2)">✨ Vorteile</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:heading {"level":2,"align":"center","textColor":"white"} -->
+    <h2 class="has-text-align-center has-white-color has-text-color">Warum Steinegger IT?</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:paragraph {"align":"center","textColor":"white","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}}} -->
+    <p class="has-text-align-center has-white-color has-text-color">Das zeichnet uns als Ihren IT-Partner im Seeland aus.</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:spacer {"height":"40px"} -->
+    <div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:columns {"columns":4} -->
+    <div class="wp-block-columns has-4-columns">
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-why-card"} -->
+            <div class="wp-block-group steinegger-why-card">
+                <!-- wp:paragraph {"className":"steinegger-why-card__icon"} -->
+                <p class="steinegger-why-card__icon">⚡</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"textColor":"white"} -->
+                <h3 class="has-white-color has-text-color">Schnelle Hilfe</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"textColor":"white","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}}} -->
+                <p class="has-white-color has-text-color">Reaktionszeit unter 4 Stunden bei Störungen. Wir sind vor Ort, wenn Sie uns brauchen.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-why-card"} -->
+            <div class="wp-block-group steinegger-why-card">
+                <!-- wp:paragraph {"className":"steinegger-why-card__icon"} -->
+                <p class="steinegger-why-card__icon">💰</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"textColor":"white"} -->
+                <h3 class="has-white-color has-text-color">Faire Preise</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"textColor":"white"} -->
+                <p class="has-white-color has-text-color">Transparente Kosten ohne versteckte Gebühren. Sie wissen immer, wofür Sie zahlen.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-why-card"} -->
+            <div class="wp-block-group steinegger-why-card">
+                <!-- wp:paragraph {"className":"steinegger-why-card__icon"} -->
+                <p class="steinegger-why-card__icon">🎯</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"textColor":"white"} -->
+                <h3 class="has-white-color has-text-color">Massgeschneidert</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"textColor":"white"} -->
+                <p class="has-white-color has-text-color">Keine Standardlösungen. Wir passen die IT genau an Ihre Bedürfnisse an.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-why-card"} -->
+            <div class="wp-block-group steinegger-why-card">
+                <!-- wp:paragraph {"className":"steinegger-why-card__icon"} -->
+                <p class="steinegger-why-card__icon">🤝</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"textColor":"white"} -->
+                <h3 class="has-white-color has-text-color">Partnerschaft</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"textColor":"white"} -->
+                <p class="has-white-color has-text-color">Wir denken mit. Proaktiv und langfristig – für Ihren nachhaltigen Erfolg.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== ABLAUF SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group" id="so-funktionierts">
+    <!-- wp:paragraph {"className":"steinegger-section-tag","align":"center"} -->
+    <p class="steinegger-section-tag has-text-align-center">📋 So funktioniert's</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:heading {"level":2,"className":"steinegger-section-title","align":"center"} -->
+    <h2 class="steinegger-section-title has-text-align-center">In 4 Schritten zur perfekten IT</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:paragraph {"className":"steinegger-section-subtitle","align":"center"} -->
+    <p class="steinegger-section-subtitle has-text-align-center">Einfach, transparent und ohne Überraschungen.</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:spacer {"height":"40px"} -->
+    <div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:columns {"columns":4} -->
+    <div class="wp-block-columns has-4-columns">
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-process-step"} -->
+            <div class="wp-block-group steinegger-process-step">
+                <!-- wp:paragraph {"className":"steinegger-process-step__number","align":"center"} -->
+                <p class="steinegger-process-step__number has-text-align-center">1</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"align":"center"} -->
+                <h3 class="has-text-align-center">Kennenlernen</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"align":"center"} -->
+                <p class="has-text-align-center">Unverbindliches Gespräch. Wir lernen Ihre IT-Situation und Ihre Anforderungen kennen.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-process-step"} -->
+            <div class="wp-block-group steinegger-process-step">
+                <!-- wp:paragraph {"className":"steinegger-process-step__number","align":"center"} -->
+                <p class="steinegger-process-step__number has-text-align-center">2</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"align":"center"} -->
+                <h3 class="has-text-align-center">Analyse</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"align":"center"} -->
+                <p class="has-text-align-center">Wir prüfen Ihre bestehende Infrastruktur und identifizieren Optimierungspotenziale.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-process-step"} -->
+            <div class="wp-block-group steinegger-process-step">
+                <!-- wp:paragraph {"className":"steinegger-process-step__number","align":"center"} -->
+                <p class="steinegger-process-step__number has-text-align-center">3</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"align":"center"} -->
+                <h3 class="has-text-align-center">Umsetzung</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"align":"center"} -->
+                <p class="has-text-align-center">Planung und Implementierung der Lösung – transparent und nach Ihren Wünschen.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-process-step"} -->
+            <div class="wp-block-group steinegger-process-step">
+                <!-- wp:paragraph {"className":"steinegger-process-step__number","align":"center"} -->
+                <p class="steinegger-process-step__number has-text-align-center">4</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":3,"align":"center"} -->
+                <h3 class="has-text-align-center">Support</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph {"align":"center"} -->
+                <p class="has-text-align-center">Laufende Betreuung, Wartung und Optimierung Ihrer IT-Landschaft.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== SERVICE AREA SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"backgroundColor":"base-2","layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group has-base-2-background-color has-background">
+    <!-- wp:columns -->
+    <div class="wp-block-columns">
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:heading {"level":2,"className":"steinegger-section-title"} -->
+            <h2 class="steinegger-section-title">IT-Support für Biel, Seeland & Umgebung</h2>
+            <!-- /wp:heading -->
+            <!-- wp:paragraph {"fontSize":"large"} -->
+            <p class="has-large-font-size">Wir sind regional verwurzelt und kennen die Bedürfnisse der lokalen Unternehmen. Von Orpund aus sind wir schnell bei Ihnen vor Ort – im gesamten Seeland, in Biel, Solothurn und Bern.</p>
+            <!-- /wp:paragraph -->
+            
+            <!-- wp:paragraph -->
+            <p>
+                <span class="steinegger-location-tag">📍 Orpund</span>
+                <span class="steinegger-location-tag">📍 Biel/Bienne</span>
+                <span class="steinegger-location-tag">📍 Solothurn</span>
+                <span class="steinegger-location-tag">📍 Bern</span>
+                <span class="steinegger-location-tag">📍 Nidau</span>
+                <span class="steinegger-location-tag">📍 Lyss</span>
+                <span class="steinegger-location-tag">📍 Büren a.A.</span>
+                <span class="steinegger-location-tag">📍 Grenchen</span>
+            </p>
+            <!-- /wp:paragraph -->
+            
+            <!-- wp:paragraph -->
+            <p><strong>Suchen Sie "IT-Support Biel" oder "IT-Dienstleister Seeland"?</strong><br>Sie sind hier richtig. Wir sind Ihr lokaler Partner für alle IT-Fragen.</p>
+            <!-- /wp:paragraph -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"style":{"spacing":{"padding":"2rem"}}} -->
+            <div class="wp-block-group" style="padding:2rem">
+                <!-- wp:paragraph {"align":"center","fontSize":"huge"} -->
+                <p class="has-text-align-center has-huge-font-size">🗺️</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"align":"center","fontSize":"large"} -->
+                <p class="has-text-align-center has-large-font-size"><strong>Seeland, Biel, Solothurn, Bern</strong></p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== REFERENZEN SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group" id="referenzen">
+    <!-- wp:paragraph {"className":"steinegger-section-tag","align":"center"} -->
+    <p class="steinegger-section-tag has-text-align-center">💬 Referenzen</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:heading {"level":2,"className":"steinegger-section-title","align":"center"} -->
+    <h2 class="steinegger-section-title has-text-align-center">Was unsere Kunden sagen</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:paragraph {"className":"steinegger-section-subtitle","align":"center"} -->
+    <p class="steinegger-section-subtitle has-text-align-center">Vertrauen Sie auf die Erfahrung zufriedener Unternehmen aus der Region.</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:spacer {"height":"40px"} -->
+    <div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:columns {"columns":3} -->
+    <div class="wp-block-columns has-3-columns">
+        <!-- Testimonial 1 -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-testimonial"} -->
+            <div class="wp-block-group steinegger-testimonial">
+                <!-- wp:paragraph {"className":"steinegger-testimonial__stars"} -->
+                <p class="steinegger-testimonial__stars">★★★★★</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"className":"steinegger-testimonial__text"} -->
+                <p class="steinegger-testimonial__text">"Die Zusammenarbeit mit Steinegger IT ist transparent und partnerschaftlich. Bei Problemen wird schnell geholfen, und die Lösungen passen perfekt zu unserem Unternehmen. Als lokaler IT-Dienstleister im Seeland sind sie für uns die erste Wahl."</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph -->
+                <p><strong class="steinegger-testimonial__name">Markus Brunner</strong><br><span class="steinegger-testimonial__role">Geschäftsführer, Brunner AG, Biel</span></p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- Testimonial 2 -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-testimonial"} -->
+            <div class="wp-block-group steinegger-testimonial">
+                <!-- wp:paragraph {"className":"steinegger-testimonial__stars"} -->
+                <p class="steinegger-testimonial__stars">★★★★★</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"className":"steinegger-testimonial__text"} -->
+                <p class="steinegger-testimonial__text">"Endlich funktioniert unsere IT so, wie sie soll. Die Migration in die Cloud war reibungslos, und der Support ist top – schnell, kompetent und fair. Absolute Empfehlung für jeden, der IT-Support im Seeland sucht!"</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph -->
+                <p><strong class="steinegger-testimonial__name">Sandra Kramer</strong><br><span class="steinegger-testimonial__role">HR-Leiterin, Kramer GmbH, Lyss</span></p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- Testimonial 3 -->
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"className":"steinegger-testimonial"} -->
+            <div class="wp-block-group steinegger-testimonial">
+                <!-- wp:paragraph {"className":"steinegger-testimonial__stars"} -->
+                <p class="steinegger-testimonial__stars">★★★★★</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"className":"steinegger-testimonial__text"} -->
+                <p class="steinegger-testimonial__text">"Die Jungs von Steinegger IT verstehen ihr Handwerk. Sie haben unsere IT-Sicherheit auf ein neues Level gehoben und uns ein gutes Gefühl gegeben. Persönlich, regional und professionell – so muss IT-Support sein."</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph -->
+                <p><strong class="steinegger-testimonial__name">Thomas Wyss</strong><br><span class="steinegger-testimonial__role">Inhaber, Wyss Bauunternehmen, Grenchen</span></p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== FAQ SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"backgroundColor":"base-2","layout":{"type":"constrained","wideSize":"800px"}} -->
+<div class="wp-block-group has-base-2-background-color has-background" id="faq">
+    <!-- wp:paragraph {"className":"steinegger-section-tag","align":"center"} -->
+    <p class="steinegger-section-tag has-text-align-center">❓ FAQ</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:heading {"level":2,"className":"steinegger-section-title","align":"center"} -->
+    <h2 class="steinegger-section-title has-text-align-center">Häufig gestellte Fragen</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:paragraph {"className":"steinegger-section-subtitle","align":"center"} -->
+    <p class="steinegger-section-subtitle has-text-align-center">Antworten auf die wichtigsten Fragen rund um IT-Support im Seeland.</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:spacer {"height":"40px"} -->
+    <div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- FAQ 1 -->
+    <!-- wp:group {"className":"steinegger-faq-item"} -->
+    <div class="wp-block-group steinegger-faq-item">
+        <!-- wp:paragraph {"className":"steinegger-faq-item__question"} -->
+        <p class="steinegger-faq-item__question"><strong>Was kostet IT-Support im Seeland?</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-faq-item__answer"} -->
+        <p class="steinegger-faq-item__answer">Die Kosten für IT-Support richten sich nach dem Aufwand und Ihren individuellen Anforderungen. Wir bieten sowohl Stundenansätze für sporadische Unterstützung als auch monatliche Abo-Modelle für laufenden Support an. Gerne erstellen wir Ihnen eine unverbindliche Offerte – kontaktieren Sie uns für ein kostenloses Erstgespräch.</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    
+    <!-- FAQ 2 -->
+    <!-- wp:group {"className":"steinegger-faq-item"} -->
+    <div class="wp-block-group steinegger-faq-item">
+        <!-- wp:paragraph {"className":"steinegger-faq-item__question"} -->
+        <p class="steinegger-faq-item__question"><strong>Wie schnell reagiert Steinegger IT bei Störungen?</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-faq-item__answer"} -->
+        <p class="steinegger-faq-item__answer">Wir garantieren eine Reaktionszeit von unter 4 Stunden bei Störungen. In dringenden Fällen sind wir oft noch schneller. Für Kunden mit Support-Vertrag bieten wir Prioritäts-Support mit noch kürzeren Reaktionszeiten an.</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    
+    <!-- FAQ 3 -->
+    <!-- wp:group {"className":"steinegger-faq-item"} -->
+    <div class="wp-block-group steinegger-faq-item">
+        <!-- wp:paragraph {"className":"steinegger-faq-item__question"} -->
+        <p class="steinegger-faq-item__question"><strong>Bietet Steinegger IT auch Vor-Ort-Service in Biel und Umgebung?</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-faq-item__answer"} -->
+        <p class="steinegger-faq-item__answer">Ja, wir bieten Vor-Ort-Service im gesamten Seeland, in Biel, Solothurn und Bern. Da wir in Orpund sitzen, sind wir in der Region besonders schnell bei Ihnen. Für Kunden in Biel, Nidau oder Lyss sind wir in der Regel innerhalb von 30-60 Minuten vor Ort.</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    
+    <!-- FAQ 4 -->
+    <!-- wp:group {"className":"steinegger-faq-item"} -->
+    <div class="wp-block-group steinegger-faq-item">
+        <!-- wp:paragraph {"className":"steinegger-faq-item__question"} -->
+        <p class="steinegger-faq-item__question"><strong>Welche IT-Dienstleistungen bietet Steinegger IT an?</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-faq-item__answer"} -->
+        <p class="steinegger-faq-item__answer">Wir bieten das komplette Spektrum an IT-Dienstleistungen: IT-Support & Helpdesk, Cloud-Lösungen (Microsoft 365, Azure), IT-Sicherheit, Netzwerk-Infrastruktur, IT-Beratung sowie Mobile-Working-Lösungen. Alles aus einer Hand, von einem regionalen Partner.</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    
+    <!-- FAQ 5 -->
+    <!-- wp:group {"className":"steinegger-faq-item"} -->
+    <div class="wp-block-group steinegger-faq-item">
+        <!-- wp:paragraph {"className":"steinegger-faq-item__question"} -->
+        <p class="steinegger-faq-item__question"><strong>Arbeitet Steinegger IT auch mit privaten Kunden?</strong></p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"steinegger-faq-item__answer"} -->
+        <p class="steinegger-faq-item__answer">Unser Fokus liegt auf KMU und Geschäftskunden im Seeland. Für Privatpersonen bieten wir in Ausnahmefällen Unterstützung an, allerdings priorisieren wir unsere Geschäftskunden. Kontaktieren Sie uns für eine individuelle Absprache.</p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== CTA SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"className":"steinegger-cta","layout":{"type":"constrained","wideSize":"800px"}} -->
+<div class="wp-block-group steinegger-cta">
+    <!-- wp:heading {"level":2,"align":"center","textColor":"white"} -->
+    <h2 class="has-text-align-center has-white-color has-text-color">Bereit für bessere IT?</h2>
+    <!-- /wp:heading -->
+    
+    <!-- wp:paragraph {"align":"center","textColor":"white","fontSize":"large"} -->
+    <p class="has-text-align-center has-white-color has-text-color has-large-font-size">Lassen Sie uns gemeinsam Ihre IT-Zukunft gestalten. Kostenlose Erstberatung – unverbindlich und ohne Verpflichtungen.</p>
+    <!-- /wp:paragraph -->
+    
+    <!-- wp:spacer {"height":"20px"} -->
+    <div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+    <div class="wp-block-buttons">
+        <!-- wp:button {"className":"steinegger-btn steinegger-btn--white"} -->
+        <div class="wp-block-button"><a class="wp-block-button__link wp-element-button steinegger-btn steinegger-btn--white" href="#kontakt">Jetzt Kontakt aufnehmen →</a></div>
+        <!-- /wp:button -->
+    </div>
+    <!-- /wp:buttons -->
+</div>
+<!-- /wp:group -->
+
+<!-- ========== KONTAKT SECTION ========== -->
+<!-- wp:spacer {"height":"80px"} -->
+<div style="height:80px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:group {"layout":{"type":"constrained","wideSize":"1200px"}} -->
+<div class="wp-block-group" id="kontakt">
+    <!-- wp:columns -->
+    <div class="wp-block-columns">
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:heading {"level":2,"className":"steinegger-section-title"} -->
+            <h2 class="steinegger-section-title">Sprechen Sie uns an</h2>
+            <!-- /wp:heading -->
+            <!-- wp:paragraph {"fontSize":"large"} -->
+            <p class="has-large-font-size">Haben Sie Fragen oder möchten Sie eine unverbindliche Beratung? Wir freuen uns auf Ihre Nachricht und melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+            <!-- /wp:paragraph -->
+            
+            <!-- wp:group {"className":"steinegger-contact-item"} -->
+            <div class="wp-block-group steinegger-contact-item">
+                <!-- wp:paragraph {"className":"steinegger-contact-item__icon"} -->
+                <p class="steinegger-contact-item__icon">📧</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:group -->
+                <div class="wp-block-group">
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__label"} -->
+                    <p class="steinegger-contact-item__label">E-MAIL</p>
+                    <!-- /wp:paragraph -->
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__value"} -->
+                    <p class="steinegger-contact-item__value">info@steinegger-it.ch</p>
+                    <!-- /wp:paragraph -->
+                </div>
+                <!-- /wp:group -->
+            </div>
+            <!-- /wp:group -->
+            
+            <!-- wp:group {"className":"steinegger-contact-item"} -->
+            <div class="wp-block-group steinegger-contact-item">
+                <!-- wp:paragraph {"className":"steinegger-contact-item__icon"} -->
+                <p class="steinegger-contact-item__icon">📞</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:group -->
+                <div class="wp-block-group">
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__label"} -->
+                    <p class="steinegger-contact-item__label">TELEFON</p>
+                    <!-- /wp:paragraph -->
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__value"} -->
+                    <p class="steinegger-contact-item__value">+41 32 XXX YY YY</p>
+                    <!-- /wp:paragraph -->
+                </div>
+                <!-- /wp:group -->
+            </div>
+            <!-- /wp:group -->
+            
+            <!-- wp:group {"className":"steinegger-contact-item"} -->
+            <div class="wp-block-group steinegger-contact-item">
+                <!-- wp:paragraph {"className":"steinegger-contact-item__icon"} -->
+                <p class="steinegger-contact-item__icon">📍</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:group -->
+                <div class="wp-block-group">
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__label"} -->
+                    <p class="steinegger-contact-item__label">ADRESSE</p>
+                    <!-- /wp:paragraph -->
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__value"} -->
+                    <p class="steinegger-contact-item__value">Musterstrasse 1, 2552 Orpund</p>
+                    <!-- /wp:paragraph -->
+                </div>
+                <!-- /wp:group -->
+            </div>
+            <!-- /wp:group -->
+            
+            <!-- wp:group {"className":"steinegger-contact-item"} -->
+            <div class="wp-block-group steinegger-contact-item">
+                <!-- wp:paragraph {"className":"steinegger-contact-item__icon"} -->
+                <p class="steinegger-contact-item__icon">🕐</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:group -->
+                <div class="wp-block-group">
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__label"} -->
+                    <p class="steinegger-contact-item__label">ERREICHBARKEIT</p>
+                    <!-- /wp:paragraph -->
+                    <!-- wp:paragraph {"className":"steinegger-contact-item__value"} -->
+                    <p class="steinegger-contact-item__value">Mo–Fr: 08:00–18:00 Uhr</p>
+                    <!-- /wp:paragraph -->
+                </div>
+                <!-- /wp:group -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+        
+        <!-- wp:column -->
+        <div class="wp-block-column">
+            <!-- wp:group {"style":{"spacing":{"padding":"2rem"}},"backgroundColor":"base-2"} -->
+            <div class="wp-block-group has-base-2-background-color has-background" style="padding:2rem">
+                <!-- wp:heading {"level":3} -->
+                <h3>Kontaktformular</h3>
+                <!-- /wp:heading -->
+                <!-- wp:paragraph -->
+                <p>Hier können Sie ein Kontaktformular-Plugin (z.B. Contact Form 7 oder WPForms) einfügen.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+        </div>
+        <!-- /wp:column -->
+    </div>
+    <!-- /wp:columns -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:spacer {"height":"60px"} -->
+<div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->

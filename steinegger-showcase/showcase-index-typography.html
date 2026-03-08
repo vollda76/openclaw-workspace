@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEINEGGER IT - Typography Focused</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --gray: #666666;
+            --light-gray: #e5e5e5;
+            --accent: #000000;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        /* Navigation - Pure Typography */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--text);
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--text);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section - Typography Only */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid var(--text);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(4rem, 20vw, 15rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            word-break: break-word;
+        }
+
+        .hero h1 .line {
+            display: block;
+        }
+
+        .hero h1 .line:nth-child(2) {
+            margin-left: 10vw;
+        }
+
+        .hero h1 .line:nth-child(3) {
+            margin-left: 5vw;
+        }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.25rem, 2vw, 2rem);
+            font-weight: 400;
+            max-width: 600px;
+            margin-top: 3rem;
+            color: var(--gray);
+        }
+
+        .hero-cta {
+            margin-top: 3rem;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1.25rem 3rem;
+            background: var(--text);
+            color: var(--bg);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--gray);
+            transform: translateY(-5px);
+        }
+
+        /* Section Styling - Typography Driven */
+        section {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+
+        /* Services - Big Type Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 0;
+            border-top: 1px solid var(--text);
+            border-left: 1px solid var(--text);
+        }
+
+        .service-card {
+            padding: 3rem;
+            border-right: 1px solid var(--text);
+            border-bottom: 1px solid var(--text);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: background 0.3s ease;
+        }
+
+        .service-card:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .service-card:hover .service-title {
+            color: var(--bg);
+        }
+
+        .service-card:hover .service-desc {
+            color: var(--light-gray);
+        }
+
+        .service-card:hover .service-arrow {
+            color: var(--bg);
+        }
+
+        .service-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--gray);
+            flex-grow: 1;
+        }
+
+        .service-arrow {
+            font-size: 3rem;
+            line-height: 1;
+            align-self: flex-end;
+        }
+
+        /* About - Typographic Layout */
+        .about {
+            padding: 8rem 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+        }
+
+        .about-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+        }
+
+        .about-content p {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            padding-top: 4rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .stat-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+            margin-top: 1rem;
+        }
+
+        /* Contact - Minimal Type */
+        .contact {
+            padding: 8rem 2rem;
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .contact .section-label {
+            color: var(--light-gray);
+        }
+
+        .contact h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            padding-right: 2rem;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-item-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--light-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--light-gray);
+            margin-bottom: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--light-gray);
+            color: var(--bg);
+            outline: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--gray);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-bottom-color: var(--bg);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1.25rem 3rem;
+            background: var(--bg);
+            color: var(--text);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--light-gray);
+        }
+
+        /* Footer - Simple Type */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            min-width: 200px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            color: var(--text);
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 .line:nth-child(2),
+            .hero h1 .line:nth-child(3) {
+                margin-left: 0;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">Steinegger IT</a>
+            <ul class="nav-links">
+                <li><a href="#services">Leistungen</a></li>
+                <li><a href="#about">Über Uns</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="line">IT die</span>
+                <span class="line">funktioniert</span>
+                <span class="line">einfach</span>
+            </h1>
+            <p class="hero-subtitle">
+                Steinegger IT – Ihr IT-Partner für KMU im Seeland. 
+                Server, Clients, Microsoft 365, Security. Persönlich, kompetent, schnell.
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn">Kontakt aufnehmen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-label">Leistungen</div>
+        <div class="section-header">
+            <h2>Was wir bieten</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div>
+                    <h3 class="service-title">IT-Support</h3>
+                    <p class="service-desc">Schnelle Hilfe bei Störungen. Remote und vor Ort für KMU in Biel, Seeland, Solothurn und Bern.</p>
+                </div>
+                <div class="service-arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3 class="service-title">Microsoft 365</h3>
+                    <p class="service-desc">Planung, Migration, Einrichtung und Support. Wir bringen Ihre IT sicher in die Cloud.</p>
+                </div>
+                <div class="service-arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3 class="service-title">Server & Clients</h3>
+                    <p class="service-desc">Installation, Wartung, Updates. Wir halten Ihre Infrastruktur stabil und zuverlässig.</p>
+                </div>
+                <div class="service-arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3 class="service-title">IT-Security</h3>
+                    <p class="service-desc">Firewalls, Antivirus, Backup. Proaktiver Schutz vor Ransomware und Datenverlust.</p>
+                </div>
+                <div class="service-arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3 class="service-title">Netzwerk</h3>
+                    <p class="service-desc">LAN, WLAN, VPN. Wir bauen Netzwerke die funktionieren – klein, mittel oder standortübergreifend.</p>
+                </div>
+                <div class="service-arrow">→</div>
+            </div>
+            <div class="service-card">
+                <div>
+                    <h3 class="service-title">Beratung</h3>
+                    <p class="service-desc">IT-Strategie, Beschaffung, Migration. Wir helfen Ihnen, die richtigen Entscheidungen zu treffen.</p>
+                </div>
+                <div class="service-arrow">→</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-label">Über Uns</div>
+            <div class="about-content">
+                <h2>Ihr IT-Partner im Seeland</h2>
+                <p>
+                    Steinegger IT ist Ihr IT-Partner für KMU im Seeland, Biel, Solothurn und Bern. 
+                    Keine Callcenter, keine Warteschleifen – bei uns sprechen Sie mit Menschen die Ahnung haben.
+                </p>
+                <p>
+                    Seit über 15 Jahren kümmern wir uns um die IT unserer Kunden. Proaktiv, zuverlässig 
+                    und mit persönlicher Note. Wir glauben, dass IT einfach funktionieren muss.
+                </p>
+                <p>
+                    Und wenn mal was nicht läuft, sind wir schnell zur Stelle. Versprochen.
+                </p>
+                <div class="about-stats">
+                    <div class="stat">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">KMU Betreut</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Jahre Erfahrung</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Zufriedenheit</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">Schnell</div>
+                        <div class="stat-label">Reaktionszeit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-label">Kontakt</div>
+        <h2>Lassen Sie uns sprechen</h2>
+        
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-item-label">Standort</div>
+                    <div class="contact-item-value">Byfangstrasse 15, 2552 Orpund</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">Telefon</div>
+                    <div class="contact-item-value">+41 32 344 67 67</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">Email</div>
+                    <div class="contact-item-value">info@steinegger-it.ch</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-label">Öffnungszeiten</div>
+                    <div class="contact-item-value">Mo-Fr, 08:00-17:00</div>
+                </div>
+            </div>
+            
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Ihr Name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="ihre@email.ch" required>
+                </div>
+                <div class="form-group">
+                    <label>Nachricht</label>
+                    <textarea placeholder="Wie können wir Ihnen helfen?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Nachricht senden</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Steinegger IT</h4>
+                <p>Byfangstrasse 15<br>2552 Orpund<br>Schweiz</p>
+            </div>
+            <div class="footer-section">
+                <h4>Kontakt</h4>
+                <p>+41 32 344 67 67<br>info@steinegger-it.ch</p>
+            </div>
+            <div class="footer-section">
+                <h4>Rechtliches</h4>
+                <a href="#">Impressum</a><br>
+                <a href="#">Datenschutz</a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 Steinegger IT GmbH – Alle Rechte vorbehalten.
+        </div>
+    </footer>
+</body>
+</html>

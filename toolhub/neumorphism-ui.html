@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔘 Neumorphism UI – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #e0e5ec, #a0a0a0, #e0e5ec); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #e0e5ec, #a0a0a0); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 100%; min-height: 300px; border-radius: 20px; padding: 40px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .neo-element { width: 120px; height: 120px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; transition: all 0.3s ease; cursor: pointer; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #e0e5ec, #a0a0a0); color: #1a1a2e; }
+        .action-btn-primary:hover { transform: translateY(-2px); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .type-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+        .type-btn { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; }
+        .type-btn.active { border-color: #e0e5ec; background: rgba(224,229,236,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🔘</div>
+            <h1>Neumorphism UI</h1>
+            <p class="subtitle">Soft UI Design Generator</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Neumorph Settings</h2>
+                
+                <div class="form-group">
+                    <label>🔲 Element Typ</label>
+                    <div class="type-selector">
+                        <button class="type-btn active" onclick="setType('flat')">Flat</button>
+                        <button class="type-btn" onclick="setType('pressed')">Pressed</button>
+                        <button class="type-btn" onclick="setType('floating')">Floating</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Hintergrund Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="bgColor" value="#e0e5ec" onchange="updateNeo()">
+                        <div class="color-value" id="bgColorValue">#e0e5ec</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>💡 Licht Distanz</label><span id="lightValue">10px</span></div>
+                    <input type="range" id="lightDist" min="5" max="30" value="10" oninput="updateNeo()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🌑 Schatten Intensität</label><span id="shadowValue">50%</span></div>
+                    <input type="range" id="shadowIntensity" min="10" max="100" value="50" oninput="updateNeo()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🔴 Border Radius</label><span id="radiusValue">20px</span></div>
+                    <input type="range" id="borderRadius" min="0" max="50" value="20" oninput="updateNeo()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Grösse</label><span id="sizeValue">120px</span></div>
+                    <input type="range" id="elemSize" min="60" max="200" value="120" oninput="updateNeo()">
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container" id="previewContainer">
+                    <div class="neo-element" id="neoElement">🎨</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="toggleType()">🔄 Typ wechseln</button>
+                </div>
+                <div class="code-output" id="codeOutput">.neumorph { box-shadow: ... }</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentType = 'flat';
+
+        function setType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(type));
+            });
+            updateNeo();
+        }
+
+        function toggleType() {
+            const types = ['flat', 'pressed', 'floating'];
+            const idx = types.indexOf(currentType);
+            setType(types[(idx + 1) % types.length]);
+        }
+
+        function updateNeo() {
+            const bgColor = document.getElementById('bgColor').value;
+            const lightDist = parseInt(document.getElementById('lightDist').value);
+            const shadowInt = parseInt(document.getElementById('shadowIntensity').value) / 100;
+            const radius = parseInt(document.getElementById('borderRadius').value);
+            const size = parseInt(document.getElementById('elemSize').value);
+
+            document.getElementById('bgColorValue').textContent = bgColor;
+            document.getElementById('lightValue').textContent = lightDist + 'px';
+            document.getElementById('shadowValue').textContent = (shadowInt * 100) + '%';
+            document.getElementById('radiusValue').textContent = radius + 'px';
+            document.getElementById('sizeValue').textContent = size + 'px';
+
+            const light = lighten(bgColor, 20 * shadowInt);
+            const dark = darken(bgColor, 20 * shadowInt);
+
+            const element = document.getElementById('neoElement');
+            element.style.width = size + 'px';
+            element.style.height = size + 'px';
+            element.style.background = bgColor;
+            element.style.borderRadius = radius + 'px';
+
+            let shadow;
+            if (currentType === 'flat') {
+                shadow = `${lightDist}px ${lightDist}px ${lightDist * 2}px ${dark}, -${lightDist}px -${lightDist}px ${lightDist * 2}px ${light}`;
+            } else if (currentType === 'pressed') {
+                shadow = `inset ${lightDist}px ${lightDist}px ${lightDist * 2}px ${dark}, inset -${lightDist}px -${lightDist}px ${lightDist * 2}px ${light}`;
+            } else {
+                shadow = `0 ${lightDist * 2}px ${lightDist * 4}px rgba(0,0,0,${0.2 * shadowInt}), ${lightDist}px ${lightDist}px ${lightDist * 2}px ${light}, -${lightDist}px -${lightDist}px ${lightDist * 2}px ${light}`;
+            }
+
+            element.style.boxShadow = shadow;
+
+            const css = `.neumorph {
+  background: ${bgColor};
+  border-radius: ${radius}px;
+  box-shadow: ${shadow};
+}`;
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function lighten(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function darken(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.max(0, (num >> 16) - amt);
+            const G = Math.max(0, ((num >> 8) & 0x00FF) - amt);
+            const B = Math.max(0, (num & 0x0000FF) - amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        window.onload = updateNeo;
+    </script>
+</body>
+</html>

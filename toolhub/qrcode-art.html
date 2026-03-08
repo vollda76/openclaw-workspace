@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 QR Code Art – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea { min-height: 60px; resize: vertical; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] {
+            width: 50px; height: 50px;
+            border: none; border-radius: 10px;
+            cursor: pointer;
+        }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-family: monospace;
+        }
+        .gradient-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 1rem; }
+        .gradient-preset {
+            height: 50px; border-radius: 10px;
+            cursor: pointer; border: 3px solid transparent;
+        }
+        .gradient-preset:hover { transform: scale(1.05); }
+        .gradient-preset.active { border-color: white; }
+        .style-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .style-option {
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .style-option:hover { background: rgba(255,255,255,0.2); }
+        .style-option.active { border-color: #667eea; background: rgba(102,126,234,0.2); }
+        .style-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .style-name { font-size: 0.85rem; font-weight: 600; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .qr-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #qrCanvas { display: block; margin: 0 auto; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn {
+            padding: 1rem 2rem;
+            border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 700;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .action-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .action-btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] {
+            width: 100%; height: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.2);
+            outline: none; -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            cursor: pointer;
+        }
+        .error-correction { display: flex; gap: 10px; }
+        .ec-option {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .ec-option.active { background: linear-gradient(135deg, #667eea, #764ba2); border-color: #667eea; }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">📱</div>
+            <h1>QR Code Art</h1>
+            <p class="subtitle">Erstelle wunderschöne QR Codes mit Farben, Gradients und Text</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Einstellungen</h2>
+
+                <div class="form-group">
+                    <label>🔗 URL oder Text</label>
+                    <textarea id="qrText" placeholder="https://example.com" oninput="generateQR()">https://vicaworld.cloud</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Text unten (optional)</label>
+                    <input type="text" id="captionText" placeholder="Scanne mich!" oninput="generateQR()">
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 QR Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="qrColor" value="#000000" onchange="generateQR()">
+                        <div class="color-value" id="qrColorValue">#000000</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🌈 Oder Gradient</label>
+                    <div class="color-picker-group" style="margin-bottom: 10px;">
+                        <input type="color" id="gradientStart" value="#667eea" onchange="generateQR()">
+                        <span>Start:</span>
+                        <div class="color-value" id="gradientStartValue">#667eea</div>
+                    </div>
+                    <div class="color-picker-group">
+                        <input type="color" id="gradientEnd" value="#764ba2" onchange="generateQR()">
+                        <span>Ende:</span>
+                        <div class="color-value" id="gradientEndValue">#764ba2</div>
+                    </div>
+                    <label style="margin-top: 1rem;">Presets</label>
+                    <div class="gradient-presets">
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #667eea, #764ba2);" onclick="setGradient('#667eea','#764ba2',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #f093fb, #f5576c);" onclick="setGradient('#f093fb','#f5576c',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #4facfe, #00f2fe);" onclick="setGradient('#4facfe','#00f2fe',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #43e97b, #38f9d7);" onclick="setGradient('#43e97b','#38f9d7',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #fa709a, #fee140);" onclick="setGradient('#fa709a','#fee140',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #a8edea, #fed6e3);" onclick="setGradient('#a8edea','#fed6e3',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);" onclick="setGradient('#ff9a9e','#fecfef',this)"></div>
+                        <div class="gradient-preset" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);" onclick="setGradient('#ffecd2','#fcb69f',this)"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>⬜ Hintergrund</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="bgColor" value="#ffffff" onchange="generateQR()">
+                        <div class="color-value" id="bgColorValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔲 QR Stil</label>
+                    <div class="style-options">
+                        <div class="style-option active" onclick="setStyle('square',this)"><div class="style-icon">⬜</div><div class="style-name">Square</div></div>
+                        <div class="style-option" onclick="setStyle('dots',this)"><div class="style-icon">⚪</div><div class="style-name">Dots</div></div>
+                        <div class="style-option" onclick="setStyle('rounded',this)"><div class="style-icon">🔶</div><div class="style-name">Rounded</div></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🛡️ Fehlerkorrektur</label>
+                    <div class="error-correction">
+                        <div class="ec-option" onclick="setEC('L',this)">L</div>
+                        <div class="ec-option active" onclick="setEC('M',this)">M</div>
+                        <div class="ec-option" onclick="setEC('Q',this)">Q</div>
+                        <div class="ec-option" onclick="setEC('H',this)">H</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 QR Grösse</label><span id="sizeValue">400px</span></div>
+                    <input type="range" id="qrSize" min="200" max="800" value="400" step="50" oninput="updateSize()">
+                </div>
+
+                <div class="form-group">
+                    <label>🔤 Text Grösse</label>
+                    <div class="slider-header"><span id="textSizeValue">18px</span></div>
+                    <input type="range" id="textSize" min="12" max="36" value="18" step="2" oninput="updateTextSize()">
+                </div>
+
+                <button class="action-btn action-btn-primary" onclick="generateQR()" style="width: 100%;">✨ Generieren</button>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="qr-container">
+                    <canvas id="qrCanvas"></canvas>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="downloadQR()">⬇️ Download PNG</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyQR()">📋 In Zwischenablage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script>
+        let qrStyle = 'square';
+        let ecLevel = 'M';
+        let qrSize = 400;
+        let textSize = 18;
+        let useGradient = false;
+
+        function setGradient(start, end, el) {
+            document.getElementById('gradientStart').value = start;
+            document.getElementById('gradientEnd').value = end;
+            document.getElementById('gradientStartValue').textContent = start;
+            document.getElementById('gradientEndValue').textContent = end;
+            document.querySelectorAll('.gradient-preset').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            useGradient = true;
+            generateQR();
+        }
+
+        function setStyle(style, el) {
+            qrStyle = style;
+            document.querySelectorAll('.style-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            generateQR();
+        }
+
+        function setEC(ec, el) {
+            ecLevel = ec;
+            document.querySelectorAll('.ec-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            generateQR();
+        }
+
+        function updateSize() {
+            qrSize = parseInt(document.getElementById('qrSize').value);
+            document.getElementById('sizeValue').textContent = qrSize + 'px';
+            generateQR();
+        }
+
+        function updateTextSize() {
+            textSize = parseInt(document.getElementById('textSize').value);
+            document.getElementById('textSizeValue').textContent = textSize + 'px';
+            generateQR();
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 0, g: 0, b: 0 };
+        }
+
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+
+        function generateQR() {
+            const text = document.getElementById('qrText').value || 'https://vicaworld.cloud';
+            const caption = document.getElementById('captionText').value;
+            const canvas = document.getElementById('qrCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Check if gradient is selected (both colors different from default)
+            const gStart = document.getElementById('gradientStart').value;
+            const gEnd = document.getElementById('gradientEnd').value;
+            useGradient = (gStart !== '#000000' || gEnd !== '#000000');
+            
+            // Generate QR using library
+            const qr = qrcode(0, ecLevel);
+            qr.addData(text);
+            qr.make();
+            
+            const moduleCount = qr.getModuleCount();
+            const padding = 30;
+            const textHeight = caption ? textSize + 40 : 0;
+            const drawSize = qrSize;
+            const moduleSize = drawSize / moduleCount;
+            
+            // Set canvas size
+            canvas.width = drawSize + padding * 2;
+            canvas.height = drawSize + padding * 2 + textHeight;
+            
+            // Background
+            const bgColor = document.getElementById('bgColor').value;
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw QR modules
+            for (let row = 0; row < moduleCount; row++) {
+                for (let col = 0; col < moduleCount; col++) {
+                    if (qr.isDark(row, col)) {
+                        const x = padding + col * moduleSize;
+                        const y = padding + row * moduleSize;
+                        
+                        if (qrStyle === 'square') {
+                            if (useGradient) {
+                                const gradient = ctx.createLinearGradient(x, y, x + moduleSize, y + moduleSize);
+                                gradient.addColorStop(0, gStart);
+                                gradient.addColorStop(1, gEnd);
+                                ctx.fillStyle = gradient;
+                            } else {
+                                ctx.fillStyle = document.getElementById('qrColor').value;
+                            }
+                            ctx.fillRect(x, y, moduleSize, moduleSize);
+                            
+                        } else if (qrStyle === 'dots') {
+                            if (useGradient) {
+                                const gradient = ctx.createRadialGradient(
+                                    x + moduleSize/2, y + moduleSize/2, 0,
+                                    x + moduleSize/2, y + moduleSize/2, moduleSize/2
+                                );
+                                gradient.addColorStop(0, gStart);
+                                gradient.addColorStop(1, gEnd);
+                                ctx.fillStyle = gradient;
+                            } else {
+                                ctx.fillStyle = document.getElementById('qrColor').value;
+                            }
+                            ctx.beginPath();
+                            ctx.arc(x + moduleSize/2, y + moduleSize/2, moduleSize/2.3, 0, Math.PI * 2);
+                            ctx.fill();
+                            
+                        } else if (qrStyle === 'rounded') {
+                            if (useGradient) {
+                                const gradient = ctx.createLinearGradient(x, y, x + moduleSize, y + moduleSize);
+                                gradient.addColorStop(0, gStart);
+                                gradient.addColorStop(1, gEnd);
+                                ctx.fillStyle = gradient;
+                            } else {
+                                ctx.fillStyle = document.getElementById('qrColor').value;
+                            }
+                            roundRect(ctx, x + 1, y + 1, moduleSize - 2, moduleSize - 2, moduleSize/4);
+                            ctx.fill();
+                        }
+                    }
+                }
+            }
+            
+            // Draw caption text
+            if (caption) {
+                ctx.fillStyle = '#333333';
+                ctx.font = `bold ${textSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(caption, canvas.width / 2, padding + drawSize + textSize + 15);
+            }
+        }
+
+        function downloadQR() {
+            const canvas = document.getElementById('qrCanvas');
+            const link = document.createElement('a');
+            link.download = 'qr-code-' + Date.now() + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        async function copyQR() {
+            const canvas = document.getElementById('qrCanvas');
+            canvas.toBlob(async function(blob) {
+                try {
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                    alert('✅ QR Code kopiert!');
+                } catch(e) {
+                    alert('❌ Kopieren nicht unterstützt');
+                }
+            });
+        }
+
+        // Init
+        window.onload = function() {
+            generateQR();
+        };
+    </script>
+</body>
+</html>

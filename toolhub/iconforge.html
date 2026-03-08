@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 IconForge – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #f093fb, #f5576c, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        select, input[type="text"], input[type="number"] { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        select:focus, input:focus { outline: none; border-color: #f093fb; }
+        select option { background: #1a1a2e; color: white; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #f093fb, #f5576c); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; }
+        .icon-preview { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; font-size: 4rem; border-radius: 20px; transition: all 0.3s ease; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(240,147,251,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .icon-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .icon-item { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
+        .icon-item:hover { background: rgba(255,255,255,0.2); }
+        .icon-item.selected { border-color: #f093fb; background: rgba(240,147,251,0.2); }
+        .shape-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .shape-btn { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; text-align: center; cursor: pointer; font-size: 1.5rem; }
+        .shape-btn:hover { background: rgba(255,255,255,0.2); }
+        .shape-btn.active { border-color: #f093fb; background: rgba(240,147,251,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🔥</div>
+            <h1>IconForge</h1>
+            <p class="subtitle">Erstelle & customize Icons mit SVG Export</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Icon Settings</h2>
+                
+                <div class="form-group">
+                    <label>🎨 Icon auswählen</label>
+                    <div class="icon-grid" id="iconGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔲 Hintergrund Form</label>
+                    <div class="shape-options">
+                        <div class="shape-btn active" onclick="setShape('none')" data-shape="none">❌</div>
+                        <div class="shape-btn" onclick="setShape('circle')" data-shape="circle">⭕</div>
+                        <div class="shape-btn" onclick="setShape('square')" data-shape="square">⬜</div>
+                        <div class="shape-btn" onclick="setShape('rounded')" data-shape="rounded">▢</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Icon Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="iconColor" value="#ffffff" onchange="updateIcon()">
+                        <div class="color-value" id="iconColorValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Hintergrund Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="bgColor" value="#667eea" onchange="updateIcon()">
+                        <div class="color-value" id="bgColorValue">#667eea</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Grösse</label><span id="sizeValue">120px</span></div>
+                    <input type="range" id="iconSize" min="64" max="256" value="120" oninput="updateIcon()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🔍 Padding</label><span id="paddingValue">20</span></div>
+                    <input type="range" id="iconPadding" min="0" max="50" value="20" oninput="updateIcon()">
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container">
+                    <div class="icon-preview" id="iconPreview">🏠</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copySVG()">📋 SVG kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyCSS()">🎨 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="downloadPNG()">💾 Als PNG</button>
+                </div>
+                <div class="code-output" id="codeOutput"><svg>...</svg></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const icons = ['🏠','⭐','❤️','🔔','⚙️','📱','💻','📧','🔒','🔑','🎯','📊','📈','💡','🔥','✨','🎉','✅','❌','⚠️','ℹ️','🔗','📎','🗑️','✏️','📷','🎵','🎮','🛒','🚀'];
+        let selectedIcon = '🏠';
+        let shape = 'none';
+
+        function initIcons() {
+            const grid = document.getElementById('iconGrid');
+            grid.innerHTML = icons.map(icon => `
+                <div class="icon-item ${icon === selectedIcon ? 'selected' : ''}" onclick="selectIcon('${icon}')">${icon}</div>
+            `).join('');
+        }
+
+        function selectIcon(icon) {
+            selectedIcon = icon;
+            document.querySelectorAll('.icon-item').forEach(item => {
+                item.classList.toggle('selected', item.textContent === icon);
+            });
+            updateIcon();
+        }
+
+        function setShape(s) {
+            shape = s;
+            document.querySelectorAll('.shape-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.shape === s);
+            });
+            updateIcon();
+        }
+
+        function updateIcon() {
+            const color = document.getElementById('iconColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const size = parseInt(document.getElementById('iconSize').value);
+            const padding = parseInt(document.getElementById('iconPadding').value);
+
+            document.getElementById('iconColorValue').textContent = color;
+            document.getElementById('bgColorValue').textContent = bgColor;
+            document.getElementById('sizeValue').textContent = size + 'px';
+            document.getElementById('paddingValue').textContent = padding;
+
+            const preview = document.getElementById('iconPreview');
+            preview.textContent = selectedIcon;
+            preview.style.fontSize = (size * 0.6) + 'px';
+            preview.style.width = size + 'px';
+            preview.style.height = size + 'px';
+            preview.style.color = color;
+
+            if (shape === 'circle') {
+                preview.style.background = bgColor;
+                preview.style.borderRadius = '50%';
+                preview.style.padding = padding + 'px';
+            } else if (shape === 'square') {
+                preview.style.background = bgColor;
+                preview.style.borderRadius = '0';
+                preview.style.padding = padding + 'px';
+            } else if (shape === 'rounded') {
+                preview.style.background = bgColor;
+                preview.style.borderRadius = '16px';
+                preview.style.padding = padding + 'px';
+            } else {
+                preview.style.background = 'transparent';
+                preview.style.borderRadius = '0';
+                preview.style.padding = '0';
+            }
+
+            const svg = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+  ${shape === 'circle' ? `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="${bgColor}"/>` : ''}
+  ${shape === 'square' ? `<rect width="${size}" height="${size}" fill="${bgColor}"/>` : ''}
+  ${shape === 'rounded' ? `<rect width="${size}" height="${size}" rx="16" fill="${bgColor}"/>` : ''}
+  <text x="50%" y="55%" text-anchor="middle" font-size="${size*0.5}" fill="${color}">${selectedIcon}</text>
+</svg>`;
+            document.getElementById('codeOutput').textContent = svg;
+        }
+
+        function copySVG() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ SVG kopiert!'));
+        }
+
+        function copyCSS() {
+            const css = `.icon {
+  width: ${document.getElementById('iconSize').value}px;
+  height: ${document.getElementById('iconSize').value}px;
+  font-size: ${document.getElementById('iconSize').value * 0.5}px;
+  color: ${document.getElementById('iconColor').value};
+  background: ${shape !== 'none' ? document.getElementById('bgColor').value : 'transparent'};
+  border-radius: ${shape === 'circle' ? '50%' : shape === 'rounded' ? '16px' : '0'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}`;
+            navigator.clipboard.writeText(css).then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function downloadPNG() {
+            alert('💡 Tipp: Screenshot machen oder SVG verwenden!');
+        }
+
+        initIcons();
+        window.onload = updateIcon;
+    </script>
+</body>
+</html>

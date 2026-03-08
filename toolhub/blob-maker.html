@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🫧 Blob Maker – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; }
+        .blob { width: 200px; height: 200px; transition: all 0.5s ease; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .preset-btn { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; }
+        .preset-btn:hover { background: rgba(255,255,255,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🫧</div>
+            <h1>Blob Maker</h1>
+            <p class="subtitle">Erstelle organische Blob-Shapes mit CSS clip-path</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Blob Einstellungen</h2>
+                
+                <div class="form-group">
+                    <label>🎨 Blob Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="blobColor" value="#667eea" onchange="updateBlob()">
+                        <div class="color-value" id="blobColorValue">#667eea</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Grösse</label><span id="sizeValue">200px</span></div>
+                    <input type="range" id="blobSize" min="100" max="300" value="200" oninput="updateBlob()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🌊 Variation 1</label><span id="var1Value">50</span></div>
+                    <input type="range" id="var1" min="0" max="100" value="50" oninput="updateBlob()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🌊 Variation 2</label><span id="var2Value">50</span></div>
+                    <input type="range" id="var2" min="0" max="100" value="50" oninput="updateBlob()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🌊 Variation 3</label><span id="var3Value">50</span></div>
+                    <input type="range" id="var3" min="0" max="100" value="50" oninput="updateBlob()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🌊 Variation 4</label><span id="var4Value">50</span></div>
+                    <input type="range" id="var4" min="0" max="100" value="50" oninput="updateBlob()">
+                </div>
+
+                <label style="display:block;font-weight:600;margin-bottom:0.5rem;">🎯 Presets</label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="setPreset(1)">Blob 1</button>
+                    <button class="preset-btn" onclick="setPreset(2)">Blob 2</button>
+                    <button class="preset-btn" onclick="setPreset(3)">Blob 3</button>
+                    <button class="preset-btn" onclick="setPreset(4)">Blob 4</button>
+                    <button class="preset-btn" onclick="setPreset(5)">Blob 5</button>
+                    <button class="preset-btn" onclick="randomize()">🎲 Random</button>
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container">
+                    <div class="blob" id="blob"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copySVG()">📐 SVG kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="randomize()">🎲 Randomisieren</button>
+                </div>
+                <div class="code-output" id="codeOutput">clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateBlob() {
+            const color = document.getElementById('blobColor').value;
+            const size = parseInt(document.getElementById('blobSize').value);
+            const v1 = parseInt(document.getElementById('var1').value);
+            const v2 = parseInt(document.getElementById('var2').value);
+            const v3 = parseInt(document.getElementById('var3').value);
+            const v4 = parseInt(document.getElementById('var4').value);
+
+            document.getElementById('blobColorValue').textContent = color;
+            document.getElementById('sizeValue').textContent = size + 'px';
+            document.getElementById('var1Value').textContent = v1;
+            document.getElementById('var2Value').textContent = v2;
+            document.getElementById('var3Value').textContent = v3;
+            document.getElementById('var4Value').textContent = v4;
+
+            const blob = document.getElementById('blob');
+            blob.style.width = size + 'px';
+            blob.style.height = size + 'px';
+            blob.style.background = color;
+
+            const clipPath = generateBlobPath(v1, v2, v3, v4);
+            blob.style.clipPath = clipPath;
+            blob.style.webkitClipPath = clipPath;
+
+            document.getElementById('codeOutput').textContent = `clip-path: ${clipPath};`;
+        }
+
+        function generateBlobPath(v1, v2, v3, v4) {
+            const r = 50;
+            const p1 = 30 + v1 * 0.4;
+            const p2 = 50 + v2 * 0.4;
+            const p3 = 70 + v3 * 0.4;
+            const p4 = 50 + v4 * 0.4;
+            
+            return `path('M ${r},${r*0.2} C ${r*1.5},${r*0.1} ${r*1.9},${r*0.5} ${r*1.8},${r} C ${r*1.9},${r*1.5} ${r*1.5},${r*1.9} ${r},${r*1.8} C ${r*0.5},${r*1.9} ${r*0.1},${r*1.5} ${r*0.2},${r} C ${r*0.1},${r*0.5} ${r*0.5},${r*0.1} ${r},${r*0.2} Z')`;
+        }
+
+        function setPreset(n) {
+            const presets = [
+                { v1: 50, v2: 50, v3: 50, v4: 50 },
+                { v1: 80, v2: 20, v3: 80, v4: 20 },
+                { v1: 20, v2: 80, v3: 20, v4: 80 },
+                { v1: 90, v2: 90, v3: 20, v4: 20 },
+                { v1: 30, v2: 70, v3: 70, v4: 30 }
+            ];
+            const p = presets[n-1];
+            document.getElementById('var1').value = p.v1;
+            document.getElementById('var2').value = p.v2;
+            document.getElementById('var3').value = p.v3;
+            document.getElementById('var4').value = p.v4;
+            updateBlob();
+        }
+
+        function randomize() {
+            document.getElementById('var1').value = Math.floor(Math.random() * 100);
+            document.getElementById('var2').value = Math.floor(Math.random() * 100);
+            document.getElementById('var3').value = Math.floor(Math.random() * 100);
+            document.getElementById('var4').value = Math.floor(Math.random() * 100);
+            updateBlob();
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copySVG() {
+            const svg = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 50,20 C 75,10 95,50 90,50 C 95,75 75,95 50,90 C 25,95 5,75 10,50 C 5,25 25,5 50,20 Z" fill="${document.getElementById('blobColor').value}"/>
+</svg>`;
+            navigator.clipboard.writeText(svg).then(() => alert('✅ SVG kopiert!'));
+        }
+
+        window.onload = updateBlob;
+    </script>
+</body>
+</html>

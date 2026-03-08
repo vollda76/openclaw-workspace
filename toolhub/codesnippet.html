@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 CodeSnippet – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .search-box { max-width: 600px; margin: 0 auto 40px; position: relative; }
+        .search-box input { width: 100%; padding: 1rem 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 16px; color: white; font-size: 1rem; }
+        .search-box input:focus { outline: none; border-color: #4facfe; }
+        .categories { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
+        .cat-btn { padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 50px; color: white; cursor: pointer; font-weight: 600; }
+        .cat-btn:hover { background: rgba(255,255,255,0.2); }
+        .cat-btn.active { background: linear-gradient(135deg, #4facfe, #f093fb); border-color: transparent; }
+        .snippets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
+        .snippet-card { background: rgba(255,255,255,0.05); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .snippet-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .snippet-title { font-size: 1.1rem; font-weight: 700; }
+        .snippet-lang { padding: 0.25rem 0.75rem; background: rgba(79,172,254,0.2); border-radius: 20px; font-size: 0.75rem; color: #4facfe; }
+        .snippet-code { padding: 1.5rem; background: rgba(0,0,0,0.3); font-family: 'Monaco', 'Consolas', monospace; font-size: 0.85rem; overflow-x: auto; max-height: 200px; overflow-y: auto; }
+        .snippet-footer { padding: 1rem 1.5rem; display: flex; gap: 10px; }
+        .action-btn { flex: 1; padding: 0.75rem; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #4facfe, #f093fb); color: white; }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; }
+        .action-btn:hover { transform: translateY(-2px); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #1a1a2e; border-radius: 20px; padding: 2rem; max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .close-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 900px) { .snippets-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">📝</div>
+            <h1>CodeSnippet</h1>
+            <p class="subtitle">Nützliche Code-Snippets für Entwickler</p>
+        </header>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Snippets durchsuchen..." oninput="filterSnippets()">
+        </div>
+
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterCategory('all')">Alle</button>
+            <button class="cat-btn" onclick="filterCategory('css')">CSS</button>
+            <button class="cat-btn" onclick="filterCategory('js')">JavaScript</button>
+            <button class="cat-btn" onclick="filterCategory('html')">HTML</button>
+            <button class="cat-btn" onclick="filterCategory('utils')">Utils</button>
+        </div>
+
+        <div class="snippets-grid" id="snippetsGrid"></div>
+    </div>
+
+    <div class="modal" id="snippetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Snippet Title</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <pre class="snippet-code" id="modalCode" style="max-height: 400px;"></pre>
+            <div class="snippet-footer">
+                <button class="action-btn action-btn-primary" onclick="copyFromModal()">📋 Kopieren</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const snippets = [
+            { title: 'CSS Reset', lang: 'css', category: 'css', code: `* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nhtml {\n  line-height: 1.5;\n  -webkit-text-size-adjust: 100%;\n}\n\nbody {\n  font-family: system-ui, -apple-system, sans-serif;\n}` },
+            { title: 'Flexbox Center', lang: 'css', category: 'css', code: `.center {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}` },
+            { title: 'CSS Grid Layout', lang: 'css', category: 'css', code: `.grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}` },
+            { title: 'Responsive Image', lang: 'css', category: 'css', code: `img {\n  max-width: 100%;\n  height: auto;\n  display: block;\n}` },
+            { title: 'CSS Variables', lang: 'css', category: 'css', code: `:root {\n  --primary: #4facfe;\n  --secondary: #f093fb;\n  --dark: #1a1a2e;\n}\n\n.element {\n  color: var(--primary);\n  background: var(--dark);\n}` },
+            { title: 'Debounce Function', lang: 'js', category: 'js', code: `function debounce(func, wait) {\n  let timeout;\n  return function executedFunction(...args) {\n    const later = () => {\n      clearTimeout(timeout);\n      func(...args);\n    };\n    clearTimeout(timeout);\n    timeout = setTimeout(later, wait);\n  };\n}` },
+            { title: 'Fetch API', lang: 'js', category: 'js', code: `async function fetchData(url) {\n  try {\n    const response = await fetch(url);\n    const data = await response.json();\n    return data;\n  } catch (error) {\n    console.error('Error:', error);\n  }\n}` },
+            { title: 'LocalStorage Helper', lang: 'js', category: 'js', code: `const storage = {\n  get: (key) => JSON.parse(localStorage.getItem(key)),\n  set: (key, value) => localStorage.setItem(key, JSON.stringify(value)),\n  remove: (key) => localStorage.removeItem(key)\n};` },
+            { title: 'Array Methods', lang: 'js', category: 'js', code: `const arr = [1, 2, 3, 4, 5];\n\n// Map\nconst doubled = arr.map(x => x * 2);\n\n// Filter\nconst evens = arr.filter(x => x % 2 === 0);\n\n// Reduce\nconst sum = arr.reduce((a, b) => a + b, 0);` },
+            { title: 'Dark Mode Toggle', lang: 'js', category: 'js', code: `function toggleDarkMode() {\n  document.body.classList.toggle('dark-mode');\n  const isDark = document.body.classList.contains('dark-mode');\n  localStorage.setItem('darkMode', isDark);\n}` },
+            { title: 'HTML5 Boilerplate', lang: 'html', category: 'html', code: `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Document</title>\n</head>\n<body>\n  \n</body>\n</html>` },
+            { title: 'Semantic HTML', lang: 'html', category: 'html', code: `<header>\n  <nav>\n    <ul>\n      <li><a href="#home">Home</a></li>\n      <li><a href="#about">About</a></li>\n    </ul>\n  </nav>\n</header>\n<main>\n  <article>\n    <h1>Title</h1>\n    <p>Content...</p>\n  </article>\n</main>\n<footer>\n  <p>&copy; 2024</p>\n</footer>` },
+            { title: 'Form Validation', lang: 'html', category: 'html', code: `<form>\n  <input type="email" required placeholder="Email">\n  <input type="password" minlength="8" required placeholder="Password">\n  <button type="submit">Submit</button>\n</form>` },
+            { title: 'Format Date', lang: 'js', category: 'utils', code: `function formatDate(date) {\n  return new Intl.DateTimeFormat('de-DE', {\n    year: 'numeric',\n    month: 'long',\n    day: 'numeric'\n  }).format(new Date(date));\n}` },
+            { title: 'Copy to Clipboard', lang: 'js', category: 'utils', code: `async function copyToClipboard(text) {\n  try {\n    await navigator.clipboard.writeText(text);\n    console.log('Copied!');\n  } catch (err) {\n    console.error('Failed:', err);\n  }\n}` },
+            { title: 'UUID Generator', lang: 'js', category: 'utils', code: `function generateUUID() {\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    const r = Math.random() * 16 | 0;\n    const v = c === 'x' ? r : (r & 0x3 | 0x8);\n    return v.toString(16);\n  });\n}` }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderSnippets(filter = '') {
+            const grid = document.getElementById('snippetsGrid');
+            const filtered = snippets.filter(s => {
+                const matchesCategory = currentCategory === 'all' || s.category === currentCategory;
+                const matchesSearch = s.title.toLowerCase().includes(filter.toLowerCase()) || 
+                                     s.code.toLowerCase().includes(filter.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            grid.innerHTML = filtered.map((s, i) => `
+                <div class="snippet-card">
+                    <div class="snippet-header">
+                        <span class="snippet-title">${s.title}</span>
+                        <span class="snippet-lang">${s.lang.toUpperCase()}</span>
+                    </div>
+                    <div class="snippet-code">${escapeHtml(s.code)}</div>
+                    <div class="snippet-footer">
+                        <button class="action-btn action-btn-primary" onclick="copySnippet(${i})">📋 Kopieren</button>
+                        <button class="action-btn action-btn-secondary" onclick="openModal(${i})">👁️ Ansehen</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(cat === 'all' ? 'alle' : cat));
+            });
+            renderSnippets(document.getElementById('searchInput').value);
+        }
+
+        function filterSnippets() {
+            renderSnippets(document.getElementById('searchInput').value);
+        }
+
+        function copySnippet(i) {
+            navigator.clipboard.writeText(snippets[i].code).then(() => alert('✅ Kopiert!'));
+        }
+
+        function openModal(i) {
+            document.getElementById('modalTitle').textContent = snippets[i].title;
+            document.getElementById('modalCode').textContent = snippets[i].code;
+            document.getElementById('snippetModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('snippetModal').classList.remove('active');
+        }
+
+        function copyFromModal() {
+            navigator.clipboard.writeText(document.getElementById('modalCode').textContent)
+                .then(() => alert('✅ Kopiert!'));
+        }
+
+        renderSnippets();
+    </script>
+</body>
+</html>

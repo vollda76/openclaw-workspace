@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📐 Grid Builder – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #43e97b, #38f9d7, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        input[type="number"], select { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        input:focus, select:focus { outline: none; border-color: #43e97b; }
+        select option { background: #1a1a2e; color: white; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #43e97b, #38f9d7); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .grid-preview { width: 100%; min-height: 400px; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; margin-bottom: 20px; display: grid; gap: 10px; }
+        .grid-item { background: linear-gradient(135deg, #43e97b, #38f9d7); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #0f0f1a; min-height: 80px; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(67,233,123,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .preset-btn { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .preset-btn:hover { background: rgba(255,255,255,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">📐</div>
+            <h1>Grid Builder</h1>
+            <p class="subtitle">CSS Grid Layouts visuell erstellen</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Grid Settings</h2>
+                
+                <div class="form-group">
+                    <label>📊 Columns</label>
+                    <input type="number" id="columns" value="3" min="1" max="12" onchange="updateGrid()">
+                </div>
+
+                <div class="form-group">
+                    <label>📊 Rows</label>
+                    <input type="number" id="rows" value="3" min="1" max="12" onchange="updateGrid()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📏 Gap</label><span id="gapValue">20px</span></div>
+                    <input type="range" id="gap" min="0" max="50" value="20" oninput="updateGrid()">
+                </div>
+
+                <div class="form-group">
+                    <label>🔲 Column Width</label>
+                    <select id="colWidth" onchange="updateGrid()">
+                        <option value="1fr">Equal (1fr)</option>
+                        <option value="auto">Auto</option>
+                        <option value="minmax">Min-Max (100px, 1fr)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Item Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="itemColor" value="#43e97b" onchange="updateGrid()">
+                        <div class="color-value" id="itemColorValue">#43e97b</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>📦 Items anzeigen</label>
+                    <input type="number" id="itemCount" value="9" min="1" max="24" onchange="updateGrid()">
+                </div>
+
+                <label style="display:block;font-weight:600;margin-bottom:0.5rem;">🎯 Presets</label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="setPreset(1)">3x3 Grid</button>
+                    <button class="preset-btn" onclick="setPreset(2)">Sidebar</button>
+                    <button class="preset-btn" onclick="setPreset(3)">Holy Grail</button>
+                    <button class="preset-btn" onclick="setPreset(4)">Masonry</button>
+                    <button class="preset-btn" onclick="setPreset(5)">Cards</button>
+                    <button class="preset-btn" onclick="setPreset(6)">Gallery</button>
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="grid-preview" id="gridPreview"></div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyHTML()">🌐 HTML kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="resetGrid()">🔄 Reset</button>
+                </div>
+                <div class="code-output" id="codeOutput">.grid { display: grid; ... }</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateGrid() {
+            const cols = parseInt(document.getElementById('columns').value);
+            const rows = parseInt(document.getElementById('rows').value);
+            const gap = parseInt(document.getElementById('gap').value);
+            const colWidth = document.getElementById('colWidth').value;
+            const color = document.getElementById('itemColor').value;
+            const count = parseInt(document.getElementById('itemCount').value);
+
+            document.getElementById('itemColorValue').textContent = color;
+            document.getElementById('gapValue').textContent = gap + 'px';
+
+            const preview = document.getElementById('gridPreview');
+            preview.style.display = 'grid';
+            preview.style.gridTemplateColumns = colWidth === '1fr' ? `repeat(${cols}, 1fr)` : 
+                                                colWidth === 'auto' ? `repeat(${cols}, auto)` :
+                                                `repeat(${cols}, minmax(100px, 1fr))`;
+            preview.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+            preview.style.gap = gap + 'px';
+
+            let colTemplate = colWidth === 'minmax' ? 'minmax(100px, 1fr)' : (colWidth === 'auto' ? 'auto' : '1fr');
+            
+            preview.innerHTML = Array.from({length: count}, (_, i) => `
+                <div class="grid-item" style="background: linear-gradient(135deg, ${color}, ${lighten(color, 20)});">
+                    ${i + 1}
+                </div>
+            `).join('');
+
+            const css = `.grid {
+  display: grid;
+  grid-template-columns: repeat(${cols}, ${colTemplate});
+  grid-template-rows: repeat(${rows}, 1fr);
+  gap: ${gap}px;
+}`;
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function setPreset(n) {
+            const presets = [
+                { cols: 3, rows: 3, items: 9 },
+                { cols: 4, rows: 2, items: 8 },
+                { cols: 3, rows: 3, items: 6 },
+                { cols: 3, rows: 4, items: 10 },
+                { cols: 3, rows: 2, items: 6 },
+                { cols: 4, rows: 3, items: 12 }
+            ];
+            const p = presets[n-1];
+            document.getElementById('columns').value = p.cols;
+            document.getElementById('rows').value = p.rows;
+            document.getElementById('itemCount').value = p.items;
+            updateGrid();
+        }
+
+        function lighten(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copyHTML() {
+            const html = `<div class="grid">\n  ${Array.from({length: parseInt(document.getElementById('itemCount').value)}, (_, i) => `<div class="item">${i + 1}</div>`).join('\n  ')}\n</div>`;
+            navigator.clipboard.writeText(html).then(() => alert('✅ HTML kopiert!'));
+        }
+
+        function resetGrid() {
+            document.getElementById('columns').value = 3;
+            document.getElementById('rows').value = 3;
+            document.getElementById('gap').value = 20;
+            document.getElementById('colWidth').value = '1fr';
+            document.getElementById('itemCount').value = 9;
+            updateGrid();
+        }
+
+        window.onload = updateGrid;
+    </script>
+</body>
+</html>

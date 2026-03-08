@@ -1,0 +1,139 @@
+═══════════════════════════════════════════════════════════════
+  📋 SCRIPT: Get-M365MonthlyReport.ps1
+  💼 M365 Monthly Report Generator
+  ⏱️  Zeitersparnis: 2-3 Stunden → 5 Minuten (95%!)
+═══════════════════════════════════════════════════════════════
+
+📖 WAS MACHT DAS SCRIPT?
+───────────────────────────────────────────────────────────────
+Generiert automatisch einen umfassenden monatlichen Report über
+den Microsoft 365 Tenant.
+
+Perfekt für:
+✓ Monatsabschlüsse
+✓ Kunden-Reports
+✓ Management-Überblick
+✓ Lizenz-Audits
+✓ Kostenkontrolle
+
+Das Script:
+• Zählt alle User (aktiv/deaktiviert)
+• Zeigt Lizenz-Verteilung
+• Teams Statistics
+• Device Overview
+• Erstellt schönen HTML-Report (druckbar)
+• Öffnet Report automatisch nach Erstellung
+
+
+📊 REPORT INHALT
+───────────────────────────────────────────────────────────────
+Der Report enthält:
+
+1. 📈 Übersicht
+   - Total User
+   - Aktive User
+   - Total Teams
+   - Total Devices
+
+2. 👥 User Details
+   - Aktive vs. deaktivierte User
+   - User mit/ohne Lizenz
+   - Neue User im Monat
+
+3. 👨‍👩‍👧‍👦 Microsoft Teams
+   - Total Teams
+   - Private vs. Public Teams
+
+4. 💻 Devices
+   - Registrierte Geräte
+   - Aktive vs. inaktive Devices
+
+5. ℹ️ Hinweise
+   - SharePoint Stats (wenn verfügbar)
+   - Security Status
+   - Empfehlungen
+
+
+🔧 VORAUSSETZUNGEN
+───────────────────────────────────────────────────────────────
+1. PowerShell 7+ installiert
+2. Microsoft Graph Module:
+   Install-Module -Name Microsoft.Graph -Scope CurrentUser
+
+3. Verbindung zu M365:
+   Connect-MgGraph -Scopes "User.Read.All","Group.Read.All","Reports.Read.All"
+
+
+🚀 ANWENDUNG
+───────────────────────────────────────────────────────────────
+
+1️⃣ REPORT FÜR AKTUELLEN MONAT:
+   .\Get-M365MonthlyReport.ps1 -OutputPath "C:\M365-Reports"
+
+2️⃣ REPORT FÜR SPEZIFISCHEN MONAT:
+   .\Get-M365MonthlyReport.ps1 -Month "March" -Year "2026"
+
+3️⃣ ALS CSV EXPORT:
+   .\Get-M365MonthlyReport.ps1 -Month 3 -Year 2026 -Format "CSV"
+
+4️⃣ MIT EIGENEM PFAD:
+   .\Get-M365MonthlyReport.ps1 -OutputPath "D:\Reports\M365"
+
+
+📊 OUTPUT
+───────────────────────────────────────────────────────────────
+Das Script erstellt:
+✓ HTML-Report (schön formatiert, druckbar)
+✓ Pfad: C:\M365-Reports\M365-Monthly-Report-YYYY-MM.html
+✓ Öffnet Report automatisch im Browser
+✓ Bereit für Versand an Kunden/Management
+
+
+⚠️ WICHTIGE HINWEISE
+───────────────────────────────────────────────────────────────
+• Report braucht nur Leserechte (sicher für Audits)
+• HTML-Format ist am besten für Präsentation
+• CSV für weitere Verarbeitung in Excel
+• Script kann automatisiert werden (Task Scheduler)
+• Reports archivieren für Historie
+
+
+🐛 FEHLERBEHEBUNG
+───────────────────────────────────────────────────────────────
+Fehler: "Connection failed"
+→ Connect-MgGraph ausführen (siehe Voraussetzungen)
+
+Fehler: "Permission denied"
+→ Ausreichende Scopes bei Connect-MgGraph angeben
+
+Report zeigt "N/A" bei manchen Werten:
+→ Manche Stats brauchen zusätzliche Permissions
+
+
+💡 TIPPS
+───────────────────────────────────────────────────────────────
+• Script am Monatsende automatisieren (Task Scheduler)
+• Reports an Kunden als PDF senden (HTML → Print → PDF)
+• Vergleich mit Vormonat für Trends
+• Bei vielen Kunden: Script pro Kunde ausführen
+• Reports in SharePoint/Teams ablegen für Zugriff
+
+
+📅 AUTOMATISIERUNG (Task Scheduler)
+───────────────────────────────────────────────────────────────
+1. Task Scheduler öffnen
+2. "Task erstellen"
+3. Trigger: "Monatlich" (letzter Tag)
+4. Action: PowerShell Script ausführen
+5. Script: Get-M365MonthlyReport.ps1
+
+
+📞 SUPPORT
+───────────────────────────────────────────────────────────────
+Fragen oder Probleme?
+→ Log-Datei prüfen
+→ Daniel kontaktieren oder VICA fragen
+
+═══════════════════════════════════════════════════════════════
+  Erstellt: 2026-03-08 | Version: 1.0 | Author: VICA für Daniel
+═══════════════════════════════════════════════════════════════

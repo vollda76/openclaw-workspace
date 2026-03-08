@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⏳ Loader Maker – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #f093fb, #4facfe, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        select { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        select:focus { outline: none; border-color: #4facfe; }
+        select option { background: #1a1a2e; color: white; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #4facfe, #00f2fe); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(79,172,254,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; max-height: 300px; overflow-y: auto; }
+        .loader-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .loader-btn { padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; text-align: center; cursor: pointer; font-size: 1.5rem; }
+        .loader-btn:hover { background: rgba(255,255,255,0.2); }
+        .loader-btn.active { border-color: #4facfe; background: rgba(79,172,254,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">⏳</div>
+            <h1>Loader Maker</h1>
+            <p class="subtitle">CSS Loading Animationen erstellen</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Loader Settings</h2>
+                
+                <div class="form-group">
+                    <label>🔄 Loader Typ</label>
+                    <div class="loader-grid">
+                        <div class="loader-btn active" onclick="setLoader('spinner')" data-loader="spinner">🌀</div>
+                        <div class="loader-btn" onclick="setLoader('dots')" data-loader="dots">⚫</div>
+                        <div class="loader-btn" onclick="setLoader('bars')" data-loader="bars">📊</div>
+                        <div class="loader-btn" onclick="setLoader('pulse')" data-loader="pulse">💓</div>
+                        <div class="loader-btn" onclick="setLoader('ring')" data-loader="ring">⭕</div>
+                        <div class="loader-btn" onclick="setLoader('bounce')" data-loader="bounce">⚪</div>
+                        <div class="loader-btn" onclick="setLoader('clock')" data-loader="clock">🕐</div>
+                        <div class="loader-btn" onclick="setLoader('flip')" data-loader="flip">🔄</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="loaderColor" value="#4facfe" onchange="updateLoader()">
+                        <div class="color-value" id="colorValue">#4facfe</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Grösse</label><span id="sizeValue">50px</span></div>
+                    <input type="range" id="loaderSize" min="20" max="100" value="50" oninput="updateLoader()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>⏱️ Geschwindigkeit</label><span id="speedValue">1s</span></div>
+                    <input type="range" id="loaderSpeed" min="0.3" max="3" value="1" step="0.1" oninput="updateLoader()">
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container" id="previewContainer"></div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyHTML()">🌐 HTML kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="togglePlay()" id="playBtn">⏸️ Pause</button>
+                </div>
+                <div class="code-output" id="codeOutput">.loader { ... }</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLoader = 'spinner';
+        let isPlaying = true;
+
+        const loaders = {
+            spinner: `<div class="spinner"></div>
+<style>
+.spinner {
+  width: SIZEpx;
+  height: SIZEpx;
+  border: 4px solid rgba(0,0,0,0.1);
+  border-left-color: COLOR;
+  border-radius: 50%;
+  animation: spin SPEEDs linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>`,
+            dots: `<div class="dots">
+  <span></span><span></span><span></span>
+</div>
+<style>
+.dots { display: flex; gap: 8px; }
+.dots span {
+  width: 12px;
+  height: 12px;
+  background: COLOR;
+  border-radius: 50%;
+  animation: bounce SPEEDs ease-in-out infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.1s; }
+.dots span:nth-child(3) { animation-delay: 0.2s; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+</style>`,
+            bars: `<div class="bars">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+<style>
+.bars { display: flex; gap: 4px; align-items: center; }
+.bars span {
+  width: 6px;
+  height: SIZEpx;
+  background: COLOR;
+  animation: wave SPEEDs ease-in-out infinite;
+}
+.bars span:nth-child(2) { animation-delay: 0.1s; }
+.bars span:nth-child(3) { animation-delay: 0.2s; }
+.bars span:nth-child(4) { animation-delay: 0.3s; }
+.bars span:nth-child(5) { animation-delay: 0.4s; }
+@keyframes wave { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+</style>`,
+            pulse: `<div class="pulse"></div>
+<style>
+.pulse {
+  width: SIZEpx;
+  height: SIZEpx;
+  background: COLOR;
+  border-radius: 50%;
+  animation: pulse SPEEDs ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } }
+</style>`,
+            ring: `<div class="ring"></div>
+<style>
+.ring {
+  width: SIZEpx;
+  height: SIZEpx;
+  border: 4px solid transparent;
+  border-top-color: COLOR;
+  border-radius: 50%;
+  animation: spin SPEEDs linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>`,
+            bounce: `<div class="bounce"></div>
+<style>
+.bounce {
+  width: SIZEpx;
+  height: SIZEpx;
+  background: COLOR;
+  border-radius: 50%;
+  animation: bounce HEIGHTs ease-in-out infinite alternate;
+}
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-20px); } }
+</style>`,
+            clock: `<div class="clock"></div>
+<style>
+.clock {
+  width: SIZEpx;
+  height: SIZEpx;
+  border: 4px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  position: relative;
+}
+.clock::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  height: 4px;
+  background: COLOR;
+  transform-origin: left center;
+  animation: tick SPEEDs linear infinite;
+}
+@keyframes tick { to { transform: rotate(360deg); } }
+</style>`,
+            flip: `<div class="flip"></div>
+<style>
+.flip {
+  width: SIZEpx;
+  height: SIZEpx;
+  background: COLOR;
+  animation: flip SPEEDs ease-in-out infinite;
+}
+@keyframes flip { 0% { transform: perspective(200px) rotateX(0deg); } 100% { transform: perspective(200px) rotateX(360deg); } }
+</style>`
+        };
+
+        function setLoader(type) {
+            currentLoader = type;
+            document.querySelectorAll('.loader-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.loader === type);
+            });
+            updateLoader();
+        }
+
+        function updateLoader() {
+            const color = document.getElementById('loaderColor').value;
+            const size = parseInt(document.getElementById('loaderSize').value);
+            const speed = parseFloat(document.getElementById('loaderSpeed').value);
+
+            document.getElementById('colorValue').textContent = color;
+            document.getElementById('sizeValue').textContent = size + 'px';
+            document.getElementById('speedValue').textContent = speed + 's';
+
+            let html = loaders[currentLoader]
+                .replace(/SIZE/g, size)
+                .replace(/COLOR/g, color)
+                .replace(/SPEED/g, speed);
+
+            if (!isPlaying) {
+                html = html.replace('infinite', 'paused');
+            }
+
+            document.getElementById('previewContainer').innerHTML = html;
+            document.getElementById('codeOutput').textContent = html;
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            document.getElementById('playBtn').textContent = isPlaying ? '⏸️ Pause' : '▶️ Play';
+            updateLoader();
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copyHTML() {
+            const temp = document.createElement('div');
+            temp.innerHTML = document.getElementById('codeOutput').textContent;
+            const html = temp.querySelector('div')?.outerHTML || '';
+            navigator.clipboard.writeText(html).then(() => alert('✅ HTML kopiert!'));
+        }
+
+        window.onload = updateLoader;
+    </script>
+</body>
+</html>

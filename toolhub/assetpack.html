@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 AssetPack – Kostenlose Design-Assets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .filter-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: #667eea;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .asset-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .asset-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .asset-preview {
+            height: 200px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .asset-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .asset-type {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .asset-info {
+            padding: 20px;
+        }
+
+        .asset-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .asset-desc {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .asset-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .asset-license {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-preview {
+            height: 400px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-details {
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .modal-desc {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .modal-tag {
+            background: #f0f0f0;
+            color: #666;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .modal-license {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal-btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .assets-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+
+            .modal-preview {
+                height: 250px;
+                font-size: 4rem;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📦 AssetPack</h1>
+            <p>Kostenlose Design-Assets für deine Projekte</p>
+        </header>
+
+        <div class="nav-bar">
+            <a href="dashboard.html" class="nav-btn">← Zurück zum Dashboard</a>
+            <button class="nav-btn active" onclick="filterByCategory('all')">Alle</button>
+            <button class="nav-btn" onclick="filterByCategory('icons')">Icons</button>
+            <button class="nav-btn" onclick="filterByCategory('illustrations')">Illustrationen</button>
+            <button class="nav-btn" onclick="filterByCategory('patterns')">Patterns</button>
+            <button class="nav-btn" onclick="filterByCategory('mockups')">Mockups</button>
+            <button class="nav-btn" onclick="filterByCategory('fonts')">Fonts</button>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="total-assets">0</div>
+                <div class="stat-label">Assets verfügbar</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-downloads">0</div>
+                <div class="stat-label">Downloads</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-categories">6</div>
+                <div class="stat-label">Kategorien</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="search-input" placeholder="Assets suchen...">
+            <button class="filter-btn" onclick="searchAssets()">🔍 Suchen</button>
+        </div>
+
+        <div class="assets-grid" id="assets-grid">
+            <!-- Assets werden dynamisch geladen -->
+        </div>
+    </div>
+
+    <!-- Asset Detail Modal -->
+    <div class="modal" id="asset-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-preview" id="modal-preview">
+                📦
+            </div>
+            <div class="modal-details">
+                <h2 class="modal-title" id="modal-title">Asset Titel</h2>
+                <p class="modal-desc" id="modal-desc">Beschreibung des Assets</p>
+                <div class="modal-meta">
+                    <span class="modal-tag" id="modal-category">Kategorie</span>
+                    <span class="modal-tag" id="modal-format">Format</span>
+                    <span class="modal-tag" id="modal-size">Größe</span>
+                    <span class="modal-license" id="modal-license">Lizenz</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" onclick="downloadAsset()">⬇️ Download</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="copyLink()">🔗 Link kopieren</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Asset-Datenbank
+        const assets = [
+            {
+                id: 1,
+                title: "Minimalistische Icons Set",
+                desc: "100+ saubere, minimalistische Icons für Web und Mobile. Perfekt für moderne Interfaces.",
+                category: "icons",
+                format: "SVG, PNG",
+                size: "2.5 MB",
+                license: "CC0",
+                emoji: "🎨",
+                downloads: 1247
+            },
+            {
+                id: 2,
+                title: "Abstract Illustrations Pack",
+                desc: "50 einzigartige abstrakte Illustrationen in verschiedenen Farbpaletten.",
+                category: "illustrations",
+                format: "SVG, AI",
+                size: "15 MB",
+                license: "CC BY 4.0",
+                emoji: "🖼️",
+                downloads: 892
+            },
+            {
+                id: 3,
+                title: "Geometric Patterns Collection",
+                desc: "Nahtlose geometrische Muster für Hintergründe und Texturen.",
+                category: "patterns",
+                format: "PNG, SVG",
+                size: "8 MB",
+                license: "CC0",
+                emoji: "🔷",
+                downloads: 2103
+            },
+            {
+                id: 4,
+                title: "Device Mockups Bundle",
+                desc: "Realistische Mockups für iPhone, Android, Tablet und Laptop.",
+                category: "mockups",
+                format: "PSD, PNG",
+                size: "45 MB",
+                license: "Free for personal use",
+                emoji: "📱",
+                downloads: 3456
+            },
+            {
+                id: 5,
+                title: "Handwritten Fonts Duo",
+                desc: "Zwei wunderschöne handschriftliche Fonts für kreative Projekte.",
+                category: "fonts",
+                format: "TTF, OTF",
+                size: "1.2 MB",
+                license: "Free for personal use",
+                emoji: "✍️",
+                downloads: 678
+            },
+            {
+                id: 6,
+                title: "Line Icons Ultimate",
+                desc: "500+ Line Icons in verschiedenen Stärken und Stilen.",
+                category: "icons",
+                format: "SVG, ICONFONT",
+                size: "5 MB",
+                license: "MIT",
+                emoji: "✏️",
+                downloads: 4521
+            },
+            {
+                id: 7,
+                title: "Nature Illustrations",
+                desc: "Wunderschöne Natur-Illustrationen: Pflanzen, Tiere, Landschaften.",
+                category: "illustrations",
+                format: "SVG, PNG",
+                size: "22 MB",
+                license: "CC BY 4.0",
+                emoji: "🌿",
+                downloads: 1567
+            },
+            {
+                id: 8,
+                title: "Gradient Patterns",
+                desc: "Trendige Farbverlauf-Muster für moderne Designs.",
+                category: "patterns",
+                format: "CSS, SVG",
+                size: "3 MB",
+                license: "CC0",
+                emoji: "🌈",
+                downloads: 2890
+            },
+            {
+                id: 9,
+                title: "Business Mockup Kit",
+                desc: "Professionelle Mockups für Visitenkarten, Briefpapier und mehr.",
+                category: "mockups",
+                format: "PSD, AI",
+                size: "67 MB",
+                license: "Free for commercial use",
+                emoji: "💼",
+                downloads: 1234
+            },
+            {
+                id: 10,
+                title: "Modern Sans Serif Font",
+                desc: "Eine clevere, moderne Sans Serif Font mit vielen Gewichten.",
+                category: "fonts",
+                format: "TTF, WOFF2",
+                size: "2.8 MB",
+                license: "SIL Open Font License",
+                emoji: "🔤",
+                downloads: 2345
+            },
+            {
+                id: 11,
+                title: "3D Icons Collection",
+                desc: "Farbenfrohe 3D-Icons für auffällige Designs.",
+                category: "icons",
+                format: "PNG, BLEND",
+                size: "120 MB",
+                license: "CC BY 4.0",
+                emoji: "🎲",
+                downloads: 987
+            },
+            {
+                id: 12,
+                title: "Character Illustrations",
+                desc: "Diverse Charaktere in verschiedenen Posen und Stilen.",
+                category: "illustrations",
+                format: "SVG, PNG",
+                size: "35 MB",
+                license: "CC BY-NC 4.0",
+                emoji: "👤",
+                downloads: 1876
+            }
+        ];
+
+        let currentFilter = 'all';
+        let currentModalAsset = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAssets(assets);
+            updateStats();
+            
+            // Search on Enter
+            document.getElementById('search-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchAssets();
+            });
+        });
+
+        function renderAssets(assetsToRender) {
+            const grid = document.getElementById('assets-grid');
+            grid.innerHTML = '';
+
+            assetsToRender.forEach(asset => {
+                const card = document.createElement('div');
+                card.className = 'asset-card';
+                card.onclick = () => openModal(asset);
+                
+                card.innerHTML = `
+                    <div class="asset-preview">
+                        ${asset.emoji}
+                        <span class="asset-type">${asset.category}</span>
+                    </div>
+                    <div class="asset-info">
+                        <h3 class="asset-title">${asset.title}</h3>
+                        <p class="asset-desc">${asset.desc}</p>
+                        <div class="asset-meta">
+                            <span>${asset.format}</span>
+                            <span class="asset-license">${asset.license}</span>
+                        </div>
+                        <button class="download-btn" onclick="event.stopPropagation(); downloadAssetById(${asset.id})">
+                            ⬇️ Download
+                        </button>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function filterByCategory(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            if (category === 'all') {
+                renderAssets(assets);
+            } else {
+                const filtered = assets.filter(a => a.category === category);
+                renderAssets(filtered);
+            }
+        }
+
+        function searchAssets() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            
+            if (!query) {
+                renderAssets(currentFilter === 'all' ? assets : assets.filter(a => a.category === currentFilter));
+                return;
+            }
+
+            const filtered = assets.filter(a => 
+                a.title.toLowerCase().includes(query) ||
+                a.desc.toLowerCase().includes(query) ||
+                a.category.toLowerCase().includes(query)
+            );
+            
+            renderAssets(filtered);
+        }
+
+        function openModal(asset) {
+            currentModalAsset = asset;
+            
+            document.getElementById('modal-preview').innerHTML = asset.emoji;
+            document.getElementById('modal-title').textContent = asset.title;
+            document.getElementById('modal-desc').textContent = asset.desc;
+            document.getElementById('modal-category').textContent = asset.category;
+            document.getElementById('modal-format').textContent = asset.format;
+            document.getElementById('modal-size').textContent = asset.size;
+            document.getElementById('modal-license').textContent = asset.license;
+            
+            document.getElementById('asset-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('asset-modal').classList.remove('active');
+            currentModalAsset = null;
+        }
+
+        function downloadAsset() {
+            if (currentModalAsset) {
+                alert(`📦 Download von "${currentModalAsset.title}" wird gestartet...\n\nGröße: ${currentModalAsset.size}\nLizenz: ${currentModalAsset.license}`);
+                
+                // Increment download count
+                currentModalAsset.downloads++;
+                updateStats();
+                
+                closeModal();
+            }
+        }
+
+        function downloadAssetById(id) {
+            const asset = assets.find(a => a.id === id);
+            if (asset) {
+                alert(`📦 Download von "${asset.title}" wird gestartet...\n\nGröße: ${asset.size}\nLizenz: ${asset.license}`);
+                
+                asset.downloads++;
+                updateStats();
+            }
+        }
+
+        function copyLink() {
+            if (currentModalAsset) {
+                const fakeUrl = `https://vicaworld.cloud/assetpack/${currentModalAsset.id}`;
+                navigator.clipboard.writeText(fakeUrl).then(() => {
+                    alert('🔗 Link in die Zwischenablage kopiert!');
+                });
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('total-assets').textContent = assets.length;
+            const totalDownloads = assets.reduce((sum, a) => sum + a.downloads, 0);
+            document.getElementById('total-downloads').textContent = totalDownloads.toLocaleString();
+        }
+
+        // Close modal on outside click
+        document.getElementById('asset-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'asset-modal') {
+                closeModal();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

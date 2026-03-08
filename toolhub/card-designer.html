@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🃏 Card Designer – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        input[type="text"], textarea { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        input:focus, textarea:focus { outline: none; border-color: #667eea; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 100%; min-height: 350px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 40px; }
+        .card { width: 300px; border-radius: 20px; overflow: hidden; transition: all 0.3s ease; }
+        .card-img { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .card-text { opacity: 0.8; font-size: 0.9rem; line-height: 1.5; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(102,126,234,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .style-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+        .style-btn { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; text-align: center; cursor: pointer; font-weight: 600; }
+        .style-btn:hover { background: rgba(255,255,255,0.2); }
+        .style-btn.active { border-color: #667eea; background: rgba(102,126,234,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🃏</div>
+            <h1>Card Designer</h1>
+            <p class="subtitle">Erstelle schöne Card Components</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Card Settings</h2>
+                
+                <div class="form-group">
+                    <label>📝 Titel</label>
+                    <input type="text" id="cardTitle" value="Card Title" oninput="updateCard()">
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Text</label>
+                    <textarea id="cardText" rows="3" oninput="updateCard()">This is a sample card description text.</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>🖼️ Icon / Emoji</label>
+                    <input type="text" id="cardIcon" value="🎨" oninput="updateCard()" maxlength="2">
+                </div>
+
+                <label style="display:block;font-weight:600;margin-bottom:0.5rem;">🎨 Style</label>
+                <div class="style-options">
+                    <button class="style-btn active" onclick="setStyle('solid', this)">Solid</button>
+                    <button class="style-btn" onclick="setStyle('gradient', this)">Gradient</button>
+                    <button class="style-btn" onclick="setStyle('outline', this)">Outline</button>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Hintergrund Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="cardBg" value="#1a1a2e" onchange="updateCard()">
+                        <div class="color-value" id="bgValue">#1a1a2e</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Text Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="textColor" value="#ffffff" onchange="updateCard()">
+                        <div class="color-value" id="textValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🔴 Border Radius</label><span id="radiusValue">20px</span></div>
+                    <input type="range" id="borderRadius" min="0" max="50" value="20" oninput="updateCard()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>✨ Shadow</label><span id="shadowValue">50%</span></div>
+                    <input type="range" id="shadowIntensity" min="0" max="100" value="50" oninput="updateCard()">
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container">
+                    <div class="card" id="previewCard">
+                        <div class="card-img" id="cardImg">🎨</div>
+                        <div class="card-body">
+                            <div class="card-title" id="cardTitlePreview">Card Title</div>
+                            <div class="card-text" id="cardTextPreview">This is a sample card description text.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyHTML()">🌐 HTML kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="resetCard()">🔄 Reset</button>
+                </div>
+                <div class="code-output" id="codeOutput">.card { ... }</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let style = 'solid';
+
+        function setStyle(s, btn) {
+            style = s;
+            document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateCard();
+        }
+
+        function updateCard() {
+            const title = document.getElementById('cardTitle').value;
+            const text = document.getElementById('cardText').value;
+            const icon = document.getElementById('cardIcon').value;
+            const bg = document.getElementById('cardBg').value;
+            const textCol = document.getElementById('textColor').value;
+            const radius = parseInt(document.getElementById('borderRadius').value);
+            const shadow = parseInt(document.getElementById('shadowIntensity').value) / 100;
+
+            document.getElementById('bgValue').textContent = bg;
+            document.getElementById('textValue').textContent = textCol;
+            document.getElementById('radiusValue').textContent = radius + 'px';
+            document.getElementById('shadowValue').textContent = (shadow * 100) + '%';
+
+            document.getElementById('cardTitlePreview').textContent = title;
+            document.getElementById('cardTextPreview').textContent = text;
+            document.getElementById('cardImg').textContent = icon;
+
+            const card = document.getElementById('previewCard');
+            const img = document.getElementById('cardImg');
+
+            if (style === 'solid') {
+                card.style.background = bg;
+                img.style.background = bg;
+            } else if (style === 'gradient') {
+                card.style.background = `linear-gradient(135deg, ${bg}, ${lighten(bg, 20)})`;
+                img.style.background = `linear-gradient(135deg, ${bg}, ${lighten(bg, 30)})`;
+            } else {
+                card.style.background = 'transparent';
+                card.style.border = `2px solid ${bg}`;
+                img.style.background = bg;
+            }
+
+            card.style.borderRadius = radius + 'px';
+            card.style.color = textCol;
+            card.style.boxShadow = shadow > 0 ? `0 ${10 * shadow}px ${30 * shadow}px rgba(0,0,0,${0.3 * shadow})` : 'none';
+            img.style.color = textCol;
+
+            const css = `.card {
+  background: ${style === 'gradient' ? `linear-gradient(135deg, ${bg}, ${lighten(bg, 20)})` : style === 'outline' ? 'transparent' : bg};
+  ${style === 'outline' ? `border: 2px solid ${bg};` : ''}
+  border-radius: ${radius}px;
+  color: ${textCol};
+  box-shadow: ${shadow > 0 ? `0 ${10 * shadow}px ${30 * shadow}px rgba(0,0,0,${0.3 * shadow})` : 'none'};
+  overflow: hidden;
+}`;
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function lighten(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copyHTML() {
+            const html = `<div class="card">
+  <div class="card-img">${document.getElementById('cardIcon').value}</div>
+  <div class="card-body">
+    <div class="card-title">${document.getElementById('cardTitle').value}</div>
+    <div class="card-text">${document.getElementById('cardText').value}</div>
+  </div>
+</div>`;
+            navigator.clipboard.writeText(html).then(() => alert('✅ HTML kopiert!'));
+        }
+
+        function resetCard() {
+            document.getElementById('cardTitle').value = 'Card Title';
+            document.getElementById('cardText').value = 'This is a sample card description text.';
+            document.getElementById('cardIcon').value = '🎨';
+            document.getElementById('cardBg').value = '#1a1a2e';
+            document.getElementById('textColor').value = '#ffffff';
+            document.getElementById('borderRadius').value = 20;
+            document.getElementById('shadowIntensity').value = 50;
+            style = 'solid';
+            document.querySelectorAll('.style-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+            updateCard();
+        }
+
+        window.onload = updateCard;
+    </script>
+</body>
+</html>

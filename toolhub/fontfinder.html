@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔤 FontFinder – ToolHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;700&family=Inter:wght@400;700&family=Playfair+Display:wght@400;700&family=Raleway:wght@400;700&family=Nunito:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #4facfe, #00f2fe, #43e97b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        input[type="text"], textarea { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        input:focus, textarea:focus { outline: none; border-color: #4facfe; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #4facfe, #00f2fe); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-box { width: 100%; min-height: 200px; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(79,172,254,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .font-list { display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; }
+        .font-item { padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
+        .font-item:hover { background: rgba(255,255,255,0.15); }
+        .font-item.selected { border-color: #4facfe; }
+        .font-name { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 0.25rem; }
+        .font-sample { font-size: 1.5rem; }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🔤</div>
+            <h1>FontFinder</h1>
+            <p class="subtitle">Google Fonts entdecken & testen</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Font Settings</h2>
+                
+                <div class="form-group">
+                    <label>📝 Test Text</label>
+                    <textarea id="sampleText" rows="3" oninput="updatePreview()">The quick brown fox jumps over the lazy dog.
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Text Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="textColor" value="#ffffff" onchange="updatePreview()">
+                        <div class="color-value" id="textColorValue">#ffffff</div>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📐 Font Size</label><span id="sizeValue">24px</span></div>
+                    <input type="range" id="fontSize" min="12" max="72" value="24" oninput="updatePreview()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>📏 Line Height</label><span id="lineHeightValue">1.5</span></div>
+                    <input type="range" id="lineHeight" min="1" max="3" value="1.5" step="0.1" oninput="updatePreview()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🔤 Letter Spacing</label><span id="letterSpacingValue">0px</span></div>
+                    <input type="range" id="letterSpacing" min="-5" max="20" value="0" oninput="updatePreview()">
+                </div>
+
+                <div class="form-group">
+                    <label>📋 Font Gewicht</label>
+                    <select id="fontWeight" onchange="updatePreview()">
+                        <option value="400">Regular (400)</option>
+                        <option value="500">Medium (500)</option>
+                        <option value="600">Semi Bold (600)</option>
+                        <option value="700">Bold (700)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-box" id="previewBox">
+                    <div id="previewText">Sample Text</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyHTML()">🌐 HTML kopieren</button>
+                </div>
+                <div class="code-output" id="codeOutput">font-family: 'Roboto', sans-serif;</div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-top: 40px;">
+            <h2 class="panel-title">📚 Font Bibliothek</h2>
+            <div class="font-list" id="fontList"></div>
+        </div>
+    </div>
+
+    <script>
+        const fonts = [
+            { name: 'Roboto', category: 'sans-serif' },
+            { name: 'Open Sans', category: 'sans-serif' },
+            { name: 'Lato', category: 'sans-serif' },
+            { name: 'Montserrat', category: 'sans-serif' },
+            { name: 'Poppins', category: 'sans-serif' },
+            { name: 'Inter', category: 'sans-serif' },
+            { name: 'Playfair Display', category: 'serif' },
+            { name: 'Raleway', category: 'sans-serif' },
+            { name: 'Nunito', category: 'sans-serif' },
+            { name: 'Merriweather', category: 'serif' }
+        ];
+
+        let selectedFont = 'Roboto';
+
+        function initFonts() {
+            const list = document.getElementById('fontList');
+            list.innerHTML = fonts.map(font => `
+                <div class="font-item ${font.name === selectedFont ? 'selected' : ''}" onclick="selectFont('${font.name}')">
+                    <div class="font-name">${font.name} (${font.category})</div>
+                    <div class="font-sample" style="font-family: '${font.name}', ${font.category}">The quick brown fox</div>
+                </div>
+            `).join('');
+        }
+
+        function selectFont(name) {
+            selectedFont = name;
+            document.querySelectorAll('.font-item').forEach(item => {
+                item.classList.toggle('selected', item.querySelector('.font-name').textContent.startsWith(name));
+            });
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const text = document.getElementById('sampleText').value;
+            const color = document.getElementById('textColor').value;
+            const size = parseInt(document.getElementById('fontSize').value);
+            const lineHeight = parseFloat(document.getElementById('lineHeight').value);
+            const letterSpacing = parseInt(document.getElementById('letterSpacing').value);
+            const weight = document.getElementById('fontWeight').value;
+
+            document.getElementById('textColorValue').textContent = color;
+            document.getElementById('sizeValue').textContent = size + 'px';
+            document.getElementById('lineHeightValue').textContent = lineHeight;
+            document.getElementById('letterSpacingValue').textContent = letterSpacing + 'px';
+
+            const preview = document.getElementById('previewText');
+            preview.textContent = text;
+            preview.style.fontFamily = `'${selectedFont}', ${fonts.find(f => f.name === selectedFont)?.category || 'sans-serif'}`;
+            preview.style.color = color;
+            preview.style.fontSize = size + 'px';
+            preview.style.lineHeight = lineHeight;
+            preview.style.letterSpacing = letterSpacing + 'px';
+            preview.style.fontWeight = weight;
+
+            const css = `font-family: '${selectedFont}', ${fonts.find(f => f.name === selectedFont)?.category || 'sans-serif'};
+font-size: ${size}px;
+font-weight: ${weight};
+line-height: ${lineHeight};
+letter-spacing: ${letterSpacing}px;
+color: ${color};`;
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copyHTML() {
+            const html = `<p style="font-family: '${selectedFont}', sans-serif; font-size: ${document.getElementById('fontSize').value}px; font-weight: ${document.getElementById('fontWeight').value};">
+${document.getElementById('sampleText').value}
+</p>`;
+            navigator.clipboard.writeText(html).then(() => alert('✅ HTML kopiert!'));
+        }
+
+        initFonts();
+        window.onload = updatePreview;
+    </script>
+</body>
+</html>

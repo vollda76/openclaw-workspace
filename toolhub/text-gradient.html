@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 Text Gradient – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        input[type="text"] { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1.1rem; }
+        input:focus { outline: none; border-color: #f093fb; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #f093fb, #f5576c); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; padding: 40px; }
+        .gradient-text { font-size: 3rem; font-weight: 800; text-align: center; transition: all 0.3s ease; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(240,147,251,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .direction-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+        .dir-btn { padding: 0.75rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; }
+        .dir-btn.active { border-color: #f093fb; background: rgba(240,147,251,0.2); }
+        .add-color-btn { width: 100%; padding: 0.75rem; background: rgba(0,255,136,0.2); border: 2px solid rgba(0,255,136,0.3); border-radius: 10px; color: #00ff88; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .add-color-btn:hover { background: rgba(0,255,136,0.3); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">🌈</div>
+            <h1>Text Gradient</h1>
+            <p class="subtitle">Erstelle wunderschöne Text-Gradienten</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Gradient Settings</h2>
+                
+                <div class="form-group">
+                    <label>📝 Text</label>
+                    <input type="text" id="gradientText" value="Gradient Text" oninput="updateGradient()">
+                </div>
+
+                <label style="display:block;font-weight:600;margin-bottom:0.5rem;">🎯 Richtung</label>
+                <div class="direction-btns">
+                    <button class="dir-btn active" onclick="setDirection('to right', this)">→</button>
+                    <button class="dir-btn" onclick="setDirection('to bottom', this)">↓</button>
+                    <button class="dir-btn" onclick="setDirection('45deg', this)">↘</button>
+                    <button class="dir-btn" onclick="setDirection('135deg', this)">↙</button>
+                </div>
+
+                <div id="colorStops">
+                    <div class="form-group">
+                        <label>🎨 Farbe 1</label>
+                        <div class="color-picker-group">
+                            <input type="color" class="gradient-color" value="#f093fb" onchange="updateGradient()">
+                            <div class="color-value">#f093fb</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🎨 Farbe 2</label>
+                        <div class="color-picker-group">
+                            <input type="color" class="gradient-color" value="#f5576c" onchange="updateGradient()">
+                            <div class="color-value">#f5576c</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="add-color-btn" onclick="addColorStop()">➕ Farbe hinzufügen</button>
+
+                <div class="slider-group" style="margin-top: 1.5rem;">
+                    <div class="slider-header"><label>📐 Font Size</label><span id="fontSizeValue">48px</span></div>
+                    <input type="range" id="fontSize" min="24" max="96" value="48" oninput="updateGradient()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-header"><label>🔤 Font Weight</label><span id="fontWeightValue">800</span></div>
+                    <input type="range" id="fontWeight" min="100" max="900" value="800" step="100" oninput="updateGradient()">
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container">
+                    <div class="gradient-text" id="previewText">Gradient Text</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="resetGradient()">🔄 Reset</button>
+                </div>
+                <div class="code-output" id="codeOutput">background: linear-gradient(...)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let direction = 'to right';
+
+        function setDirection(dir, btn) {
+            direction = dir;
+            document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateGradient();
+        }
+
+        function addColorStop() {
+            const container = document.getElementById('colorStops');
+            const count = container.querySelectorAll('.gradient-color').length + 1;
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label>🎨 Farbe ${count}</label>
+                <div class="color-picker-group">
+                    <input type="color" class="gradient-color" value="#${Math.floor(Math.random()*16777215).toString(16)}" onchange="updateGradient()">
+                    <div class="color-value">#${Math.floor(Math.random()*16777215).toString(16)}</div>
+                    <button onclick="this.parentElement.parentElement.remove(); updateGradient();" style="background:rgba(239,68,68,0.3);border:none;border-radius:5px;color:#ef4444;cursor:pointer;padding:5px 10px;">✕</button>
+                </div>
+            `;
+            container.appendChild(div);
+            updateGradient();
+        }
+
+        function updateGradient() {
+            const text = document.getElementById('gradientText').value;
+            const fontSize = parseInt(document.getElementById('fontSize').value);
+            const fontWeight = parseInt(document.getElementById('fontWeight').value);
+
+            document.getElementById('previewText').textContent = text;
+            document.getElementById('fontSizeValue').textContent = fontSize + 'px';
+            document.getElementById('fontWeightValue').textContent = fontWeight;
+
+            const colors = Array.from(document.querySelectorAll('.gradient-color')).map(input => {
+                input.parentElement.querySelector('.color-value').textContent = input.value;
+                return input.value;
+            });
+
+            const gradient = `linear-gradient(${direction}, ${colors.join(', ')})`;
+            const preview = document.getElementById('previewText');
+            preview.style.background = gradient;
+            preview.style.webkitBackgroundClip = 'text';
+            preview.style.webkitTextFillColor = 'transparent';
+            preview.style.backgroundClip = 'text';
+            preview.style.fontSize = fontSize + 'px';
+            preview.style.fontWeight = fontWeight;
+
+            const css = `.gradient-text {
+  background: ${gradient};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: ${fontSize}px;
+  font-weight: ${fontWeight};
+}`;
+            document.getElementById('codeOutput').textContent = css;
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function resetGradient() {
+            document.getElementById('gradientText').value = 'Gradient Text';
+            document.getElementById('fontSize').value = 48;
+            document.getElementById('fontWeight').value = 800;
+            document.getElementById('colorStops').innerHTML = `
+                <div class="form-group">
+                    <label>🎨 Farbe 1</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="gradient-color" value="#f093fb" onchange="updateGradient()">
+                        <div class="color-value">#f093fb</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>🎨 Farbe 2</label>
+                    <div class="color-picker-group">
+                        <input type="color" class="gradient-color" value="#f5576c" onchange="updateGradient()">
+                        <div class="color-value">#f5576c</div>
+                    </div>
+                </div>
+            `;
+            direction = 'to right';
+            document.querySelectorAll('.dir-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+            updateGradient();
+        }
+
+        window.onload = updateGradient;
+    </script>
+</body>
+</html>

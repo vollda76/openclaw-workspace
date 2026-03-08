@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✂️ Clip Path Studio – ToolHub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 40px; }
+        .back-btn { display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.1); color: white; text-decoration: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; cursor: pointer; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: rgba(255,255,255,0.6); font-size: 1.1rem; }
+        .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+        select { width: 100%; padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1rem; }
+        select:focus { outline: none; border-color: #ff6b6b; }
+        select option { background: #1a1a2e; color: white; }
+        .color-picker-group { display: flex; gap: 10px; align-items: center; }
+        input[type="color"] { width: 50px; height: 50px; border: none; border-radius: 10px; cursor: pointer; }
+        input[type="color"]::-webkit-color-swatch { border-radius: 10px; border: 2px solid rgba(255,255,255,0.2); }
+        .color-value { flex: 1; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 8px; font-family: monospace; }
+        .slider-group { margin-bottom: 1.5rem; }
+        .slider-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        input[type="range"] { width: 100%; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.2); outline: none; -webkit-appearance: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #ff6b6b, #feca57); cursor: pointer; }
+        .preview-area { display: flex; flex-direction: column; align-items: center; }
+        .preview-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; }
+        .clip-shape { width: 200px; height: 200px; background: linear-gradient(135deg, #ff6b6b, #feca57); transition: all 0.3s ease; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .action-btn { padding: 1rem 2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .action-btn-primary { background: linear-gradient(135deg, #ff6b6b, #feca57); color: white; }
+        .action-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,107,107,0.4); }
+        .action-btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.2); }
+        .action-btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        .code-output { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 15px; font-family: monospace; font-size: 0.85rem; word-break: break-all; }
+        .preset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+        .preset-btn { padding: 1rem; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .preset-btn:hover { background: rgba(255,255,255,0.2); }
+        @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="dashboard.html" class="back-btn">← Zurück zum Dashboard</a>
+            <div class="logo">✂️</div>
+            <h1>Clip Path Studio</h1>
+            <p class="subtitle">CSS Clip-Path Shapes erstellen</p>
+        </header>
+
+        <div class="app-grid">
+            <div class="panel">
+                <h2 class="panel-title">⚙️ Shape Settings</h2>
+                
+                <div class="form-group">
+                    <label>🔲 Shape Typ</label>
+                    <select id="shapeType" onchange="updateClip()">
+                        <option value="circle">Circle</option>
+                        <option value="ellipse">Ellipse</option>
+                        <option value="polygon">Polygon</option>
+                        <option value="inset">Inset</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>🎨 Farbe</label>
+                    <div class="color-picker-group">
+                        <input type="color" id="shapeColor" value="#ff6b6b" onchange="updateClip()">
+                        <div class="color-value" id="colorValue">#ff6b6b</div>
+                    </div>
+                </div>
+
+                <div class="slider-group" id="circleSlider">
+                    <div class="slider-header"><label>⭕ Radius</label><span id="radiusValue">50%</span></div>
+                    <input type="range" id="circleRadius" min="0" max="100" value="50" oninput="updateClip()">
+                </div>
+
+                <div class="slider-group" id="insetSlider" style="display:none;">
+                    <div class="slider-header"><label>📐 Inset</label><span id="insetValue">0%</span></div>
+                    <input type="range" id="insetVal" min="0" max="45" value="0" oninput="updateClip()">
+                </div>
+
+                <div class="slider-group" id="polySlider" style="display:none;">
+                    <div class="slider-header"><label>🔺 Polygon Punkte</label><span id="polyValue">6</span></div>
+                    <input type="range" id="polyPoints" min="3" max="10" value="6" oninput="updateClip()">
+                </div>
+
+                <label style="display:block;font-weight:600;margin-bottom:0.5rem;">🎯 Presets</label>
+                <div class="preset-grid">
+                    <button class="preset-btn" onclick="setPreset(1)">Triangle</button>
+                    <button class="preset-btn" onclick="setPreset(2)">Diamond</button>
+                    <button class="preset-btn" onclick="setPreset(3)">Pentagon</button>
+                    <button class="preset-btn" onclick="setPreset(4)">Hexagon</button>
+                    <button class="preset-btn" onclick="setPreset(5)">Star</button>
+                    <button class="preset-btn" onclick="setPreset(6)">Arrow</button>
+                </div>
+            </div>
+
+            <div class="panel preview-area">
+                <h2 class="panel-title">👁️ Vorschau</h2>
+                <div class="preview-container">
+                    <div class="clip-shape" id="clipShape"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn action-btn-primary" onclick="copyCSS()">📋 CSS kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="copyHTML()">🌐 HTML kopieren</button>
+                    <button class="action-btn action-btn-secondary" onclick="resetClip()">🔄 Reset</button>
+                </div>
+                <div class="code-output" id="codeOutput">clip-path: circle(50%);</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateClip() {
+            const type = document.getElementById('shapeType').value;
+            const color = document.getElementById('shapeColor').value;
+            const shape = document.getElementById('clipShape');
+
+            document.getElementById('colorValue').textContent = color;
+            shape.style.background = `linear-gradient(135deg, ${color}, ${lighten(color, 20)})`;
+
+            let clipPath = '';
+
+            if (type === 'circle') {
+                document.getElementById('circleSlider').style.display = 'block';
+                document.getElementById('insetSlider').style.display = 'none';
+                document.getElementById('polySlider').style.display = 'none';
+                const radius = document.getElementById('circleRadius').value;
+                document.getElementById('radiusValue').textContent = radius + '%';
+                clipPath = `circle(${radius}%)`;
+            } else if (type === 'ellipse') {
+                document.getElementById('circleSlider').style.display = 'block';
+                document.getElementById('insetSlider').style.display = 'none';
+                document.getElementById('polySlider').style.display = 'none';
+                const rx = document.getElementById('circleRadius').value;
+                const ry = 100 - rx;
+                document.getElementById('radiusValue').textContent = rx + '% ' + ry + '%';
+                clipPath = `ellipse(${rx}% ${ry}%)`;
+            } else if (type === 'polygon') {
+                document.getElementById('circleSlider').style.display = 'none';
+                document.getElementById('insetSlider').style.display = 'none';
+                document.getElementById('polySlider').style.display = 'block';
+                const points = parseInt(document.getElementById('polyPoints').value);
+                document.getElementById('polyValue').textContent = points;
+                clipPath = generatePolygon(points);
+            } else if (type === 'inset') {
+                document.getElementById('circleSlider').style.display = 'none';
+                document.getElementById('insetSlider').style.display = 'block';
+                document.getElementById('polySlider').style.display = 'none';
+                const inset = document.getElementById('insetVal').value;
+                document.getElementById('insetValue').textContent = inset + '%';
+                clipPath = `inset(${inset}% round 10%)`;
+            }
+
+            shape.style.clipPath = clipPath;
+            shape.style.webkitClipPath = clipPath;
+            document.getElementById('codeOutput').textContent = `clip-path: ${clipPath};`;
+        }
+
+        function generatePolygon(points) {
+            const result = [];
+            for (let i = 0; i < points; i++) {
+                const angle = (i * 360 / points - 90) * Math.PI / 180;
+                const x = 50 + 50 * Math.cos(angle);
+                const y = 50 + 50 * Math.sin(angle);
+                result.push(`${x}% ${y}%`);
+            }
+            return `polygon(${result.join(', ')})`;
+        }
+
+        function setPreset(n) {
+            const presets = [
+                { type: 'polygon', points: 3 },
+                { type: 'polygon', points: 4 },
+                { type: 'polygon', points: 5 },
+                { type: 'polygon', points: 6 },
+                { type: 'polygon', points: 10 },
+                { type: 'polygon', points: 3 }
+            ];
+            const p = presets[n-1];
+            document.getElementById('shapeType').value = p.type;
+            document.getElementById('polyPoints').value = p.points;
+            updateClip();
+        }
+
+        function lighten(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = Math.min(255, (num >> 16) + amt);
+            const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+            const B = Math.min(255, (num & 0x0000FF) + amt);
+            return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+        }
+
+        function copyCSS() {
+            navigator.clipboard.writeText(document.getElementById('codeOutput').textContent)
+                .then(() => alert('✅ CSS kopiert!'));
+        }
+
+        function copyHTML() {
+            const html = `<div style="clip-path: ${document.getElementById('codeOutput').textContent.replace('clip-path: ', '').replace(';', '')}; width: 200px; height: 200px; background: ${document.getElementById('shapeColor').value};"></div>`;
+            navigator.clipboard.writeText(html).then(() => alert('✅ HTML kopiert!'));
+        }
+
+        function resetClip() {
+            document.getElementById('shapeType').value = 'circle';
+            document.getElementById('circleRadius').value = 50;
+            updateClip();
+        }
+
+        window.onload = updateClip;
+    </script>
+</body>
+</html>

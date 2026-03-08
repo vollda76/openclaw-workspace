@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steinegger IT - Komplette Design Galerie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 60px 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 60px; }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #0f0f1a;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffffff, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.15);
+            border-color: rgba(0, 217, 255, 0.3);
+        }
+        .card-preview {
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-preview span { position: relative; z-index: 1; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)); }
+        .card-content { padding: 24px; }
+        .version-badge {
+            display: inline-block;
+            padding: 0.35rem 0.9rem;
+            background: rgba(0, 217, 255, 0.15);
+            color: #00d9ff;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+        .card-title {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+        .card-btn {
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #0f0f1a;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+        .card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.3);
+        }
+        .stats {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .stats-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+        .stats-text { color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; }
+        .section-title {
+            grid-column: 1 / -1;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .gallery { grid-template-columns: 1fr; }
+            .stats-number { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="badge">🎨 Complete Collection</span>
+            <h1>Steinegger IT Design Galerie</h1>
+            <p class="subtitle">Alle Design-Konzepte an einem Ort – Durchblättern, Vergleichen, Favoriten wählen!</p>
+        </header>
+        
+        <div class="gallery" id="gallery"></div>
+        
+        <div class="stats">
+            <div class="stats-number" id="count">0</div>
+            <div class="stats-text">Design-Versionen verfügbar</div>
+        </div>
+    </div>
+    
+    <script>
+        const designs = [
+            // Neue Designs (v12-v26)
+            { file: 'showcase-index-brutalism.html', name: 'Brutalism', version: 'v12', emoji: '🔨', desc: 'Raw, edgy, bewusst kaputt', color: 'linear-gradient(135deg, #ff0080, #7928ca)' },
+            { file: 'showcase-index-3d-immersive.html', name: '3D Immersive', version: 'v13', emoji: '🧊', desc: 'Three.js Partikel-Universum', color: 'linear-gradient(135deg, #00c6ff, #0072ff)' },
+            { file: 'showcase-index-hand-drawn.html', name: 'Hand Drawn', version: 'v14', emoji: '✏️', desc: 'Persönlich, skizzenhaft', color: 'linear-gradient(135deg, #f093fb, #f5576c)' },
+            { file: 'showcase-index-retro-80s.html', name: 'Retro 80s/90s', version: 'v15', emoji: '🌆', desc: 'Memphis, Neon, Synthwave', color: 'linear-gradient(135deg, #f953c6, #b91d73)' },
+            { file: 'showcase-index-typography.html', name: 'Typography', version: 'v16', emoji: '🔤', desc: 'Pure Typografie, riesig', color: 'linear-gradient(135deg, #11998e, #38ef7d)' },
+            { file: 'showcase-index-organic-fluid.html', name: 'Organic Fluid', version: 'v17', emoji: '🌿', desc: 'Blobs, wellig, natürlich', color: 'linear-gradient(135deg, #56ab2f, #a8e063)' },
+            { file: 'showcase-index-asymmetric.html', name: 'Asymmetric', version: 'v18', emoji: '⚡', desc: 'Unausgewogen, dynamisch', color: 'linear-gradient(135deg, #f7971e, #ffd200)' },
+            { file: 'showcase-index-split-screen.html', name: 'Split Screen', version: 'v19', emoji: '⚖️', desc: '50/50, dunkel vs. hell', color: 'linear-gradient(135deg, #232526, #414345)' },
+            { file: 'showcase-index-glassmorphism.html', name: 'Glassmorphism', version: 'v20', emoji: '🪟', desc: 'Milchglas, Blur, elegant', color: 'linear-gradient(135deg, #667eea, #764ba2)' },
+            { file: 'showcase-index-neo-brutalism.html', name: 'Neo-Brutalism', version: 'v21', emoji: '🎨', desc: 'Knallig, harte Schatten', color: 'linear-gradient(135deg, #fc00ff, #00dbde)' },
+            { file: 'showcase-index-dark-premium.html', name: 'Dark Premium', version: 'v22', emoji: '🌑', desc: 'Luxuriös, Gold-Accente', color: 'linear-gradient(135deg, #d4af37, #f4cf57)' },
+            { file: 'showcase-index-minimalist-swiss.html', name: 'Minimalist Swiss', version: 'v23', emoji: '🇨🇭', desc: 'Reduziert, Weissraum', color: 'linear-gradient(135deg, #e0e0e0, #ffffff)' },
+            { file: 'showcase-index-cyberpunk.html', name: 'Cyberpunk', version: 'v24', emoji: '🤖', desc: 'Neon, Dark, futuristisch', color: 'linear-gradient(135deg, #00f3ff, #ff00ff)' },
+            { file: 'showcase-index-corporate-clean.html', name: 'Corporate Clean', version: 'v25', emoji: '👔', desc: 'Professionell, business', color: 'linear-gradient(135deg, #003366, #0066cc)' },
+            { file: 'showcase-index-playful-colorful.html', name: 'Playful Colorful', version: 'v26', emoji: '🌈', desc: 'Bunt, fröhlich, verspielt', color: 'linear-gradient(135deg, #8b5cf6, #ec4899, #f97316)' },
+            
+            // Ältere Designs aus Dropbox
+            { file: 'index-bold-dark.html', name: 'Bold Dark', version: 'legacy', emoji: '🌙', desc: 'Dunkel, mutig, beeindruckend', color: 'linear-gradient(135deg, #141e30, #243b55)' },
+            { file: 'index-clean-corporate.html', name: 'Clean Corporate', version: 'legacy', emoji: '💼', desc: 'Seriös, professionell', color: 'linear-gradient(135deg, #232526, #414345)' },
+            { file: 'index-cyberpunk-neon.html', name: 'Cyberpunk Neon', version: 'legacy', emoji: '⚡', desc: 'Neon-lit Future Vibes', color: 'linear-gradient(135deg, #0f0c29, #302b63)' },
+            { file: 'index-glassmorphism.html', name: 'Glassmorphism V1', version: 'legacy', emoji: '🔮', desc: 'Transparente Eleganz', color: 'linear-gradient(135deg, #667eea, #764ba2)' },
+            { file: 'index-gradient-mesh.html', name: 'Gradient Mesh', version: 'legacy', emoji: '🌈', desc: 'Farbverläufe pur', color: 'linear-gradient(135deg, #ff9a9e, #fecfef)' },
+            { file: 'index-magazine.html', name: 'Magazine', version: 'legacy', emoji: '📰', desc: 'Editorial-Style Layout', color: 'linear-gradient(135deg, #1f1c2c, #928dab)' },
+            { file: 'index-minimalist-swiss.html', name: 'Swiss Minimal V1', version: 'legacy', emoji: '⌚', desc: 'Schweizer Präzision', color: 'linear-gradient(135deg, #e0e0e0, #ffffff)' },
+            { file: 'index-monochrome.html', name: 'Monochrome', version: 'legacy', emoji: '⚫', desc: 'Einfarbig elegant', color: 'linear-gradient(135deg, #000000, #434343)' },
+            { file: 'index-neomorphism.html', name: 'Neomorphism', version: 'legacy', emoji: '🎯', desc: 'Soft UI mit Tiefe', color: 'linear-gradient(135deg, #e0e5ec, #e0e5ec)' },
+            { file: 'index-paper-ink.html', name: 'Paper & Ink', version: 'legacy', emoji: '📝', desc: 'Haptisches Print-Feeling', color: 'linear-gradient(135deg, #f5f7fa, #c3cfe2)' },
+            { file: 'index-playful-colorful.html', name: 'Playful V1', version: 'legacy', emoji: '🎭', desc: 'Bunt und lebendig', color: 'linear-gradient(135deg, #ffecd2, #fcb69f)' },
+            { file: 'index-playful-v2.html', name: 'Playful V2', version: 'legacy', emoji: '🎪', desc: 'Noch mehr Spieligkeit', color: 'linear-gradient(135deg, #a8edea, #fed6e3)' },
+            { file: 'index-swiss-design.html', name: 'Swiss Design', version: 'legacy', emoji: '🏔️', desc: 'Zeitloses Design', color: 'linear-gradient(135deg, #e0e0e0, #ffffff)' },
+            { file: 'index-tech-startup.html', name: 'Tech Startup', version: 'legacy', emoji: '🦄', desc: 'Silicon Valley Style', color: 'linear-gradient(135deg, #667eea, #764ba2)' },
+            { file: 'index-terminal-green.html', name: 'Terminal Green', version: 'legacy', emoji: '💚', desc: 'Matrix-Look klassisch', color: 'linear-gradient(135deg, #0f2027, #203a43)' }
+        ];
+        
+        const gallery = document.getElementById('gallery');
+        const countEl = document.getElementById('count');
+        
+        // Section: Neue Designs
+        const sectionNew = document.createElement('div');
+        sectionNew.className = 'section-title';
+        sectionNew.textContent = '🆕 Neue Kollektion (v12–v26)';
+        gallery.appendChild(sectionNew);
+        
+        designs.slice(0, 15).forEach(design => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-preview" style="background: ${design.color}">
+                    <span>${design.emoji}</span>
+                </div>
+                <div class="card-content">
+                    <span class="version-badge">${design.version}</span>
+                    <h3 class="card-title">${design.name}</h3>
+                    <p class="card-desc">${design.desc}</p>
+                    <a href="${design.file}" class="card-btn" target="_blank">Ansehen →</a>
+                </div>
+            `;
+            gallery.appendChild(card);
+        });
+        
+        // Section: Ältere Designs
+        const sectionLegacy = document.createElement('div');
+        sectionLegacy.className = 'section-title';
+        sectionLegacy.textContent = '📦 Legacy Designs';
+        gallery.appendChild(sectionLegacy);
+        
+        designs.slice(15).forEach(design => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-preview" style="background: ${design.color}">
+                    <span>${design.emoji}</span>
+                </div>
+                <div class="card-content">
+                    <span class="version-badge">${design.version}</span>
+                    <h3 class="card-title">${design.name}</h3>
+                    <p class="card-desc">${design.desc}</p>
+                    <a href="${design.file}" class="card-btn" target="_blank">Ansehen →</a>
+                </div>
+            `;
+            gallery.appendChild(card);
+        });
+        
+        countEl.textContent = designs.length;
+    </script>
+</body>
+</html>
