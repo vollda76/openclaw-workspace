@@ -63,23 +63,26 @@ function Get-FolderStats {
     }
     
     try {
-        $items = Get-PnPFolderItem -Folder $Folder -ItemType All -ErrorAction SilentlyContinue
+        # Get folders and files separately
+        $folders = Get-PnPFolderItem -Folder $Folder -ItemType Folder -ErrorAction SilentlyContinue
+        $files = Get-PnPFolderItem -Folder $Folder -ItemType File -ErrorAction SilentlyContinue
         
-        foreach ($item in $items) {
-            if ($item.ServerRelativeUrl -like "*/" -or $item.Name -eq $null) {
-                # Ordner
-                $stats.FolderCount++
-                
-                if ($CurrentDepth -lt $MaxDepth) {
-                    $subStats = Get-FolderStats -Folder $item -CurrentDepth ($CurrentDepth + 1) -MaxDepth $MaxDepth
+        # Count folders and recurse
+        if ($folders) {
+            $stats.FolderCount = $folders.Count
+            
+            if ($CurrentDepth -lt $MaxDepth) {
+                foreach ($subFolder in $folders) {
+                    $subStats = Get-FolderStats -Folder $subFolder -CurrentDepth ($CurrentDepth + 1) -MaxDepth $MaxDepth
                     $stats.FolderCount += $subStats.FolderCount
                     $stats.FileCount += $subStats.FileCount
-                    $stats.Details += $subStats.Details
                 }
-            } else {
-                # Datei
-                $stats.FileCount++
             }
+        }
+        
+        # Count files
+        if ($files) {
+            $stats.FileCount = $files.Count
         }
     }
     catch {
