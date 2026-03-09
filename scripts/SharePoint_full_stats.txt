@@ -1,0 +1,66 @@
+# SharePoint_full_stats.ps1 – Erklärung
+
+## 🎯 Zweck
+Erfasst umfassende Statistiken aller SharePoint Online Sites im Tenant und generiert einen übersichtlichen HTML-Report.
+
+## 📊 Was wird erfasst?
+- **Basis-Info:** Site Name, URL, Typ, Owner
+- **Zeitdaten:** Erstellungsdatum, Änderungsdatum
+- **Struktur:** Anzahl Ordner & Dateien bis 4 Ebenen tief
+- **Storage:** Speichernutzung pro Site (optional)
+- **Permissions:** Eindeutige Berechtigungen (optional)
+- **Sharing:** Externe Freigabe Status
+- **Lists/Libraries:** Anzahl Listen und Dokumentenbibliotheken
+
+## 🎁 Features
+- **HTML-Report** mit schöner Formatierung & Summary-Box
+- **CSV-Export** parallel für Excel-Weiterverarbeitung
+- **Log-File** für aufgetretene Fehler
+- **Progress-Indicator** während der Verarbeitung
+- **Filter-Option** für bestimmte Sites
+- **WhatIf-Modus** zum Testen
+
+## 🔧 Parameter
+| Parameter | Beschreibung | Default |
+|-----------|--------------|---------|
+| `-SharePointAdminUrl` | Admin Center URL | yourtenant-admin.sharepoint.com |
+| `-ExportPath` | Ausgabearzp | ./SharePoint_Stats_[Timestamp] |
+| `-IncludeStorageUsage` | Storage-Metriken erfassen | Nein |
+| `-IncludePermissions` | Unique Permissions prüfen | Nein |
+| `-SiteFilter` | Filter für bestimmte Sites (Wildcard) | Alle |
+| `-WhatIf` | Test-Modus ohne Ausführung | Nein |
+
+## 📦 Voraussetzungen
+- PnP.PowerShell Modul installiert
+- Connection zu SharePoint Online
+- Ausreichend Permissions (Site Read minimum)
+
+## 💡 usage
+```powershell
+# Basis-Ausführung
+.\SharePoint_full_stats.ps1 -SharePointAdminUrl "https://contoso-admin.sharepoint.com"
+
+# Mit Storage und Permissions
+.\SharePoint_full_stats.ps1 -SharePointAdminUrl "https://contoso-admin.sharepoint.com" -IncludeStorageUsage -IncludePermissions
+
+# Nur bestimmte Sites
+.\SharePoint_full_stats.ps1 -SiteFilter "*projekte*"
+
+# WhatIf Test
+.\SharePoint_full_stats.ps1 -WhatIf
+```
+
+## 📁 Output
+- `SharePoint_Stats_Report.html` – Schöner HTML-Report
+- `SharePoint_Stats_Data.csv` – Rohdaten für Excel
+- `SharePoint_Stats_Log.txt` – Error-Log
+
+## ⚠️ Hinweise
+- **Last Accessed Date** nicht immer verfügbar (Audit-Logging nötig)
+- **Tiefe Rekursion** kann bei großen Sites langsam sein
+- **PnP Interactive Auth** öffnet Browser-Login
+
+---
+**Autor:** VICA für Daniel Vollmer  
+**Datum:** 2026-03-09  
+**Version:** 1.0
