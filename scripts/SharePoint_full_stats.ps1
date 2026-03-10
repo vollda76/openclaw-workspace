@@ -43,6 +43,14 @@ $VerbosePreference = "Continue"
 # Version 3.x hat Bugs mit DeviceLogin - wir brauchen 1.12.0
 # ============================================================================
 $requiredVersion = "1.12.0"
+
+# Remove any loaded PnP module first
+$loadedModule = Get-Module -Name PnP.PowerShell
+if ($loadedModule) {
+    Write-Host "   Entferne geladenes PnP.PowerShell Modul ($($loadedModule.Version))..." -ForegroundColor Gray
+    Remove-Module -Name PnP.PowerShell -Force -ErrorAction SilentlyContinue
+}
+
 $installedModule = Get-Module -ListAvailable -Name PnP.PowerShell | Sort-Object Version -Descending | Select-Object -First 1
 
 if ($installedModule) {
