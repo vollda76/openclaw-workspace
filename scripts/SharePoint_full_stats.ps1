@@ -5,8 +5,8 @@
 #        und generiert einen HTML-Report mit übersichtlicher Darstellung.
 #
 # Autor: VICA für Daniel Vollmer
-# Datum: 2026-03-09
-# Version: 1.0
+# Datum: 2026-03-10
+# Version: 1.1
 #
 # Anforderungen: PnP.PowerShell Modul, Connection zu SharePoint Online
 # ============================================================================
@@ -37,6 +37,31 @@ param(
 $ErrorActionPreference = "Stop"
 $MaxDepth = 4  # Durchsuchungstiefe für Ordner/Dateien
 $VerbosePreference = "Continue"
+
+# ============================================================================
+# PnP PowerShell Version Check & Downgrade if needed
+# Version 3.x hat Bugs mit DeviceLogin - wir brauchen 1.12.0
+# ============================================================================
+$requiredVersion = "1.12.0"
+$installedModule = Get-Module -ListAvailable -Name PnP.PowerShell | Sort-Object Version -Descending | Select-Object -First 1
+
+if ($installedModule) {
+    $installedVersion = $installedModule.Version
+    Write-Host "   Gefundene PnP PowerShell Version: $installedVersion" -ForegroundColor Gray
+    
+    if ($installedVersion -gt [version]"2.0.0") {
+        Write-Host "   ⚠️ Version zu neu ($installedVersion). Installiere Version $requiredVersion..." -ForegroundColor Yellow
+        Install-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force -AllowClobber -Scope CurrentUser
+        Import-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force
+        Write-Host "   ✅ PnP PowerShell auf Version $requiredVersion aktualisiert" -ForegroundColor Green
+    } else {
+        Import-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force -ErrorAction SilentlyContinue
+    }
+} else {
+    Write-Host "   📦 Installiere PnP PowerShell Version $requiredVersion..." -ForegroundColor Gray
+    Install-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force -AllowClobber -Scope CurrentUser
+    Import-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force
+}
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -128,7 +153,7 @@ function Get-SiteStatistics {
     
     try {
         # Connect to site
-        Connect-PnPOnline -Url $Site.Url -Interactive -ErrorAction SilentlyContinue
+        Connect-PnPOnline -Url $Site.Url -DeviceLogin -ErrorAction SilentlyContinue
         
         # Get root web
         $web = Get-PnPWeb -Includes RootFolder, Lists
@@ -425,7 +450,7 @@ Write-Host "📁 Export Directory erstellt: $($exportDir.FullName)" -ForegroundC
 try {
     # Connect to SharePoint Admin
     Write-Host "🔗 Verbinde mit SharePoint Admin Center..." -ForegroundColor Cyan
-    Connect-PnPOnline -Url $SharePointAdminUrl -Interactive
+    Connect-PnPOnline -Url $SharePointAdminUrl -DeviceLogin
     
     # Get all sites
     Write-Host "📋 Lade alle Sites..." -ForegroundColor Cyan
