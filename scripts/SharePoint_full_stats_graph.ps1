@@ -66,7 +66,7 @@ try {
     Write-Host "   ==> Browser oeffnet sich - mit Kunden-Credentials anmelden!" -ForegroundColor Yellow
     Write-Host ""
     
-    Connect-MgGraph -Scopes "Sites.Read.All", "Site.Read.All" -TenantId "$TenantName.onmicrosoft.com"
+    Connect-MgGraph -Scopes "Sites.Read.All", "Sites.ReadWrite.All" -TenantId "$TenantName.onmicrosoft.com"
     
     Write-Host "   Verbunden als: $((Get-MgContext).Account)" -ForegroundColor Green
     Write-Host ""
