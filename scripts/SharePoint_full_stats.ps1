@@ -443,7 +443,12 @@ Write-Host "Export Directory erstellt: $($exportDir.FullName)" -ForegroundColor 
 
 try {
     Write-Host "Verbinde mit SharePoint Admin Center..." -ForegroundColor Cyan
-    Connect-PnPOnline -Url $SharePointAdminUrl -DeviceLogin
+    
+    # Extract tenant from admin URL (e.g., https://tenant-admin.sharepoint.com -> tenant)
+    $tenant = $SharePointAdminUrl -replace 'https://', '' -replace '-admin.sharepoint.com', '' -replace '.sharepoint.com', ''
+    Write-Host "   Tenant: $tenant" -ForegroundColor Gray
+    
+    Connect-PnPOnline -Url $SharePointAdminUrl -DeviceLogin -Tenant $tenant
     
     Write-Host "Lade alle Sites..." -ForegroundColor Cyan
     $sites = Get-PnPTenantSite
