@@ -448,8 +448,8 @@ try {
     $tenant = $SharePointAdminUrl -replace 'https://', '' -replace '-admin.sharepoint.com', '' -replace '.sharepoint.com', ''
     Write-Host "   Tenant: $tenant" -ForegroundColor Gray
     
-    # Use WebLogin - opens browser, no Azure AD app registration required!
-    Connect-PnPOnline -Url $SharePointAdminUrl -WebLogin
+    # Interactive in 1.12.0 works without ClientId (unlike 3.x)
+    Connect-PnPOnline -Url $SharePointAdminUrl -Interactive
     
     Write-Host "Lade alle Sites..." -ForegroundColor Cyan
     $sites = Get-PnPTenantSite
