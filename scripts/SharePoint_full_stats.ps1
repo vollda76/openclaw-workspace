@@ -1,12 +1,12 @@
 # SharePoint_full_stats.ps1
 # ============================================================================
 # Zweck: Erfasst umfassende Statistiken aller SharePoint Online Sites
-#        inkl. Erstellungsdatum, Änderungsdatum, Datei-/Ordneranzahl bis 4 Ebenen tief
-#        und generiert einen HTML-Report mit übersichtlicher Darstellung.
+#        inkl. Erstellungsdatum, Aenderungsdatum, Datei-/Ordneranzahl bis 4 Ebenen tief
+#        und generiert einen HTML-Report mit uebersichtlicher Darstellung.
 #
-# Autor: VICA für Daniel Vollmer
+# Autor: VICA fuer Daniel Vollmer
 # Datum: 2026-03-10
-# Version: 1.1
+# Version: 1.3
 #
 # Anforderungen: PnP.PowerShell Modul, Connection zu SharePoint Online
 # ============================================================================
@@ -25,17 +25,17 @@ param(
     [switch]$IncludePermissions,
     
     [Parameter(Mandatory = $false)]
-    [string]$SiteFilter,  # Filter für bestimmte Sites (Wildcard-Support)
+    [string]$SiteFilter,
     
     [Parameter(Mandatory = $false)]
-    [switch]$WhatIf  # Test-Modus ohne echte Ausführung
+    [switch]$WhatIf
 )
 
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
 $ErrorActionPreference = "Stop"
-$MaxDepth = 4  # Durchsuchungstiefe für Ordner/Dateien
+$MaxDepth = 4
 $VerbosePreference = "Continue"
 
 # ============================================================================
@@ -44,7 +44,6 @@ $VerbosePreference = "Continue"
 # ============================================================================
 $requiredVersion = "1.12.0"
 
-# Remove any loaded PnP module first
 $loadedModule = Get-Module -Name PnP.PowerShell
 if ($loadedModule) {
     Write-Host "   Entferne geladenes PnP.PowerShell Modul ($($loadedModule.Version))..." -ForegroundColor Gray
@@ -58,15 +57,15 @@ if ($installedModule) {
     Write-Host "   Gefundene PnP PowerShell Version: $installedVersion" -ForegroundColor Gray
     
     if ($installedVersion -gt [version]"2.0.0") {
-        Write-Host "   ⚠️ Version zu neu ($installedVersion). Installiere Version $requiredVersion..." -ForegroundColor Yellow
+        Write-Host "   Version zu neu ($installedVersion). Installiere Version $requiredVersion..." -ForegroundColor Yellow
         Install-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force -AllowClobber -Scope CurrentUser
         Import-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force
-        Write-Host "   ✅ PnP PowerShell auf Version $requiredVersion aktualisiert" -ForegroundColor Green
+        Write-Host "   PnP PowerShell auf Version $requiredVersion aktualisiert" -ForegroundColor Green
     } else {
         Import-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force -ErrorAction SilentlyContinue
     }
 } else {
-    Write-Host "   📦 Installiere PnP PowerShell Version $requiredVersion..." -ForegroundColor Gray
+    Write-Host "   Installiere PnP PowerShell Version $requiredVersion..." -ForegroundColor Gray
     Install-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force -AllowClobber -Scope CurrentUser
     Import-Module -Name PnP.PowerShell -RequiredVersion $requiredVersion -Force
 }
@@ -96,11 +95,9 @@ function Get-FolderStats {
     }
     
     try {
-        # Get folders and files separately
         $folders = Get-PnPFolderItem -Folder $Folder -ItemType Folder -ErrorAction SilentlyContinue
         $files = Get-PnPFolderItem -Folder $Folder -ItemType File -ErrorAction SilentlyContinue
         
-        # Count folders and recurse
         if ($folders) {
             $stats.FolderCount = $folders.Count
             
@@ -113,7 +110,6 @@ function Get-FolderStats {
             }
         }
         
-        # Count files
         if ($files) {
             $stats.FileCount = $files.Count
         }
@@ -131,7 +127,7 @@ function Get-SiteStatistics {
         $Site
     )
     
-    Write-Host "  📊 Verarbeite Site: $($Site.Title)" -ForegroundColor Cyan
+    Write-Host "  Verarbeite Site: $($Site.Title)" -ForegroundColor Cyan
     
     $stats = @{
         SiteTitle = $Site.Title
@@ -140,7 +136,7 @@ function Get-SiteStatistics {
         Owner = $Site.Owner
         CreatedDate = $Site.Created
         ModifiedDate = $Site.LastItemModifiedDate
-        LastAccessedDate = $null  # Nicht immer verfügbar
+        LastAccessedDate = $null
         StorageUsedGB = $null
         TotalFolders = 0
         TotalFiles = 0
@@ -160,13 +156,10 @@ function Get-SiteStatistics {
     }
     
     try {
-        # Connect to site
         Connect-PnPOnline -Url $Site.Url -DeviceLogin -ErrorAction SilentlyContinue
         
-        # Get root web
         $web = Get-PnPWeb -Includes RootFolder, Lists
         
-        # Get storage usage if requested
         if ($IncludeStorageUsage) {
             try {
                 $storage = Get-PnPTenantStorageMetrics -ErrorAction SilentlyContinue
@@ -178,12 +171,10 @@ function Get-SiteStatistics {
             }
         }
         
-        # Get lists and libraries
         $lists = Get-PnPList -Includes RootFolder
         $stats.ListsCount = ($lists | Where-Object { $_.Hidden -eq $false }).Count
         $stats.LibrariesCount = ($lists | Where-Object { $_.BaseTemplate -eq 101 }).Count
         
-        # Get root folder stats
         $rootFolder = $web.RootFolder
         $level1Stats = Get-FolderStats -Folder $rootFolder -CurrentDepth 1 -MaxDepth $MaxDepth
         
@@ -192,7 +183,6 @@ function Get-SiteStatistics {
         $stats.FoldersLevel1 = $level1Stats.FolderCount
         $stats.FilesLevel1 = $level1Stats.FileCount
         
-        # Permissions check
         if ($IncludePermissions) {
             try {
                 $uniquePerms = Get-PnPList -Includes HasUniqueRoleAssignments | Where-Object { $_.HasUniqueRoleAssignments }
@@ -203,19 +193,18 @@ function Get-SiteStatistics {
             }
         }
         
-        # External sharing status
         try {
             $siteSharing = Get-PnPTenantSite -Url $Site.Url -ErrorAction SilentlyContinue
             $stats.ExternalSharing = $siteSharing.SharingCapability -ne "Disabled"
         }
-            catch {
+        catch {
             $stats.ExternalSharing = $false
         }
         
     }
     catch {
         $stats.Error = $_.Exception.Message
-        Write-Warning "  ⚠️ Fehler bei Site $($Site.Title): $_"
+        Write-Warning "  Fehler bei Site $($Site.Title): $_"
     }
     
     return $stats
@@ -321,12 +310,11 @@ function New-HTMLReport {
     </style>
 </head>
 <body>
-    <h1>📊 SharePoint Statistiken Report</h1>
+    <h1>SharePoint Statistiken Report</h1>
     <p>Generiert am: $(Get-Date -Format 'dd.MM.yyyy HH:mm:ss')</p>
     <p>Tenant: $SharePointAdminUrl</p>
 "@
     
-    # Summary Box
     $totalSites = $Data.Count
     $totalFiles = ($Data | Measure-Object -Property TotalFiles -Sum).Sum
     $totalFolders = ($Data | Measure-Object -Property TotalFolders -Sum).Sum
@@ -353,9 +341,8 @@ function New-HTMLReport {
     </div>
 "@
     
-    # Detail Table
     $html += @"
-    <h2>📋 Detailübersicht aller Sites</h2>
+    <h2>Detailuebersicht aller Sites</h2>
     <table>
         <thead>
             <tr>
@@ -364,7 +351,7 @@ function New-HTMLReport {
                 <th>Type</th>
                 <th>Owner</th>
                 <th>Erstellt</th>
-                <th>Geändert</th>
+                <th>Geaendert</th>
                 <th class="numeric">Dateien</th>
                 <th class="numeric">Ordner</th>
                 <th class="numeric">Level 1</th>
@@ -382,10 +369,10 @@ function New-HTMLReport {
     
     foreach ($row in $Data) {
         $statusClass = if ($row.Error) { "error" } elseif ($row.ExternalSharing) { "warning" } else { "success" }
-        $statusText = if ($row.Error) { "⚠️ Fehler" } elseif ($row.ExternalSharing) { "⚠️ Extern" } else { "✅ OK" }
+        $statusText = if ($row.Error) { "Fehler" } elseif ($row.ExternalSharing) { "Extern" } else { "OK" }
         
-        $sharingText = if ($row.ExternalSharing) { "Ja ⚠️" } else { "Nein" }
-        $permsText = if ($row.UniquePermissions) { "Ja ⚠️" } else { "Nein" }
+        $sharingText = if ($row.ExternalSharing) { "Ja" } else { "Nein" }
+        $permsText = if ($row.UniquePermissions) { "Ja" } else { "Nein" }
         
         $html += @"
             <tr>
@@ -414,15 +401,15 @@ function New-HTMLReport {
     </table>
     
     <footer>
-        <p>Report generiert mit SharePoint_full_stats.ps1 v1.0 | $(Get-Date -Format 'yyyy') Daniel Vollmer</p>
-        <p>⚠️ Hinweis: Last Accessed Date ist nicht immer verfügbar (abhängig von Audit-Logging)</p>
+        <p>Report generiert mit SharePoint_full_stats.ps1 v1.3 | $(Get-Date -Format 'yyyy') Daniel Vollmer</p>
+        <p>Hinweis: Last Accessed Date ist nicht immer veruegbar (abhaengig von Audit-Logging)</p>
     </footer>
 </body>
 </html>
 "@
     
     $html | Out-File -FilePath $FilePath -Encoding UTF8
-    Write-Host "  ✅ HTML Report gespeichert: $FilePath" -ForegroundColor Green
+    Write-Host "  HTML Report gespeichert: $FilePath" -ForegroundColor Green
 }
 
 function New-CSVReport {
@@ -434,34 +421,31 @@ function New-CSVReport {
     )
     
     $Data | Export-Csv -Path $FilePath -Encoding UTF8 -NoTypeInformation -Delimiter ";"
-    Write-Host "  ✅ CSV Export gespeichert: $FilePath" -ForegroundColor Green
+    Write-Host "  CSV Export gespeichert: $FilePath" -ForegroundColor Green
 }
 
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
 
-Write-Host "🚀 Starte SharePoint Statistiken Erfassung" -ForegroundColor Green
+Write-Host "Starte SharePoint Statistiken Erfassung" -ForegroundColor Green
 Write-Host "   Max Depth: $MaxDepth Ebenen" -ForegroundColor Gray
 Write-Host "   Export Path: $ExportPath" -ForegroundColor Gray
 Write-Host ""
 
 if ($WhatIf) {
-    Write-Host "⚠️ WHATIF MODE - Keine echte Ausführung" -ForegroundColor Yellow
+    Write-Host "WHATIF MODE - Keine echte Ausfuehrung" -ForegroundColor Yellow
     return
 }
 
-# Create export directory
 $exportDir = New-Item -ItemType Directory -Path $ExportPath -Force
-Write-Host "📁 Export Directory erstellt: $($exportDir.FullName)" -ForegroundColor Green
+Write-Host "Export Directory erstellt: $($exportDir.FullName)" -ForegroundColor Green
 
 try {
-    # Connect to SharePoint Admin
-    Write-Host "🔗 Verbinde mit SharePoint Admin Center..." -ForegroundColor Cyan
+    Write-Host "Verbinde mit SharePoint Admin Center..." -ForegroundColor Cyan
     Connect-PnPOnline -Url $SharePointAdminUrl -DeviceLogin
     
-    # Get all sites
-    Write-Host "📋 Lade alle Sites..." -ForegroundColor Cyan
+    Write-Host "Lade alle Sites..." -ForegroundColor Cyan
     $sites = Get-PnPTenantSite
     
     if ($SiteFilter) {
@@ -472,7 +456,6 @@ try {
     Write-Host "   $($sites.Count) Sites gefunden" -ForegroundColor Green
     Write-Host ""
     
-    # Process each site
     $allStats = @()
     $counter = 0
     
@@ -483,9 +466,8 @@ try {
         $allStats += $stats
     }
     
-    # Generate reports
     Write-Host ""
-    Write-Host "💾 Generiere Reports..." -ForegroundColor Cyan
+    Write-Host "Generiere Reports..." -ForegroundColor Cyan
     
     $htmlPath = Join-Path $exportDir "SharePoint_Stats_Report.html"
     $csvPath = Join-Path $exportDir "SharePoint_Stats_Data.csv"
@@ -493,23 +475,21 @@ try {
     New-HTMLReport -Data $allStats -FilePath $htmlPath
     New-CSVReport -Data $allStats -FilePath $csvPath
     
-    # Create log file
     $logPath = Join-Path $exportDir "SharePoint_Stats_Log.txt"
     $allStats | Where-Object { $_.Error } | Out-File -FilePath $logPath -Encoding UTF8
-    Write-Host "  📝 Log File gespeichert: $logPath" -ForegroundColor Green
+    Write-Host "  Log File gespeichert: $logPath" -ForegroundColor Green
     
     Write-Host ""
-    Write-Host "✅ Fertig! Reports verfügbar in: $($exportDir.FullName)" -ForegroundColor Green
-    Write-Host "   📄 HTML: $htmlPath" -ForegroundColor Cyan
-    Write-Host "   📊 CSV: $csvPath" -ForegroundColor Cyan
-    Write-Host "   📝 Log: $logPath" -ForegroundColor Cyan
+    Write-Host "Fertig! Reports veruegbar in: $($exportDir.FullName)" -ForegroundColor Green
+    Write-Host "   HTML: $htmlPath" -ForegroundColor Cyan
+    Write-Host "   CSV: $csvPath" -ForegroundColor Cyan
+    Write-Host "   Log: $logPath" -ForegroundColor Cyan
     
-    # Open HTML report
     Start-Process $htmlPath
     
 }
 catch {
-    Write-Host "❌ Fehler aufgetreten: $_" -ForegroundColor Red
+    Write-Host "Fehler aufgetreten: $_" -ForegroundColor Red
     throw
 }
 finally {
